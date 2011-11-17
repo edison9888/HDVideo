@@ -20,8 +20,20 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-     
-    self.window.rootViewController = self.viewController;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: self.viewController];
+    CGRect tr = navigationController.navigationBar.frame;
+    tr = CGRectMake(0, 0, CGRectGetWidth(tr), CGRectGetHeight(tr));
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:tr];
+    imageView.contentMode = UIViewContentModeTopLeft;
+    imageView.image = [UIImage imageNamed:@"top-bar"];
+    [navigationController.navigationBar insertSubview:imageView atIndex:0];
+    [imageView release];
+    
+    self.window.rootViewController = navigationController;
+    [navigationController release];
+    
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
