@@ -25,6 +25,15 @@
 
 #pragma mark - View lifecycle
 
+- (void)loadView
+{
+    UIView *background = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
+    background.backgroundColor = [UIColor redColor];
+    self.view = background;
+    [background release];
+}
+
+
 /*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad

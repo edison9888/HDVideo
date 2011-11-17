@@ -15,7 +15,7 @@
 		C293BDDE1474B08C00079D1A /* HDVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */; };
 		C293BDE11474B08C00079D1A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C293BDDF1474B08C00079D1A /* MainWindow.xib */; };
 		C293BDE41474B08C00079D1A /* HDVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C293BDE31474B08C00079D1A /* HDVideoViewController.m */; };
-		C293BDE71474B08C00079D1A /* HDVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C293BDE51474B08C00079D1A /* HDVideoViewController.xib */; };
+		C293BDF61474B24800079D1A /* README in Resources */ = {isa = PBXBuildFile; fileRef = C293BDF51474B24800079D1A /* README */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,16 +23,16 @@
 		C293BDCD1474B08C00079D1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C293BDCF1474B08C00079D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C293BDD11474B08C00079D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		C293BDD51474B08C00079D1A /* HDVideo-Info.plist */ = {isa = PBXFileReference; path = "HDVideo-Info.plist"; sourceTree = "<group>"; };
+		C293BDD51474B08C00079D1A /* HDVideo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HDVideo-Info.plist"; sourceTree = "<group>"; };
 		C293BDD71474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C293BDD91474B08C00079D1A /* HDVideo-Prefix.pch */ = {isa = PBXFileReference; path = "HDVideo-Prefix.pch"; sourceTree = "<group>"; };
+		C293BDD91474B08C00079D1A /* HDVideo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HDVideo-Prefix.pch"; sourceTree = "<group>"; };
 		C293BDDA1474B08C00079D1A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C293BDDC1474B08C00079D1A /* HDVideoAppDelegate.h */ = {isa = PBXFileReference; path = HDVideoAppDelegate.h; sourceTree = "<group>"; };
+		C293BDDC1474B08C00079D1A /* HDVideoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoAppDelegate.h; sourceTree = "<group>"; };
 		C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAppDelegate.m; sourceTree = "<group>"; };
 		C293BDE01474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		C293BDE21474B08C00079D1A /* HDVideoViewController.h */ = {isa = PBXFileReference; path = HDVideoViewController.h; sourceTree = "<group>"; };
+		C293BDE21474B08C00079D1A /* HDVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDVideoViewController.h; sourceTree = "<group>"; };
 		C293BDE31474B08C00079D1A /* HDVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoViewController.m; sourceTree = "<group>"; };
-		C293BDE61474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HDVideoViewController.xib; sourceTree = "<group>"; };
+		C293BDF51474B24800079D1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +52,7 @@
 		C293BDBE1474B08C00079D1A = {
 			isa = PBXGroup;
 			children = (
+				C293BDF51474B24800079D1A /* README */,
 				C293BDD31474B08C00079D1A /* HDVideo */,
 				C293BDCC1474B08C00079D1A /* Frameworks */,
 				C293BDCA1474B08C00079D1A /* Products */,
@@ -81,10 +82,8 @@
 			children = (
 				C293BDDC1474B08C00079D1A /* HDVideoAppDelegate.h */,
 				C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */,
-				C293BDDF1474B08C00079D1A /* MainWindow.xib */,
 				C293BDE21474B08C00079D1A /* HDVideoViewController.h */,
 				C293BDE31474B08C00079D1A /* HDVideoViewController.m */,
-				C293BDE51474B08C00079D1A /* HDVideoViewController.xib */,
 				C293BDD41474B08C00079D1A /* Supporting Files */,
 			);
 			path = HDVideo;
@@ -93,6 +92,7 @@
 		C293BDD41474B08C00079D1A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C293BDDF1474B08C00079D1A /* MainWindow.xib */,
 				C293BDD51474B08C00079D1A /* HDVideo-Info.plist */,
 				C293BDD61474B08C00079D1A /* InfoPlist.strings */,
 				C293BDD91474B08C00079D1A /* HDVideo-Prefix.pch */,
@@ -150,7 +150,7 @@
 			files = (
 				C293BDD81474B08C00079D1A /* InfoPlist.strings in Resources */,
 				C293BDE11474B08C00079D1A /* MainWindow.xib in Resources */,
-				C293BDE71474B08C00079D1A /* HDVideoViewController.xib in Resources */,
+				C293BDF61474B24800079D1A /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,14 +184,6 @@
 				C293BDE01474B08C00079D1A /* en */,
 			);
 			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
-		C293BDE51474B08C00079D1A /* HDVideoViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C293BDE61474B08C00079D1A /* en */,
-			);
-			name = HDVideoViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
