@@ -1,0 +1,285 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C293BDCE1474B08C00079D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C293BDCD1474B08C00079D1A /* UIKit.framework */; };
+		C293BDD01474B08C00079D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C293BDCF1474B08C00079D1A /* Foundation.framework */; };
+		C293BDD21474B08C00079D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C293BDD11474B08C00079D1A /* CoreGraphics.framework */; };
+		C293BDD81474B08C00079D1A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C293BDD61474B08C00079D1A /* InfoPlist.strings */; };
+		C293BDDB1474B08C00079D1A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C293BDDA1474B08C00079D1A /* main.m */; };
+		C293BDDE1474B08C00079D1A /* HDVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */; };
+		C293BDE11474B08C00079D1A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C293BDDF1474B08C00079D1A /* MainWindow.xib */; };
+		C293BDE41474B08C00079D1A /* HDVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C293BDE31474B08C00079D1A /* HDVideoViewController.m */; };
+		C293BDE71474B08C00079D1A /* HDVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C293BDE51474B08C00079D1A /* HDVideoViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C293BDC91474B08C00079D1A /* HDVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HDVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C293BDCD1474B08C00079D1A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C293BDCF1474B08C00079D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C293BDD11474B08C00079D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C293BDD51474B08C00079D1A /* HDVideo-Info.plist */ = {isa = PBXFileReference; path = "HDVideo-Info.plist"; sourceTree = "<group>"; };
+		C293BDD71474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C293BDD91474B08C00079D1A /* HDVideo-Prefix.pch */ = {isa = PBXFileReference; path = "HDVideo-Prefix.pch"; sourceTree = "<group>"; };
+		C293BDDA1474B08C00079D1A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C293BDDC1474B08C00079D1A /* HDVideoAppDelegate.h */ = {isa = PBXFileReference; path = HDVideoAppDelegate.h; sourceTree = "<group>"; };
+		C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAppDelegate.m; sourceTree = "<group>"; };
+		C293BDE01474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		C293BDE21474B08C00079D1A /* HDVideoViewController.h */ = {isa = PBXFileReference; path = HDVideoViewController.h; sourceTree = "<group>"; };
+		C293BDE31474B08C00079D1A /* HDVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoViewController.m; sourceTree = "<group>"; };
+		C293BDE61474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HDVideoViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C293BDC61474B08C00079D1A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C293BDCE1474B08C00079D1A /* UIKit.framework in Frameworks */,
+				C293BDD01474B08C00079D1A /* Foundation.framework in Frameworks */,
+				C293BDD21474B08C00079D1A /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C293BDBE1474B08C00079D1A = {
+			isa = PBXGroup;
+			children = (
+				C293BDD31474B08C00079D1A /* HDVideo */,
+				C293BDCC1474B08C00079D1A /* Frameworks */,
+				C293BDCA1474B08C00079D1A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C293BDCA1474B08C00079D1A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C293BDC91474B08C00079D1A /* HDVideo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C293BDCC1474B08C00079D1A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C293BDCD1474B08C00079D1A /* UIKit.framework */,
+				C293BDCF1474B08C00079D1A /* Foundation.framework */,
+				C293BDD11474B08C00079D1A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C293BDD31474B08C00079D1A /* HDVideo */ = {
+			isa = PBXGroup;
+			children = (
+				C293BDDC1474B08C00079D1A /* HDVideoAppDelegate.h */,
+				C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */,
+				C293BDDF1474B08C00079D1A /* MainWindow.xib */,
+				C293BDE21474B08C00079D1A /* HDVideoViewController.h */,
+				C293BDE31474B08C00079D1A /* HDVideoViewController.m */,
+				C293BDE51474B08C00079D1A /* HDVideoViewController.xib */,
+				C293BDD41474B08C00079D1A /* Supporting Files */,
+			);
+			path = HDVideo;
+			sourceTree = "<group>";
+		};
+		C293BDD41474B08C00079D1A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C293BDD51474B08C00079D1A /* HDVideo-Info.plist */,
+				C293BDD61474B08C00079D1A /* InfoPlist.strings */,
+				C293BDD91474B08C00079D1A /* HDVideo-Prefix.pch */,
+				C293BDDA1474B08C00079D1A /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C293BDC81474B08C00079D1A /* HDVideo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C293BDEA1474B08C00079D1A /* Build configuration list for PBXNativeTarget "HDVideo" */;
+			buildPhases = (
+				C293BDC51474B08C00079D1A /* Sources */,
+				C293BDC61474B08C00079D1A /* Frameworks */,
+				C293BDC71474B08C00079D1A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HDVideo;
+			productName = HDVideo;
+			productReference = C293BDC91474B08C00079D1A /* HDVideo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C293BDC01474B08C00079D1A /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C293BDC31474B08C00079D1A /* Build configuration list for PBXProject "HDVideo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C293BDBE1474B08C00079D1A;
+			productRefGroup = C293BDCA1474B08C00079D1A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C293BDC81474B08C00079D1A /* HDVideo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C293BDC71474B08C00079D1A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C293BDD81474B08C00079D1A /* InfoPlist.strings in Resources */,
+				C293BDE11474B08C00079D1A /* MainWindow.xib in Resources */,
+				C293BDE71474B08C00079D1A /* HDVideoViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C293BDC51474B08C00079D1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C293BDDB1474B08C00079D1A /* main.m in Sources */,
+				C293BDDE1474B08C00079D1A /* HDVideoAppDelegate.m in Sources */,
+				C293BDE41474B08C00079D1A /* HDVideoViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C293BDD61474B08C00079D1A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C293BDD71474B08C00079D1A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C293BDDF1474B08C00079D1A /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C293BDE01474B08C00079D1A /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		C293BDE51474B08C00079D1A /* HDVideoViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C293BDE61474B08C00079D1A /* en */,
+			);
+			name = HDVideoViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C293BDE81474B08C00079D1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		C293BDE91474B08C00079D1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		C293BDEB1474B08C00079D1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HDVideo/HDVideo-Prefix.pch";
+				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C293BDEC1474B08C00079D1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HDVideo/HDVideo-Prefix.pch";
+				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C293BDC31474B08C00079D1A /* Build configuration list for PBXProject "HDVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C293BDE81474B08C00079D1A /* Debug */,
+				C293BDE91474B08C00079D1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C293BDEA1474B08C00079D1A /* Build configuration list for PBXNativeTarget "HDVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C293BDEB1474B08C00079D1A /* Debug */,
+				C293BDEC1474B08C00079D1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C293BDC01474B08C00079D1A /* Project object */;
+}
