@@ -11,8 +11,11 @@
 
 @implementation HDVideoViewController
 
+@synthesize videoBrowserController = _videoBrowserController;
+
 - (void)dealloc
 {
+    [_videoBrowserController release];
     [super dealloc];
 }
 
@@ -44,6 +47,11 @@
     [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:segment];
     [segment release];
+    
+    // video browser
+    _videoBrowserController = [[VideoBrowserController alloc] init];
+    _videoBrowserController.view.frame = CGRectMake(0, 0, 1024, 660);
+    [self.view addSubview:_videoBrowserController.view];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

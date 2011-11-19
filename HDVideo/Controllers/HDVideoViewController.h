@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VideoBrowserController.h"
 
 @interface HDVideoViewController : UIViewController {
     
 }
+
+@property (nonatomic, retain) VideoBrowserController *videoBrowserController;
 
 @end
