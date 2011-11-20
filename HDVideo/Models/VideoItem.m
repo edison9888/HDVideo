@@ -11,7 +11,7 @@
 
 @implementation VideoItem
 
-@synthesize id, collection, newChildItemCount, isNewItem, rate, name, posterImage, posterUrl, videoUrl, subFeedUrl;
+@synthesize id, collection, newItemCount, isNewItem, rate, name, posterImage, posterUrl, videoUrl, subFeedUrl;
 
 - (BOOL)isCategory
 {

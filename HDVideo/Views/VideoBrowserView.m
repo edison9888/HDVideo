@@ -10,12 +10,12 @@
 #import "VideoItemView.h"
 #import "VideoItem.h"
 
-#define LOCATION_X 77
+#define LOCATION_X 50
 #define LOCATION_Y 30
-#define ITEM_BORDER 20
-#define ITEM_SPACING_H 60
-#define ITEM_SPACING_V 70
-#define ITEM_WIDTH 125
+#define ITEM_BORDER 0
+#define ITEM_SPACING_H 37
+#define ITEM_SPACING_V 50
+#define ITEM_WIDTH 155
 #define ITEM_HEIGHT 228
 
 

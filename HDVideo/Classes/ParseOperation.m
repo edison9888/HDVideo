@@ -102,14 +102,15 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
 {
     if ([elementName isEqualToString:kEntryStr])
 	{
-        self.workingEntry           = [[[VideoItem alloc] init] autorelease];
-        self.workingEntry.id        = [[attributeDict objectForKey:@"id"] intValue];
-        self.workingEntry.isNewItem = [[attributeDict objectForKey:@"isNew"] boolValue];
-        self.workingEntry.rate      = [[attributeDict objectForKey:@"rate"] floatValue];
-        self.workingEntry.name      = [attributeDict objectForKey:@"name"];
-        self.workingEntry.posterUrl = [attributeDict objectForKey:@"posterUrl"];
-        self.workingEntry.videoUrl  = [attributeDict objectForKey:@"videoUrl"];
-        self.workingEntry.subFeedUrl= [attributeDict objectForKey:@"subFeedUrl"];
+        self.workingEntry               = [[[VideoItem alloc] init] autorelease];
+        self.workingEntry.id            = [[attributeDict objectForKey:@"id"] intValue];
+        self.workingEntry.isNewItem     = [[attributeDict objectForKey:@"isNew"] boolValue];
+        self.workingEntry.newItemCount  = [[attributeDict objectForKey:@"newItemCount"] intValue];
+        self.workingEntry.rate          = [[attributeDict objectForKey:@"rate"] floatValue];
+        self.workingEntry.name          = [attributeDict objectForKey:@"name"];
+        self.workingEntry.posterUrl     = [attributeDict objectForKey:@"posterUrl"];
+        self.workingEntry.videoUrl      = [attributeDict objectForKey:@"videoUrl"];
+        self.workingEntry.subFeedUrl    = [attributeDict objectForKey:@"subFeedUrl"];
     }
 }
 

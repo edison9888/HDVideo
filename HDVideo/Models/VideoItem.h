@@ -15,7 +15,7 @@
 
 @property (nonatomic) NSUInteger id;
 @property (nonatomic, retain) NSMutableArray *collection;
-@property (nonatomic, readonly) NSUInteger newChildItemCount;
+@property (nonatomic) NSUInteger newItemCount;
 @property (nonatomic, readonly) BOOL isCategory;
 @property (nonatomic) BOOL isNewItem;
 @property (nonatomic) CGFloat rate;

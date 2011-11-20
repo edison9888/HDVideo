@@ -12,7 +12,12 @@
 
 @interface VideoItemView : UIView {
     UIImageView *_poster;
+    UIImageView *_newRibbon;
+    UIImageView *_countRibbon;
+    UIView *_star;
+    
     UILabel *_name;
+    UILabel *_count;
 }
 
 @property (nonatomic, retain) VideoItem *source;
