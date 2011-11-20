@@ -10,8 +10,9 @@
 
 
 @interface NetworkController : NSObject<ParseOperationDelegate> {
-    
 }
+
+@property (nonatomic, readonly) NSString *currentKey;
 
 @property (nonatomic, retain) NSMutableArray *videoItems;
 @property (nonatomic, retain) NSOperationQueue *queue;
@@ -19,6 +20,6 @@
 @property (nonatomic, retain) NSMutableData *videoFeedData;
 
 + (NetworkController *)sharedNetworkController;
-- (void)startLoadFeed:(NSString *)feedUrl;
+- (void)startLoadFeed:(NSString *)feedUrl forKey:(NSString *)key;
 
 @end

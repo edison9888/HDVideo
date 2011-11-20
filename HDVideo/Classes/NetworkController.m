@@ -16,6 +16,7 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 
 @synthesize videoItems, queue, videoFeedData, videoFeedConnection;
+@synthesize currentKey = _currentKey;
 
 - (void)dealloc
 {
@@ -23,13 +24,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     [queue release];
     [videoFeedConnection release];
     [videoFeedData release];
-    
+
+    [_currentKey release];    
 
     [super dealloc];
 }
 
-- (void)startLoadFeed:(NSString *)feedUrl
+- (void)startLoadFeed:(NSString *)feedUrl forKey:(NSString *)key
 {
+    [self.videoFeedConnection cancel];
+
+    _currentKey = [key copy];
+    
     // Initialize the array of app records and pass a reference to that list to our root view controller
     self.videoItems = [NSMutableArray array];
     

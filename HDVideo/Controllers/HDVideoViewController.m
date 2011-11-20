@@ -7,9 +7,9 @@
 //
 
 #import "HDVideoViewController.h"
+#import "VideoPlayerController.h"
 #import "DataController.h"
 #import "NetworkController.h"
-#import "VideoPlayerController.h"
 #import "UIView+HDV.h"
 #import "Constants.h"
 
@@ -17,11 +17,11 @@
 
 @implementation HDVideoViewController
 
-@synthesize videoBrowserController = _videoBrowserController;
+@synthesize videoBrowserView = _videoBrowserView;
 
 - (void)dealloc
 {
-    [_videoBrowserController release];
+    [_videoBrowserView release];
     [super dealloc];
 }
 
@@ -61,9 +61,10 @@
     [segment release];
     
     // video browser
-    _videoBrowserController = [[VideoBrowserController alloc] init];
-    _videoBrowserController.view.frame = CGRectMake(0, 0, 1024, 660);
-    [self.view addSubview:_videoBrowserController.view];
+    _videoBrowserView = [[VideoBrowserView alloc] init];
+    _videoBrowserView.frame = CGRectMake(0, 0, 1024, 660);
+    _videoBrowserView.posterDownloadsInProgress = [NSMutableDictionary dictionary];
+    [self.view addSubview:_videoBrowserView];
 }
 
 - (void)viewDidLoad
@@ -71,7 +72,12 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(toPlayerVideo:)
+                                             selector:@selector(downloadCompleted:)
+                                                 name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoPosterTapped:)
                                                  name:VIDEO_POSTER_TAPPED_NOTIFICATION
                                                object:nil];
     
@@ -84,6 +90,10 @@
     [super viewDidUnload];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:VIDEO_POSTER_TAPPED_NOTIFICATION
                                                   object:nil];
 }
@@ -94,21 +104,48 @@
 }
 
 #pragma mark - private handlers
+
 - (void)segmentAction:(id)sender
 {
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];
     
     NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
-    [[NetworkController sharedNetworkController] startLoadFeed:[category objectForKey:@"feedUrl"]];
+    [[NetworkController sharedNetworkController] startLoadFeed:[category objectForKey:@"feedUrl"]
+                                                        forKey:[NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex]];
 }
 
-- (void)toPlayerVideo:(NSNotification *)notification
+- (void)downloadCompleted:(NSNotification *)notification
 {
-    VideoPlayerController *player = [[VideoPlayerController alloc] init];
-    player.videoItem = [notification object];
-    [self.navigationController pushViewController:player animated:YES];
-    [player release];
+    NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
+    NSRange range = [currentKey rangeOfString:@"Segment-"];
+    if (range.location == 0)
+    {
+        _videoBrowserView.videoItems = [notification object];
+    }
+}
+
+- (void)videoPosterTapped:(NSNotification *)notification
+{
+    VideoItem *videoItem = [notification object];
+    if (videoItem.isCategory)
+    {
+        VideoBrowserController *controller = [[VideoBrowserController alloc] init];
+        controller.feedKey = [NSString stringWithFormat:@"%d", videoItem.id];
+        controller.navigationItem.title = videoItem.name;
+        [self.navigationController pushViewController:controller animated:YES];
+        [controller release];
+        
+        [[NetworkController sharedNetworkController] startLoadFeed:videoItem.subFeedUrl
+                                                            forKey:[NSString stringWithFormat:@"%d", videoItem.id]];
+    }
+    else
+    {
+        VideoPlayerController *player = [[VideoPlayerController alloc] init];
+        player.videoItem = [notification object];
+        [self.navigationController pushViewController:player animated:YES];
+        [player release];
+    }
 }
 
 @end

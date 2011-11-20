@@ -109,6 +109,7 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
         self.workingEntry.name      = [attributeDict objectForKey:@"name"];
         self.workingEntry.posterUrl = [attributeDict objectForKey:@"posterUrl"];
         self.workingEntry.videoUrl  = [attributeDict objectForKey:@"videoUrl"];
+        self.workingEntry.subFeedUrl= [attributeDict objectForKey:@"subFeedUrl"];
     }
 }
 

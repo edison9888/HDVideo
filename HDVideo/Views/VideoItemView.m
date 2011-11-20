@@ -14,6 +14,11 @@
 
 @synthesize source = _source;
 
+- (CGPathRef)renderRect:(UIView*)imgView {
+	UIBezierPath *path = [UIBezierPath bezierPathWithRect:imgView.bounds];
+	return path.CGPath;
+}
+
 - (CGPathRef)renderPaperCurl:(UIView*)imgView {
 	CGSize size = imgView.bounds.size;
 	CGFloat curlFactor = 8.0f;
@@ -92,9 +97,17 @@
 - (void)layoutSubviews{
     _name.text = _source.name;
     if (_source.posterImage)
+    {
         _poster.image = _source.posterImage;
+        if (_source.isCategory)
+            _poster.layer.shadowPath = [self renderRect:_poster];
+        else
+            _poster.layer.shadowPath = [self renderPaperCurl:_poster];
+    }
     else
+    {
         _poster.image = [UIImage imageNamed:@"placeholder"];
+    }
 }
 
 - (void)dealloc

@@ -14,6 +14,7 @@
     
 }
 
+@property (nonatomic, retain) NSString *feedKey;
 @property (nonatomic, retain) VideoBrowserView *browserView;
 
 @end

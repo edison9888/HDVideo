@@ -16,10 +16,12 @@
 
 @implementation VideoBrowserController
 
+@synthesize feedKey = _feedKey;
 @synthesize browserView = _browserView;
 
 - (void)dealloc
 {
+    [_feedKey release];
     [_browserView release];
     [super dealloc];
 }
@@ -35,16 +37,28 @@
     }
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation != UIInterfaceOrientationPortrait);
+}
+
 #pragma mark - View lifecycle
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
-    _browserView = [[VideoBrowserView alloc] init];
+    CGRect rect = [UIScreen mainScreen].applicationFrame;
+    UIView *background = [[UIView alloc] initWithFrame:rect];
+    background.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.jpg"]];
+    self.view = background;
+    [background release];
+    
+    _browserView = [[VideoBrowserView alloc] initWithFrame:self.view.bounds];
+    _browserView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _browserView.controller = self;
     _browserView.backgroundColor = [UIColor clearColor];
     _browserView.posterDownloadsInProgress = [NSMutableDictionary dictionary];
-    self.view = _browserView;
+    [self.view addSubview:_browserView];
 }
 
 - (void)viewDidLoad
@@ -72,7 +86,11 @@
 
 - (void)downloadCompleted:(NSNotification *)notification
 {
-    _browserView.videoItems = [notification object];   // incoming object is an NSArray of AppRecords
+    NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
+    if ([self.feedKey isEqualToString:currentKey])
+    {
+        _browserView.videoItems = [notification object];
+    }
 }
 
 @end
