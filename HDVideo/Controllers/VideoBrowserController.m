@@ -30,7 +30,9 @@
     
     // terminate all pending download connections
     NSArray *allDownloads = [self.browserView.posterDownloadsInProgress allValues];
-    [allDownloads performSelector:@selector(cancelDownload)];
+    for (PosterDownloader *downloader in allDownloads) {
+        [downloader performSelector:@selector(cancelDownload)];
+    }
 }
 
 #pragma mark - View lifecycle
@@ -53,8 +55,6 @@
                                              selector:@selector(downloadCompleted:)
                                                  name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
                                                object:nil];
-    
-    [[NetworkController sharedNetworkController] startLoadFeed];
 }
 
 - (void)viewDidUnload

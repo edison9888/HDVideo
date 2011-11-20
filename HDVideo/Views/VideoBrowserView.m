@@ -10,10 +10,13 @@
 #import "VideoItemView.h"
 #import "VideoItem.h"
 
+#define LOCATION_X 77
+#define LOCATION_Y 30
 #define ITEM_BORDER 20
-#define ITEM_SPACING 20
+#define ITEM_SPACING_H 60
+#define ITEM_SPACING_V 70
 #define ITEM_WIDTH 125
-#define ITEM_HEIGHT 178
+#define ITEM_HEIGHT 228
 
 
 @class PosterDownloader;
@@ -33,6 +36,16 @@
 {
     if (_videoItems != videoItems)
     {
+        if (self.posterDownloadsInProgress && [self.posterDownloadsInProgress count] > 0){
+            // terminate all pending download connections
+            NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
+            for (PosterDownloader *downloader in allDownloads) {
+                [downloader performSelector:@selector(cancelDownload)];
+            }
+            
+            [_posterDownloadsInProgress removeAllObjects];
+        }
+        
         [_videoItems release];
         _videoItems = [videoItems retain];
         [self setNeedsLayout];
@@ -60,8 +73,8 @@
         _itemSize = CGSizeMake (ITEM_WIDTH, ITEM_HEIGHT);
     }
     
-    x = ITEM_BORDER;
-    y = ITEM_BORDER;
+    x = LOCATION_X;
+    y = LOCATION_Y;
     
     for (i = 0; i < item_count; i++)
     {
@@ -91,11 +104,11 @@
     got_view:
         [_itemViews addObject:view];
         
-        x += _itemSize.width + ITEM_SPACING;
+        x += _itemSize.width + ITEM_SPACING_H;
         if (x + _itemSize.width + ITEM_BORDER > bounds.size.width)
         {
-            x = ITEM_BORDER;
-            y += _itemSize.height + ITEM_SPACING;
+            x = LOCATION_X;
+            y += _itemSize.height + ITEM_SPACING_V;
         }
     }
     
@@ -139,15 +152,15 @@
 {
     if ([self.videoItems count] > 0)
     {
-        NSArray *visibleIndices = [NSArray arrayWithObjects:0, 1, 2, 3, 4, 5, 6, 7, 8, nil];
-        for (NSNumber *index in visibleIndices)
-        {
-            VideoItem *videoItem = [self.videoItems objectAtIndex:[index intValue]];
-            if (!videoItem.posterImage)
-            {
-                [self startPosterDownload:videoItem forIndex:[index intValue]];
-            }
-        }
+//        NSArray *visibleIndices = [NSArray arrayWithObjects:0, 1, 2, 3, 4, 5, 6, 7, 8, nil];
+//        for (NSNumber *index in visibleIndices)
+//        {
+//            VideoItem *videoItem = [self.videoItems objectAtIndex:[index intValue]];
+//            if (!videoItem.posterImage)
+//            {
+//                [self startPosterDownload:videoItem forIndex:[index intValue]];
+//            }
+//        }
     }
 }
 
@@ -157,9 +170,7 @@
     PosterDownloader *posterDownloader = [_posterDownloadsInProgress objectForKey:[NSNumber numberWithInt:index]];
     if (posterDownloader != nil)
     {
-        VideoItemView *view = [self.subviews objectAtIndex:index];
-        
-        // Display the newly loaded image
+        VideoItemView *view = [_itemViews objectAtIndex:index];
         view.source = posterDownloader.videoItem;
     }
 }

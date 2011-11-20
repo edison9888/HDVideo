@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSURLConnection *videoFeedConnection;
 @property (nonatomic, retain) NSMutableData *videoFeedData;
 
-- (void)startLoadFeed;
++ (NetworkController *)sharedNetworkController;
+- (void)startLoadFeed:(NSString *)feedUrl;
 
 @end

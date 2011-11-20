@@ -7,6 +7,8 @@
 //
 
 #import "HDVideoViewController.h"
+#import "DataController.h"
+#import "NetworkController.h"
 #import "UIView+HDV.h"
 
 @implementation HDVideoViewController
@@ -25,7 +27,7 @@
 {
     CGRect rect = [UIScreen mainScreen].applicationFrame;
     UIView *background = [[UIView alloc] initWithFrame:rect];
-    background.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
+    background.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.jpg"]];
     self.view = background;
     [background release];
     
@@ -54,6 +56,13 @@
     [self.view addSubview:_videoBrowserController.view];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [[NetworkController sharedNetworkController] startLoadFeed:[[DataController sharedDataController] latestFeedUrl]];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortrait);
@@ -64,6 +73,10 @@
 {
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];
+    
+    NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
+    NSLog(@"url=%@", [category objectForKey:@"feedUrl"]);
+    [[NetworkController sharedNetworkController] startLoadFeed:[category objectForKey:@"feedUrl"]];
 }
 
 @end

@@ -7,10 +7,9 @@
 //
 
 #import "NetworkController.h"
+#import "DataController.h"
 #import "SynthesizeSingleton.h"
 #import "Constants.h"
-
-static NSString *const VideoFeedUrl = @"http://192.168.0.105/hdv/feed.xml";
 
 @implementation NetworkController
 
@@ -29,12 +28,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     [super dealloc];
 }
 
-- (void)startLoadFeed
+- (void)startLoadFeed:(NSString *)feedUrl
 {
     // Initialize the array of app records and pass a reference to that list to our root view controller
     self.videoItems = [NSMutableArray array];
     
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:VideoFeedUrl]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:feedUrl]];
     self.videoFeedConnection = [[[NSURLConnection alloc] initWithRequest:urlRequest delegate:self] autorelease];
     
     // Test the validity of the connection object. The most likely reason for the connection object

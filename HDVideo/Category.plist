@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Categories</key>
+	<array>
+		<dict>
+			<key>feedUrl</key>
+			<string>http://192.168.0.105/hdv/feed-us.xml</string>
+			<key>name</key>
+			<string>美剧</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
+			<string>http://192.168.0.105/hdv/feed-movie.xml</string>
+			<key>name</key>
+			<string>电影</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
+			<string>http://192.168.0.105/hdv/feed-serial.xml</string>
+			<key>name</key>
+			<string>电视剧</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
+			<string>http://192.168.0.105/hdv/feed-show.xml</string>
+			<key>name</key>
+			<string>综艺</string>
+		</dict>
+	</array>
+	<key>latestFeedUrl</key>
+	<string>http://192.168.0.105/hdv/feed.xml</string>
+</dict>
+</plist>
