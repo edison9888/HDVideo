@@ -10,18 +10,46 @@
 #import "VideoPlayerController.h"
 #import "DataController.h"
 #import "NetworkController.h"
+#import "HistoryController.h"
 #import "UIView+HDV.h"
 #import "UIColor+HDV.h"
 #import "Constants.h"
 
 #define SEGMENT_CONTROL_TAG 1
 
+@interface HDVideoViewController ()
+- (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem;
+@end
+
 @implementation HDVideoViewController
 
 @synthesize videoBrowserView = _videoBrowserView;
 
+- (void)setupNavigationBar
+{
+    // custom right bar buttons
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+	[button setTitle:@"播放记录" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    button.showsTouchWhenHighlighted = YES;
+    [button addTarget:self action:@selector(popupHistory:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:button];
+    [button release];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:view];
+    [view release];
+    self.navigationItem.rightBarButtonItem = item;
+    [item release];
+}
+
 - (void)dealloc
 {
+    [_popoverHistoryController release];
     [_videoBrowserView release];
     [super dealloc];
 }
@@ -66,12 +94,23 @@
     _videoBrowserView.frame = CGRectMake(0, 0, 1024, 660);
     _videoBrowserView.posterDownloadsInProgress = [NSMutableDictionary dictionary];
     [self.view addSubview:_videoBrowserView];
+    
+    HistoryController *historyController = [[HistoryController alloc] init];
+    historyController.contentSizeForViewInPopover = CGSizeMake(300, 560);
+    historyController.parentNavigationController = self.navigationController;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:historyController];
+    
+    _popoverHistoryController = [[UIPopoverController alloc] initWithContentViewController:navController];
+    _popoverHistoryController.delegate = self;
+    historyController.popController = _popoverHistoryController;
+    [historyController release];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleted:)
                                                  name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
@@ -126,6 +165,13 @@
     NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
     [[NetworkController sharedNetworkController] startLoadFeed:[category objectForKey:@"feedUrl"]
                                                         forKey:[NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex]];
+}
+
+- (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
+{
+    [_popoverHistoryController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
+                                      permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                      animated:YES];
 }
 
 - (void)downloadCompleted:(NSNotification *)notification

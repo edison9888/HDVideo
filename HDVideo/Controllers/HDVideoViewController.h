@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "VideoBrowserView.h"
 
-@interface HDVideoViewController : UIViewController {
-    
+@interface HDVideoViewController : UIViewController<UIPopoverControllerDelegate> {
+    UIPopoverController *_popoverHistoryController;
 }
 
 @property (nonatomic, retain) VideoBrowserView *videoBrowserView;

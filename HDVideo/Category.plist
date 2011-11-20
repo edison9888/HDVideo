@@ -31,5 +31,7 @@
 	</array>
 	<key>latestFeedUrl</key>
 	<string>http://192.168.0.105/hdv/feed.xml</string>
+	<key>Histories</key>
+	<array/>
 </dict>
 </plist>

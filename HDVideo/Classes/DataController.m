@@ -26,6 +26,12 @@ static NSDictionary *alldict = nil;
     return alldict;
 }
 
+- (NSArray *)histories
+{
+    NSArray *array = [self.categories objectForKey:@"Histories"];
+    return array;
+}
+
 - (NSString *)latestFeedUrl
 {
     NSString *url = [self.categories objectForKey:@"latestFeedUrl"];
@@ -37,6 +43,33 @@ static NSDictionary *alldict = nil;
     NSArray *array = [self.categories objectForKey:@"Categories"];
     NSDictionary *dict = [array objectAtIndex:index];
     return dict;
+}
+
+- (void)addHistory:(NSString *)name videoUrl:(NSString *)url
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.histories];
+    for (NSDictionary *dict in array) {
+        if ([[dict objectForKey:@"name"] isEqualToString:name])
+        {
+            [array removeObject:dict];
+            break;
+        }
+    }
+    
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          name, @"name",
+                          url, @"videoUrl",
+                          nil];
+    [array insertObject:dict atIndex:0];
+    
+    // most count is 50
+    if ([array count] > 50)
+    {
+        [array removeObjectAtIndex:50];
+    }
+    
+    [self.categories setValue:array forKey:@"Histories"];
+    [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
 }
 
 @end

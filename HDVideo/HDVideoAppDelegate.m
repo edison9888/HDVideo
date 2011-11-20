@@ -20,10 +20,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: self.viewController];
     
+    // customize navigation controller bar
     CGRect tr = navigationController.navigationBar.frame;
     tr = CGRectMake(0, 0, CGRectGetWidth(tr), CGRectGetHeight(tr));
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:tr];

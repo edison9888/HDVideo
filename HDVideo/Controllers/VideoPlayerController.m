@@ -7,7 +7,7 @@
 //
 
 #import "VideoPlayerController.h"
-
+#import "DataController.h"
 
 @implementation VideoPlayerController
 
@@ -49,6 +49,9 @@
         
         [_webView stopLoading];
         [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_videoItem.videoUrl]]];
+        
+        // set history
+        [[DataController sharedDataController] addHistory:_videoItem.name videoUrl:_videoItem.videoUrl];
     }
 }
 
