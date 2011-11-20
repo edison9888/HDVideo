@@ -9,6 +9,7 @@
 #import "HDVideoAppDelegate.h"
 #import "HDVideoViewController.h"
 #import "Constants.h"
+#import "UIColor+HDV.h"
 
 @implementation HDVideoAppDelegate
 
@@ -30,6 +31,7 @@
     imageView.tag = kNavigationBarBackgroundImageTag;
     imageView.image = [UIImage imageNamed:@"top-bar"];
     [navigationController.navigationBar insertSubview:imageView atIndex:0];
+    [navigationController.navigationBar setTintColor:[UIColor colorForWoodTint]];
     [imageView release];
     
     self.window.rootViewController = navigationController;

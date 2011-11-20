@@ -13,6 +13,7 @@
 		C21C5549147638FC002DAF01 /* ParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C5548147638FC002DAF01 /* ParseOperation.m */; };
 		C21C555E14765051002DAF01 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C555D14765051002DAF01 /* NetworkController.m */; };
 		C220BB011478EDCE00695232 /* star-fore.png in Resources */ = {isa = PBXBuildFile; fileRef = C220BB001478EDCE00695232 /* star-fore.png */; };
+		C220BB0D1478F81A00695232 /* UIColor+HDV.m in Sources */ = {isa = PBXBuildFile; fileRef = C220BB0C1478F81A00695232 /* UIColor+HDV.m */; };
 		C2408CC61478895C0072F456 /* VideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2408CC51478895C0072F456 /* VideoPlayerController.m */; };
 		C24A365414779AA100662C26 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C24A365314779AA100662C26 /* placeholder.png */; };
 		C24A365814779C6400662C26 /* PosterDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A365714779C6400662C26 /* PosterDownloader.m */; };
@@ -57,6 +58,8 @@
 		C21C555C14765051002DAF01 /* NetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkController.h; sourceTree = "<group>"; };
 		C21C555D14765051002DAF01 /* NetworkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkController.m; sourceTree = "<group>"; };
 		C220BB001478EDCE00695232 /* star-fore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-fore.png"; sourceTree = "<group>"; };
+		C220BB0B1478F81A00695232 /* UIColor+HDV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HDV.h"; sourceTree = "<group>"; };
+		C220BB0C1478F81A00695232 /* UIColor+HDV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HDV.m"; sourceTree = "<group>"; };
 		C2408CC41478895C0072F456 /* VideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerController.h; sourceTree = "<group>"; };
 		C2408CC51478895C0072F456 /* VideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerController.m; sourceTree = "<group>"; };
 		C24A365314779AA100662C26 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				C27B019614756787009B8093 /* UIView+HDV.m */,
 				C260258A1478B5A8008EECDA /* UINavigationBar+HDV.h */,
 				C260258B1478B5A8008EECDA /* UINavigationBar+HDV.m */,
+				C220BB0B1478F81A00695232 /* UIColor+HDV.h */,
+				C220BB0C1478F81A00695232 /* UIColor+HDV.m */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -348,6 +353,7 @@
 				C2408CC61478895C0072F456 /* VideoPlayerController.m in Sources */,
 				C26025881478B503008EECDA /* ClassUtil.m in Sources */,
 				C260258C1478B5A8008EECDA /* UINavigationBar+HDV.m in Sources */,
+				C220BB0D1478F81A00695232 /* UIColor+HDV.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

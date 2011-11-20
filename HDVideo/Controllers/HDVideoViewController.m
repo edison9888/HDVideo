@@ -11,6 +11,7 @@
 #import "DataController.h"
 #import "NetworkController.h"
 #import "UIView+HDV.h"
+#import "UIColor+HDV.h"
 #import "Constants.h"
 
 #define SEGMENT_CONTROL_TAG 1
@@ -54,7 +55,7 @@
     segment.tag = SEGMENT_CONTROL_TAG;
     segment.frame = CGRectMake(290, 666, 1024-580, 34);
     segment.segmentedControlStyle = UISegmentedControlStyleBar;
-    segment.tintColor = [UIColor colorWithRed:202.0/255 green:174.0/255 blue:124.0/255 alpha:1.0];
+    segment.tintColor = [UIColor colorForWoodTint];
     [segment changeUISegmentFont:16];
     [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:segment];
@@ -96,6 +97,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:VIDEO_POSTER_TAPPED_NOTIFICATION
                                                   object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.title = @"";
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.title = @"首页";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
