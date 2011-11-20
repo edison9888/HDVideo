@@ -7,8 +7,8 @@
 //
 
 #import "HDVideoAppDelegate.h"
-
 #import "HDVideoViewController.h"
+#import "Constants.h"
 
 @implementation HDVideoAppDelegate
 
@@ -22,10 +22,12 @@
     // Override point for customization after application launch.
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: self.viewController];
+    
     CGRect tr = navigationController.navigationBar.frame;
     tr = CGRectMake(0, 0, CGRectGetWidth(tr), CGRectGetHeight(tr));
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:tr];
     imageView.contentMode = UIViewContentModeTopLeft;
+    imageView.tag = kNavigationBarBackgroundImageTag;
     imageView.image = [UIImage imageNamed:@"top-bar"];
     [navigationController.navigationBar insertSubview:imageView atIndex:0];
     [imageView release];

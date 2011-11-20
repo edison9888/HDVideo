@@ -41,6 +41,7 @@
 - (void)loadView
 {
     _browserView = [[VideoBrowserView alloc] init];
+    _browserView.controller = self;
     _browserView.backgroundColor = [UIColor clearColor];
     _browserView.posterDownloadsInProgress = [NSMutableDictionary dictionary];
     self.view = _browserView;

@@ -9,7 +9,11 @@
 #import "HDVideoViewController.h"
 #import "DataController.h"
 #import "NetworkController.h"
+#import "VideoPlayerController.h"
 #import "UIView+HDV.h"
+#import "Constants.h"
+
+#define SEGMENT_CONTROL_TAG 1
 
 @implementation HDVideoViewController
 
@@ -40,8 +44,14 @@
     [imageView release];
     
     // segment control
-    NSArray *channels = [NSArray arrayWithObjects:@"美剧", @"电影", @"电视剧", @"综艺", nil];
-    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:channels];
+    NSDictionary *dict = [[DataController sharedDataController] categories];
+    NSArray *cats = [dict objectForKey:@"Categories"];
+    NSMutableArray *channels = [NSMutableArray arrayWithCapacity:[cats count]];
+    for (NSDictionary *cat in cats) {
+        [channels addObject:[cat objectForKey:@"name"]];
+    }
+    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithArray:channels]];
+    segment.tag = SEGMENT_CONTROL_TAG;
     segment.frame = CGRectMake(290, 666, 1024-580, 34);
     segment.segmentedControlStyle = UISegmentedControlStyleBar;
     segment.tintColor = [UIColor colorWithRed:202.0/255 green:174.0/255 blue:124.0/255 alpha:1.0];
@@ -60,7 +70,22 @@
 {
     [super viewDidLoad];
     
-    [[NetworkController sharedNetworkController] startLoadFeed:[[DataController sharedDataController] latestFeedUrl]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(toPlayerVideo:)
+                                                 name:VIDEO_POSTER_TAPPED_NOTIFICATION
+                                               object:nil];
+    
+    UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
+    [segment setSelectedSegmentIndex:0];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:VIDEO_POSTER_TAPPED_NOTIFICATION
+                                                  object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -75,8 +100,15 @@
     [segment changeUISegmentFont:16];
     
     NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
-    NSLog(@"url=%@", [category objectForKey:@"feedUrl"]);
     [[NetworkController sharedNetworkController] startLoadFeed:[category objectForKey:@"feedUrl"]];
+}
+
+- (void)toPlayerVideo:(NSNotification *)notification
+{
+    VideoPlayerController *player = [[VideoPlayerController alloc] init];
+    player.videoItem = [notification object];
+    [self.navigationController pushViewController:player animated:YES];
+    [player release];
 }
 
 @end

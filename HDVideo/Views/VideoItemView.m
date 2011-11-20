@@ -7,8 +7,8 @@
 //
 
 #import "VideoItemView.h"
+#import "Constants.h"
 #import <QuartzCore/QuartzCore.h>
-
 
 @implementation VideoItemView
 
@@ -28,6 +28,11 @@
 			controlPoint2:CGPointMake(curlFactor, size.height + shadowDepth - curlFactor)];
     
 	return path.CGPath;
+}
+
+- (void)posterTapped:(UIGestureRecognizer *)gestureRecognizer
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_POSTER_TAPPED_NOTIFICATION object:self.source];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -65,6 +70,11 @@
         _name.shadowOffset = CGSizeMake(0, 0.4);
         [self addSubview:_name];
         
+        // tap gesture
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(posterTapped:)];
+        [self addGestureRecognizer:gesture];
+        [gesture release];
     }
     return self;
 }

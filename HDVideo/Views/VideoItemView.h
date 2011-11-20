@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoItem.h"
+#import "VideoBrowserController.h"
 
 @interface VideoItemView : UIView {
     UIImageView *_poster;

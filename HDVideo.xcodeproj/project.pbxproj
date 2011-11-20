@@ -12,6 +12,7 @@
 		C21C553414762DCF002DAF01 /* VideoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C553314762DCF002DAF01 /* VideoBrowserController.m */; };
 		C21C5549147638FC002DAF01 /* ParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C5548147638FC002DAF01 /* ParseOperation.m */; };
 		C21C555E14765051002DAF01 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C555D14765051002DAF01 /* NetworkController.m */; };
+		C2408CC61478895C0072F456 /* VideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2408CC51478895C0072F456 /* VideoPlayerController.m */; };
 		C24A365414779AA100662C26 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C24A365314779AA100662C26 /* placeholder.png */; };
 		C24A365814779C6400662C26 /* PosterDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A365714779C6400662C26 /* PosterDownloader.m */; };
 		C24A36621477D65C00662C26 /* star-back.png in Resources */ = {isa = PBXBuildFile; fileRef = C24A36611477D65C00662C26 /* star-back.png */; };
@@ -19,6 +20,8 @@
 		C24A36841477F3B500662C26 /* Category.plist in Resources */ = {isa = PBXBuildFile; fileRef = C24A36831477F3B500662C26 /* Category.plist */; };
 		C24A368F1477F41D00662C26 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A368E1477F41D00662C26 /* DataController.m */; };
 		C24A36921477F55D00662C26 /* DataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A36911477F55D00662C26 /* DataUtil.m */; };
+		C26025881478B503008EECDA /* ClassUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C26025871478B503008EECDA /* ClassUtil.m */; };
+		C260258C1478B5A8008EECDA /* UINavigationBar+HDV.m in Sources */ = {isa = PBXBuildFile; fileRef = C260258B1478B5A8008EECDA /* UINavigationBar+HDV.m */; };
 		C26197C11474B76000551170 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26197BE1474B76000551170 /* CoreData.framework */; };
 		C26197C21474B76000551170 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C26197C01474B76000551170 /* QuartzCore.framework */; };
 		C26197C71474B83200551170 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = C26197C61474B83200551170 /* Default-Landscape.png */; };
@@ -50,6 +53,8 @@
 		C21C554A14764EAF002DAF01 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C21C555C14765051002DAF01 /* NetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkController.h; sourceTree = "<group>"; };
 		C21C555D14765051002DAF01 /* NetworkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkController.m; sourceTree = "<group>"; };
+		C2408CC41478895C0072F456 /* VideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerController.h; sourceTree = "<group>"; };
+		C2408CC51478895C0072F456 /* VideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerController.m; sourceTree = "<group>"; };
 		C24A365314779AA100662C26 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		C24A365614779C6400662C26 /* PosterDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosterDownloader.h; sourceTree = "<group>"; };
 		C24A365714779C6400662C26 /* PosterDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterDownloader.m; sourceTree = "<group>"; };
@@ -61,6 +66,10 @@
 		C24A36901477F55D00662C26 /* DataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataUtil.h; sourceTree = "<group>"; };
 		C24A36911477F55D00662C26 /* DataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataUtil.m; sourceTree = "<group>"; };
 		C24A36A41478089500662C26 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		C26025861478B503008EECDA /* ClassUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassUtil.h; sourceTree = "<group>"; };
+		C26025871478B503008EECDA /* ClassUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassUtil.m; sourceTree = "<group>"; };
+		C260258A1478B5A8008EECDA /* UINavigationBar+HDV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HDV.h"; sourceTree = "<group>"; };
+		C260258B1478B5A8008EECDA /* UINavigationBar+HDV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+HDV.m"; sourceTree = "<group>"; };
 		C26197BE1474B76000551170 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C26197BF1474B76000551170 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C26197C01474B76000551170 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -109,6 +118,8 @@
 			children = (
 				C27B019514756787009B8093 /* UIView+HDV.h */,
 				C27B019614756787009B8093 /* UIView+HDV.m */,
+				C260258A1478B5A8008EECDA /* UINavigationBar+HDV.h */,
+				C260258B1478B5A8008EECDA /* UINavigationBar+HDV.m */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -188,6 +199,8 @@
 				C24A365614779C6400662C26 /* PosterDownloader.h */,
 				C24A365714779C6400662C26 /* PosterDownloader.m */,
 				C24A36A41478089500662C26 /* SynthesizeSingleton.h */,
+				C26025861478B503008EECDA /* ClassUtil.h */,
+				C26025871478B503008EECDA /* ClassUtil.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -199,6 +212,8 @@
 				C27B018714755E29009B8093 /* HDVideoViewController.m */,
 				C21C553214762DCF002DAF01 /* VideoBrowserController.h */,
 				C21C553314762DCF002DAF01 /* VideoBrowserController.m */,
+				C2408CC41478895C0072F456 /* VideoPlayerController.h */,
+				C2408CC51478895C0072F456 /* VideoPlayerController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -318,6 +333,9 @@
 				C24A365814779C6400662C26 /* PosterDownloader.m in Sources */,
 				C24A368F1477F41D00662C26 /* DataController.m in Sources */,
 				C24A36921477F55D00662C26 /* DataUtil.m in Sources */,
+				C2408CC61478895C0072F456 /* VideoPlayerController.m in Sources */,
+				C26025881478B503008EECDA /* ClassUtil.m in Sources */,
+				C260258C1478B5A8008EECDA /* UINavigationBar+HDV.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
