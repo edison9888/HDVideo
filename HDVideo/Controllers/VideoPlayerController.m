@@ -81,6 +81,9 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.body.style.zoom=%f;", 5.5]];
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.scrollTo(0, %i)", 470]];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

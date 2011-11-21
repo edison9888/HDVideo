@@ -19,7 +19,12 @@
 
 - (void)cleanHistory
 {
-    
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@""
+                                                     message:@"您确定要清除所有播放记录吗？"
+                                                    delegate:self
+                                           cancelButtonTitle:@"是的，我确定"
+                                           otherButtonTitles:@"不，点错了^_^", nil] autorelease];
+    [alert show];
 }
 
 - (void)dealloc
@@ -102,6 +107,15 @@
     cell.textLabel.text = [dict objectForKey:@"name"];
 
     return cell;
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+        [[DataController sharedDataController] cleanHistory];
+        [self.tableView reloadData];
+        self.title = [NSString stringWithFormat:@"共%d条", [[[DataController sharedDataController] histories] count]];
+	}
 }
 
 @end

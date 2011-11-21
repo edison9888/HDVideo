@@ -72,4 +72,12 @@ static NSDictionary *alldict = nil;
     [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
 }
 
+- (void)cleanHistory
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.histories];
+    [array removeAllObjects];
+    [self.categories setValue:array forKey:@"Histories"];
+    [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
+}
+
 @end

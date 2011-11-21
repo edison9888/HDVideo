@@ -19,6 +19,8 @@
 
 + (DataController *)sharedDataController;
 - (NSDictionary *)getCategoryAtIndex:(NSUInteger)index;
+
 - (void)addHistory:(NSString *)name videoUrl:(NSString *)url;
+- (void)cleanHistory;
 
 @end
