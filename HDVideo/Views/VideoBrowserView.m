@@ -32,6 +32,15 @@
 @synthesize posterDownloadsInProgress = _posterDownloadsInProgress;
 
 
+- (id)initWithFrame:(CGRect)frame
+{
+    if ((self = [super initWithFrame:frame]))
+    {
+        self.posterDownloadsInProgress = [NSMutableDictionary dictionary]; 
+    }
+    return self;
+}
+
 - (void)setVideoItems:(NSArray *)videoItems
 {
     if (_videoItems != videoItems)

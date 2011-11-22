@@ -23,7 +23,7 @@
 
 @implementation HDVideoViewController
 
-@synthesize videoBrowserView = _videoBrowserView;
+@synthesize videoBrowserController = _videoBrowserController;
 
 - (void)setupNavigationBar
 {
@@ -50,7 +50,7 @@
 - (void)dealloc
 {
     [_popoverHistoryController release];
-    [_videoBrowserView release];
+    [_videoBrowserController release];
     [super dealloc];
 }
 
@@ -89,11 +89,10 @@
     [self.view addSubview:segment];
     [segment release];
     
-    // video browser
-    _videoBrowserView = [[VideoBrowserView alloc] init];
-    _videoBrowserView.frame = CGRectMake(0, 0, 1024, 660);
-    _videoBrowserView.posterDownloadsInProgress = [NSMutableDictionary dictionary];
-    [self.view addSubview:_videoBrowserView];
+    // video controller
+    _videoBrowserController = [[VideoBrowserController alloc] init];
+    _videoBrowserController.view.frame = CGRectMake(0, 0, 1024, 660);
+    [self.view addSubview:_videoBrowserController.view];
     
     HistoryController *historyController = [[HistoryController alloc] init];
     historyController.contentSizeForViewInPopover = CGSizeMake(300, 560);
@@ -184,7 +183,7 @@
     NSRange range = [currentKey rangeOfString:@"Segment-"];
     if (range.location == 0)
     {
-        _videoBrowserView.videoItems = [notification object];
+        _videoBrowserController.browserView.videoItems = [notification object];
     }
 }
 
