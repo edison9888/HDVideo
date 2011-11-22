@@ -32,9 +32,9 @@ static NSDictionary *alldict = nil;
     return array;
 }
 
-- (NSString *)latestFeedUrl
+- (NSString *)serverAddressBase
 {
-    NSString *url = [self.categories objectForKey:@"latestFeedUrl"];
+    NSString *url = [self.categories objectForKey:@"ServerAddressBase"];
     return url;
 }
 

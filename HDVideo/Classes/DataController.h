@@ -13,11 +13,12 @@
     
 }
 
-@property (nonatomic, readonly) NSString *latestFeedUrl;
 @property (nonatomic, readonly) NSDictionary *categories;
 @property (nonatomic, readonly) NSArray *histories;
 
 + (DataController *)sharedDataController;
+
+- (NSString *)serverAddressBase;
 - (NSDictionary *)getCategoryAtIndex:(NSUInteger)index;
 
 - (void)addHistory:(NSString *)name videoUrl:(NSString *)url;

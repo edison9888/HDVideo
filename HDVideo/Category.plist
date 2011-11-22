@@ -6,30 +6,26 @@
 	<array>
 		<dict>
 			<key>feedUrl</key>
-			<string>http://192.168.1.149/hdv/feed-us.xml</string>
+			<string>cate=haolaiwu</string>
 			<key>name</key>
 			<string>美剧</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>http://192.168.1.149/hdv/feed-movie.xml</string>
+			<string>cate=europe</string>
 			<key>name</key>
-			<string>电影</string>
+			<string>欧洲</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>http://192.168.1.149/hdv/feed-serial.xml</string>
+			<string>cate=guoyu</string>
 			<key>name</key>
-			<string>电视剧</string>
-		</dict>
-		<dict>
-			<key>feedUrl</key>
-			<string>http://192.168.1.149/hdv/feed-show.xml</string>
-			<key>name</key>
-			<string>综艺</string>
+			<string>国语</string>
 		</dict>
 	</array>
 	<key>Histories</key>
 	<array/>
+	<key>ServerAddressBase</key>
+	<string>http://192.168.1.149/hdv/getfeed.php?</string>
 </dict>
 </plist>

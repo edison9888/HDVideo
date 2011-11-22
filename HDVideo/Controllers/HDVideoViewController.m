@@ -163,7 +163,11 @@
     [segment changeUISegmentFont:16];
     
     NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
-    [[NetworkController sharedNetworkController] startLoadFeed:[category objectForKey:@"feedUrl"]
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",
+                     [[DataController sharedDataController] serverAddressBase],
+                     [category objectForKey:@"feedUrl"]];
+    [[NetworkController sharedNetworkController] startLoadFeed:url
                                                         forKey:[NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex]];
 }
 
