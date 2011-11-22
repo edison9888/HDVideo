@@ -82,7 +82,6 @@
     
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    _scrollView.delegate = self;
     _scrollView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_scrollView];
 }
@@ -194,6 +193,7 @@
         }
         
         [self tileVideos];
+        _scrollView.delegate = self;
     }
 }
 

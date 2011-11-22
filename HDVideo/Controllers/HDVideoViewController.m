@@ -159,6 +159,7 @@
 - (void)segmentAction:(id)sender
 {
     // stop UIScrollView from scrolling immediately
+    [_videoBrowserController.scrollView setDelegate:nil];
     [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
     
     UISegmentedControl *segment = (UISegmentedControl *)sender;
