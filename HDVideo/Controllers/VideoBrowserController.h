@@ -7,14 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VideoItemView.h"
+#import "VideoItem.h"
+#import "PosterDownloader.h"
 
-@class VideoBrowserView;
+@class VideoItemView;
 
-@interface VideoBrowserController : UIViewController {
-    
+@interface VideoBrowserController : UIViewController<UIScrollViewDelegate, PosterDownloaderDelegate> {
+    UIScrollView *_scrollView;
+    NSMutableSet *_recycledVideos;
+    NSMutableSet *_visibleVideos;
 }
 
+@property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, retain) NSString *feedKey;
-@property (nonatomic, retain) VideoBrowserView *browserView;
+@property (nonatomic, retain) NSArray *videoItems;
+@property (nonatomic, retain) NSMutableDictionary *posterDownloadsInProgress;
+
+
+- (void)tileVideos;
+- (VideoItemView *)dequeueRecycledVideo;
+- (void)configVideo:(VideoItemView *)video forIndex:(NSUInteger)index;
+- (BOOL)isDisplayingVideoForIndex:(NSUInteger)index;
+- (CGRect)frameForVideoAtIndex:(NSUInteger)index;
 
 @end

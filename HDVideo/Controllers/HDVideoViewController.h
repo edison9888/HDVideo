@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoBrowserController.h"
-#import "VideoBrowserView.h"
+
 
 @interface HDVideoViewController : UIViewController<UIPopoverControllerDelegate> {
     UIPopoverController *_popoverHistoryController;

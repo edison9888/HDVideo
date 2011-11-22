@@ -158,6 +158,9 @@
 
 - (void)segmentAction:(id)sender
 {
+    // stop UIScrollView from scrolling immediately
+    [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
+    
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];
     
@@ -183,7 +186,7 @@
     NSRange range = [currentKey rangeOfString:@"Segment-"];
     if (range.location == 0)
     {
-        _videoBrowserController.browserView.videoItems = [notification object];
+        _videoBrowserController.videoItems = [notification object];
     }
 }
 

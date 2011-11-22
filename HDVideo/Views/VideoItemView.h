@@ -21,5 +21,6 @@
 }
 
 @property (nonatomic, retain) VideoItem *source;
+@property (nonatomic) NSUInteger index;
 
 @end

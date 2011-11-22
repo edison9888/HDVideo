@@ -17,6 +17,7 @@
 @implementation VideoItemView
 
 @synthesize source = _source;
+@synthesize index;
 
 - (CGPathRef)renderRect:(UIView*)imgView {
 	UIBezierPath *path = [UIBezierPath bezierPathWithRect:imgView.bounds];
@@ -29,12 +30,14 @@
 	CGFloat shadowDepth = 1.0f;
     
 	UIBezierPath *path = [UIBezierPath bezierPath];
-	[path moveToPoint:CGPointMake(0.0f, 0.0f)];
-	[path addLineToPoint:CGPointMake(size.width, 0.0f)];
-	[path addLineToPoint:CGPointMake(size.width, size.height + shadowDepth)];
-	[path addCurveToPoint:CGPointMake(0.0f, size.height + shadowDepth)
-			controlPoint1:CGPointMake(size.width - curlFactor, size.height + shadowDepth - curlFactor)
-			controlPoint2:CGPointMake(curlFactor, size.height + shadowDepth - curlFactor)];
+    float origin_x = imgView.bounds.origin.x;
+    float origin_y = imgView.bounds.origin.y;
+	[path moveToPoint:CGPointMake(origin_x, origin_y)];
+	[path addLineToPoint:CGPointMake(origin_x + size.width, origin_y)];
+	[path addLineToPoint:CGPointMake(origin_x + size.width, origin_y + size.height + shadowDepth)];
+	[path addCurveToPoint:CGPointMake(origin_x, origin_y + size.height + shadowDepth)
+			controlPoint1:CGPointMake(origin_x + size.width - curlFactor, origin_y + size.height + shadowDepth - curlFactor)
+			controlPoint2:CGPointMake(origin_x + curlFactor, origin_y + size.height + shadowDepth - curlFactor)];
     
 	return path.CGPath;
 }
@@ -56,11 +59,11 @@
         _poster.layer.shadowRadius = 2.0f;
         _poster.layer.masksToBounds = NO;
         [self addSubview:_poster];
-        _poster.layer.shadowPath = [self renderPaperCurl:_poster];
         
         UIView *star = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)/2-93.0/2,
                                                                 CGRectGetHeight(frame)-40,
                                                                 93, 15)];
+        star.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
         star.backgroundColor = [UIColor clearColor];
         [self addSubview:star];
         
@@ -82,6 +85,7 @@
         [star release];
         
         _name = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(frame)-20, CGRectGetWidth(frame), 20)];
+        _name.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
         _name.backgroundColor = [UIColor clearColor];
         _name.font = [UIFont boldSystemFontOfSize:15];
         _name.textAlignment = UITextAlignmentCenter;
@@ -120,6 +124,14 @@
         [gesture release];
     }
     return self;
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    
+    CGRect rect = CGRectMake(CGRectGetWidth(frame)/2.0-IMAGE_WIDTH/2.0, 0, IMAGE_WIDTH, CGRectGetHeight(frame)-50);
+    _poster.frame = rect;
 }
 
 - (void)setSource:(VideoItem *)source
