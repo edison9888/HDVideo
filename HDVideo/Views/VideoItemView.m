@@ -132,6 +132,12 @@
     
     CGRect rect = CGRectMake(CGRectGetWidth(frame)/2.0-IMAGE_WIDTH/2.0, 0, IMAGE_WIDTH, CGRectGetHeight(frame)-50);
     _poster.frame = rect;
+    
+    rect = CGRectMake(CGRectGetWidth(frame)/2.0+IMAGE_WIDTH/2.0-47, 0, 47, 47);
+    _newRibbon.frame = rect;
+    
+    rect = CGRectMake(CGRectGetWidth(frame)/2.0-IMAGE_WIDTH/2.0-21, -5, 60, 38);
+    _countRibbon.frame = rect;
 }
 
 - (void)setSource:(VideoItem *)source
