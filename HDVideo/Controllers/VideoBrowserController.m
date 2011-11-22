@@ -57,11 +57,7 @@
 {
     [super didReceiveMemoryWarning];
     
-    // terminate all pending download connections
-    NSArray *allDownloads = [_posterDownloadsInProgress allValues];
-    for (PosterDownloader *downloader in allDownloads) {
-        [downloader performSelector:@selector(cancelDownload)];
-    }
+    [self cancelDownloading];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -183,17 +179,21 @@
             rows += 1;
         _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width,
                                              LOCATION_Y + (ITEM_HEIGHT + ITEM_SPACING_V)*rows);
-        
-        // cancel all posters downloading
-        if (self.posterDownloadsInProgress && [self.posterDownloadsInProgress count] > 0){
-            // terminate all pending download connections
-            NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
-            [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-            [_posterDownloadsInProgress removeAllObjects];
-        }
+        [self cancelDownloading];
+        [_posterDownloadsInProgress removeAllObjects];
         
         [self tileVideos];
         _scrollView.delegate = self;
+    }
+}
+
+- (void)cancelDownloading
+{
+    // cancel all posters downloading
+    if (self.posterDownloadsInProgress && [self.posterDownloadsInProgress count] > 0){
+        // terminate all pending download connections
+        NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
+        [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
     }
 }
 

@@ -31,4 +31,6 @@
 - (BOOL)isDisplayingVideoForIndex:(NSUInteger)index;
 - (CGRect)frameForVideoAtIndex:(NSUInteger)index;
 
+- (void)cancelDownloading;
+
 @end

@@ -18,6 +18,7 @@
     
     UILabel *_name;
     UILabel *_count;
+    UIActivityIndicatorView *_spinner;
 }
 
 @property (nonatomic, retain) VideoItem *source;

@@ -117,6 +117,13 @@
         _count.shadowOffset = CGSizeMake(0, 1);
         [self addSubview:_count];
         
+        rect = CGRectMake(23, 137, 20, 20);
+        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _spinner.frame = rect;
+        _spinner.hidesWhenStopped = YES;
+        [self addSubview:_spinner];
+        [_spinner startAnimating];
+
         // tap gesture
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                   action:@selector(posterTapped:)];
@@ -148,9 +155,8 @@
         _source = [source retain];
     }
     [self setNeedsLayout];
-}
-
-- (void)layoutSubviews{
+    
+    // update controls
     _name.text = _source.name;
     _newRibbon.hidden = (!_source.isNewItem);
     
@@ -175,6 +181,8 @@
             _poster.layer.shadowPath = [self renderRect:_poster];
         else
             _poster.layer.shadowPath = [self renderPaperCurl:_poster];
+        
+        [_spinner stopAnimating];
     }
     else
     {
@@ -200,6 +208,7 @@
     [_count release];
     [_countRibbon release];
     [_source release];
+    [_spinner release];
     
     [super dealloc];
 }
