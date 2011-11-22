@@ -161,6 +161,7 @@
     // stop UIScrollView from scrolling immediately
     [_videoBrowserController.scrollView setDelegate:nil];
     [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
+    [_videoBrowserController startDownloading];
     
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];

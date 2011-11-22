@@ -49,6 +49,7 @@
     
     [_videoItems release];
     [_posterDownloadsInProgress release];
+    [_spinner release];
     
     [super dealloc];
 }
@@ -80,6 +81,13 @@
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _scrollView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_scrollView];
+    
+    
+    _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _spinner.frame = CGRectMake(0, 0, 40, 40);
+    _spinner.center = CGPointMake(512, 330);
+    _spinner.hidesWhenStopped = YES;
+    [self.view addSubview:_spinner];
 }
 
 - (void)viewDidLoad
@@ -102,6 +110,7 @@
                                                     name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
                                                   object:nil];
 }
+
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -163,28 +172,38 @@
 
 - (void)setVideoItems:(NSArray *)videoItems
 {
+    [_spinner stopAnimating];
     if (_videoItems != videoItems)
     {
         [_videoItems release];
         _videoItems = [videoItems retain];
         
-        // 
-        [_recycledVideos removeAllObjects];
-        [_visibleVideos removeAllObjects];
-        [_scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        
-        [_scrollView setContentOffset:CGPointMake(0, 0)];
         int rows = [_videoItems count] / ITEM_COUNT_PER_ROW;
         if (([_videoItems count] % ITEM_COUNT_PER_ROW) > 0)
             rows += 1;
         _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width,
                                              LOCATION_Y + (ITEM_HEIGHT + ITEM_SPACING_V)*rows);
-        [self cancelDownloading];
-        [_posterDownloadsInProgress removeAllObjects];
         
         [self tileVideos];
-        _scrollView.delegate = self;
     }
+}
+
+- (void)startDownloading
+{
+    self.videoItems = nil;
+    [_spinner startAnimating];
+    
+    // 
+    [_recycledVideos removeAllObjects];
+    [_visibleVideos removeAllObjects];
+    [_scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    [_scrollView setContentOffset:CGPointMake(0, 0)];
+    
+    [self cancelDownloading];
+    [_posterDownloadsInProgress removeAllObjects];
+    
+    _scrollView.delegate = self;
 }
 
 - (void)cancelDownloading

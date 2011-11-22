@@ -17,6 +17,7 @@
     UIScrollView *_scrollView;
     NSMutableSet *_recycledVideos;
     NSMutableSet *_visibleVideos;
+    UIActivityIndicatorView *_spinner;
 }
 
 @property (nonatomic, readonly) UIScrollView *scrollView;
@@ -31,6 +32,7 @@
 - (BOOL)isDisplayingVideoForIndex:(NSUInteger)index;
 - (CGRect)frameForVideoAtIndex:(NSUInteger)index;
 
+- (void)startDownloading;
 - (void)cancelDownloading;
 
 @end
