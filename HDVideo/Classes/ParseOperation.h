@@ -36,7 +36,7 @@
 
 @protocol ParseOperationDelegate
 
-- (void)didFinishParsing:(NSArray *)videoList;
+- (void)didFinishParsing:(NSArray *)videoList forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount;
 - (void)parseErrorOccurred:(NSError *)error;
 
 @end

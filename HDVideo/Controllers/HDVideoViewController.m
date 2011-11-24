@@ -189,7 +189,9 @@
     NSRange range = [currentKey rangeOfString:@"Segment-"];
     if (range.location == 0)
     {
-        _videoBrowserController.videoItems = [notification object];
+        _videoBrowserController.videoItems = [[notification object] objectAtIndex:0];
+        _videoBrowserController.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
+        _videoBrowserController.totalPageCount = [[[notification object] objectAtIndex:2] intValue];
     }
 }
 

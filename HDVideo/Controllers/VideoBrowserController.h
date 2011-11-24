@@ -26,6 +26,10 @@
 @property (nonatomic, retain) NSMutableDictionary *posterDownloadsInProgress;
 @property (nonatomic) BOOL isEpisode;
 
+// paging
+@property (nonatomic) NSUInteger currentPageIndex;
+@property (nonatomic) NSUInteger totalPageCount;
+
 
 - (void)tileVideos;
 - (VideoItemView *)dequeueRecycledVideo;

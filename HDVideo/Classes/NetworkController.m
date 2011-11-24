@@ -148,9 +148,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 // -------------------------------------------------------------------------------
 //	didFinishParsing:appList
 // -------------------------------------------------------------------------------
-- (void)didFinishParsing:(NSArray *)videoList
+- (void)didFinishParsing:(NSArray *)videoList forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount;
 {
-    [self performSelectorOnMainThread:@selector(handleLoadedVideos:) withObject:videoList waitUntilDone:NO];
+    NSArray *array = [NSArray arrayWithObjects:videoList,
+                      [NSNumber numberWithInt:pageIndex],
+                      [NSNumber numberWithInt:totalPageCount],
+                      nil];
+    [self performSelectorOnMainThread:@selector(handleLoadedVideos:) withObject:array waitUntilDone:NO];
     
     self.queue = nil;   // we are finished with the queue and our ParseOperation
 }

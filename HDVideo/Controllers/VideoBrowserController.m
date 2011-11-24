@@ -33,6 +33,8 @@
 @synthesize isEpisode = _isEpisode;
 @synthesize itemHeight = _itemHeight;
 
+@synthesize currentPageIndex, totalPageCount;
+
 
 - (id)init
 {
@@ -133,7 +135,9 @@
     NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
     if ([self.feedKey isEqualToString:currentKey])
     {
-        self.videoItems = [notification object];
+        self.videoItems = [[notification object] objectAtIndex:0];
+        self.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
+        self.totalPageCount = [[[notification object] objectAtIndex:2] intValue];
     }
 }
 

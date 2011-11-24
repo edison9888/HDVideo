@@ -77,7 +77,7 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
 	if (![self isCancelled])
     {
         // notify our AppDelegate that the parsing is complete
-        [self.delegate didFinishParsing:self.workingArray];
+        [self.delegate didFinishParsing:self.workingArray forPageIndex:_currentPageIndex fromAll:_totalPageCount];
     }
     
     self.workingArray = nil;
