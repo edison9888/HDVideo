@@ -22,6 +22,7 @@
 		C24A36841477F3B500662C26 /* Category.plist in Resources */ = {isa = PBXBuildFile; fileRef = C24A36831477F3B500662C26 /* Category.plist */; };
 		C24A368F1477F41D00662C26 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A368E1477F41D00662C26 /* DataController.m */; };
 		C24A36921477F55D00662C26 /* DataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A36911477F55D00662C26 /* DataUtil.m */; };
+		C25794AC147E852E00912AE8 /* placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = C25794AB147E852E00912AE8 /* placeholder2.png */; };
 		C26025881478B503008EECDA /* ClassUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C26025871478B503008EECDA /* ClassUtil.m */; };
 		C260258C1478B5A8008EECDA /* UINavigationBar+HDV.m in Sources */ = {isa = PBXBuildFile; fileRef = C260258B1478B5A8008EECDA /* UINavigationBar+HDV.m */; };
 		C260259E1478E51F008EECDA /* new-ribbon.png in Resources */ = {isa = PBXBuildFile; fileRef = C260259D1478E51F008EECDA /* new-ribbon.png */; };
@@ -73,6 +74,7 @@
 		C24A36901477F55D00662C26 /* DataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataUtil.h; sourceTree = "<group>"; };
 		C24A36911477F55D00662C26 /* DataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataUtil.m; sourceTree = "<group>"; };
 		C24A36A41478089500662C26 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		C25794AB147E852E00912AE8 /* placeholder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder2.png; sourceTree = "<group>"; };
 		C26025861478B503008EECDA /* ClassUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassUtil.h; sourceTree = "<group>"; };
 		C26025871478B503008EECDA /* ClassUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassUtil.m; sourceTree = "<group>"; };
 		C260258A1478B5A8008EECDA /* UINavigationBar+HDV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HDV.h"; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				C2ECEB8014780F110063BD8A /* Icon-72.png */,
 				C260259D1478E51F008EECDA /* new-ribbon.png */,
 				C24A365314779AA100662C26 /* placeholder.png */,
+				C25794AB147E852E00912AE8 /* placeholder2.png */,
 				C24A36611477D65C00662C26 /* star-back.png */,
 				C220BB001478EDCE00695232 /* star-fore.png */,
 				C26197F11474C30700551170 /* top-bar.png */,
@@ -327,6 +330,7 @@
 				C260259E1478E51F008EECDA /* new-ribbon.png in Resources */,
 				C26025A11478E757008EECDA /* count-ribbon.png in Resources */,
 				C220BB011478EDCE00695232 /* star-fore.png in Resources */,
+				C25794AC147E852E00912AE8 /* placeholder2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

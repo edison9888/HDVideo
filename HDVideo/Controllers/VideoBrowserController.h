@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSString *feedKey;
 @property (nonatomic, retain) NSArray *videoItems;
 @property (nonatomic, retain) NSMutableDictionary *posterDownloadsInProgress;
+@property (nonatomic) BOOL isEpisode;
 
 
 - (void)tileVideos;

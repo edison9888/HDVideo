@@ -25,6 +25,9 @@
     BOOL            storingCharacterData;
     NSString        *trackingCategoryName;
     NSString        *trackingReleaseDate;
+    
+    NSUInteger      _currentPageIndex;
+    NSUInteger      _totalPageCount;
 }
 
 - (id)initWithData:(NSData *)data delegate:(id <ParseOperationDelegate>)theDelegate;

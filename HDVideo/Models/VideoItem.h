@@ -13,10 +13,10 @@
     
 }
 
-@property (nonatomic) NSUInteger id;
+@property (nonatomic, retain) NSString *vid;
 @property (nonatomic, retain) NSMutableArray *collection;
 @property (nonatomic) NSUInteger newItemCount;
-@property (nonatomic, readonly) BOOL isCategory;
+@property (nonatomic) BOOL isCategory;
 @property (nonatomic) BOOL isNewItem;
 @property (nonatomic) CGFloat rate;
 
@@ -24,6 +24,5 @@
 @property (nonatomic, retain) UIImage *posterImage;
 @property (nonatomic, retain) NSString *posterUrl;
 @property (nonatomic, retain) NSString *videoUrl;
-@property (nonatomic, retain) NSString *subFeedUrl;
 
 @end

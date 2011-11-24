@@ -17,7 +17,7 @@
 @implementation VideoItemView
 
 @synthesize source = _source;
-@synthesize index;
+@synthesize index, isEpisode;
 
 - (CGPathRef)renderRect:(UIView*)imgView {
 	UIBezierPath *path = [UIBezierPath bezierPathWithRect:imgView.bounds];
@@ -186,7 +186,10 @@
     }
     else
     {
-        _poster.image = [UIImage imageNamed:@"placeholder"];
+        if (!self.isEpisode)
+            _poster.image = [UIImage imageNamed:@"placeholder"];
+        else
+            _poster.image = [UIImage imageNamed:@"placeholder2"];
     }
     
     // star rating

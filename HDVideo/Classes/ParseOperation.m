@@ -100,17 +100,22 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary *)attributeDict
 {
-    if ([elementName isEqualToString:kEntryStr])
+    if ([elementName isEqualToString:@"Items"])
+    {
+        _currentPageIndex               = [[attributeDict objectForKey:@"index"] intValue];
+        _totalPageCount                 = [[attributeDict objectForKey:@"total"] intValue];
+    }
+    else if ([elementName isEqualToString:kEntryStr])
 	{
         self.workingEntry               = [[[VideoItem alloc] init] autorelease];
-        self.workingEntry.id            = [[attributeDict objectForKey:@"id"] intValue];
+        self.workingEntry.vid           = [attributeDict objectForKey:@"id"];
         self.workingEntry.isNewItem     = [[attributeDict objectForKey:@"isNew"] boolValue];
         self.workingEntry.newItemCount  = [[attributeDict objectForKey:@"newItemCount"] intValue];
         self.workingEntry.rate          = [[attributeDict objectForKey:@"rate"] floatValue];
         self.workingEntry.name          = [attributeDict objectForKey:@"name"];
         self.workingEntry.posterUrl     = [attributeDict objectForKey:@"posterUrl"];
         self.workingEntry.videoUrl      = [attributeDict objectForKey:@"videoUrl"];
-        self.workingEntry.subFeedUrl    = [attributeDict objectForKey:@"subFeedUrl"];
+        self.workingEntry.isCategory    = [[attributeDict objectForKey:@"isSerial"] boolValue];
     }
 }
 

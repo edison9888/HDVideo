@@ -18,15 +18,20 @@
 #define ITEM_SPACING_H 37
 #define ITEM_SPACING_V 50
 #define ITEM_WIDTH 155
-#define ITEM_HEIGHT 228
 #define ITEM_COUNT_PER_ROW 5
 
+
+@interface VideoBrowserController ()
+@property (nonatomic) NSUInteger itemHeight;
+@end
 
 @implementation VideoBrowserController
 
 @synthesize feedKey = _feedKey;
 @synthesize videoItems = _videoItems;
 @synthesize posterDownloadsInProgress = _posterDownloadsInProgress;
+@synthesize isEpisode = _isEpisode;
+@synthesize itemHeight = _itemHeight;
 
 
 - (id)init
@@ -170,6 +175,14 @@
     return _scrollView;
 }
 
+- (NSUInteger)itemHeight
+{
+    if (_isEpisode)
+        return 138;
+    else
+        return 228;
+}
+
 - (void)setVideoItems:(NSArray *)videoItems
 {
     [_spinner stopAnimating];
@@ -182,7 +195,7 @@
         if (([_videoItems count] % ITEM_COUNT_PER_ROW) > 0)
             rows += 1;
         _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width,
-                                             LOCATION_Y + (ITEM_HEIGHT + ITEM_SPACING_V)*rows);
+                                             LOCATION_Y + (self.itemHeight + ITEM_SPACING_V)*rows);
         
         [self tileVideos];
     }
@@ -219,6 +232,7 @@
 - (void)configVideo:(VideoItemView *)video forIndex:(NSUInteger)index
 {
     video.index = index;
+    video.isEpisode = self.isEpisode;
     video.source = [_videoItems objectAtIndex:index];
     video.frame = [self frameForVideoAtIndex:index];
 }
@@ -228,8 +242,8 @@
     int rowIndex = index / ITEM_COUNT_PER_ROW;
     int colIndex = index % ITEM_COUNT_PER_ROW;
     CGRect rect = CGRectMake(LOCATION_X + colIndex * (ITEM_WIDTH+ITEM_SPACING_H),
-                             LOCATION_Y + rowIndex * (ITEM_HEIGHT+ITEM_SPACING_V),
-                             ITEM_WIDTH, ITEM_HEIGHT);
+                             LOCATION_Y + rowIndex * (self.itemHeight+ITEM_SPACING_V),
+                             ITEM_WIDTH, self.itemHeight);
     return rect;
 }
 
@@ -259,8 +273,8 @@
 {
     // calculate which videos should now be visible
     CGRect visibleBounds    = _scrollView.bounds;
-    int firstRowIndex       = floorf((CGRectGetMinY(visibleBounds)-LOCATION_Y) / (ITEM_HEIGHT+ITEM_SPACING_V));
-    int lastRowIndex        = floorf((CGRectGetMaxY(visibleBounds)-LOCATION_Y-1) / (ITEM_HEIGHT+ITEM_SPACING_V));
+    int firstRowIndex       = floorf((CGRectGetMinY(visibleBounds)-LOCATION_Y) / (self.itemHeight+ITEM_SPACING_V));
+    int lastRowIndex        = floorf((CGRectGetMaxY(visibleBounds)-LOCATION_Y-1) / (self.itemHeight+ITEM_SPACING_V));
     int firstVideoIndex     = MAX(firstRowIndex, 0) * ITEM_COUNT_PER_ROW;
     int lastVideoIndex      = MIN((lastRowIndex+1) * ITEM_COUNT_PER_ROW, [self.videoItems count]-1);
     

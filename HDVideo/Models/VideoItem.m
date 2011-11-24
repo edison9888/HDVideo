@@ -11,21 +11,16 @@
 
 @implementation VideoItem
 
-@synthesize id, collection, newItemCount, isNewItem, rate, name, posterImage, posterUrl, videoUrl, subFeedUrl;
-
-- (BOOL)isCategory
-{
-    return (subFeedUrl != nil && subFeedUrl != @"");
-}
+@synthesize vid, collection, newItemCount, isNewItem, isCategory, rate, name, posterImage, posterUrl, videoUrl;
 
 - (void)dealloc
 {
+    [vid release];
     [collection release];
     [name release];
     [posterImage release];
     [posterUrl release];
     [videoUrl release];
-    [subFeedUrl release];
     
     [super dealloc];
 }

@@ -23,5 +23,6 @@
 
 @property (nonatomic, retain) VideoItem *source;
 @property (nonatomic) NSUInteger index;
+@property (nonatomic) BOOL isEpisode;
 
 @end

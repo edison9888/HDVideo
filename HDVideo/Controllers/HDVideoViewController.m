@@ -151,7 +151,8 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation != UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft
+            || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 #pragma mark - private handlers
@@ -198,13 +199,23 @@
     if (videoItem.isCategory)
     {
         VideoBrowserController *controller = [[VideoBrowserController alloc] init];
-        controller.feedKey = [NSString stringWithFormat:@"%d", videoItem.id];
+        controller.isEpisode = YES;
+        controller.feedKey = videoItem.vid;
         controller.navigationItem.title = videoItem.name;
         [self.navigationController pushViewController:controller animated:YES];
+
+        
+        // stop UIScrollView from scrolling immediately
+        [_videoBrowserController.scrollView setDelegate:nil];
+        [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
+        [controller startDownloading];
         [controller release];
         
-        [[NetworkController sharedNetworkController] startLoadFeed:videoItem.subFeedUrl
-                                                            forKey:[NSString stringWithFormat:@"%d", videoItem.id]];
+        NSString *url = [NSString stringWithFormat:@"%@parentId=%@",
+                         [[DataController sharedDataController] serverAddressBase],
+                         videoItem.vid];
+        [[NetworkController sharedNetworkController] startLoadFeed:url
+                                                            forKey:videoItem.vid];
     }
     else
     {
