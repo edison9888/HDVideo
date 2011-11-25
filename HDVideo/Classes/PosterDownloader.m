@@ -78,7 +78,8 @@
     self.imageConnection = nil;
     
     // call our delegate and tell it that our icon is ready for display
-    [delegate posterImageDidLoad:self.indexInVideoBrowserView];
+    if (delegate)
+        [delegate posterImageDidLoad:self.indexInVideoBrowserView];
 }
 
 @end

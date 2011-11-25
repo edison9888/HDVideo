@@ -18,10 +18,14 @@
     NSMutableSet *_recycledVideos;
     NSMutableSet *_visibleVideos;
     UIActivityIndicatorView *_spinner;
+    
+    BOOL _isDragging;
+    BOOL _isLoading;
 }
 
 @property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, retain) NSString *feedKey;
+@property (nonatomic, retain) NSString *feedUrl;
 @property (nonatomic, retain) NSArray *videoItems;
 @property (nonatomic, retain) NSMutableDictionary *posterDownloadsInProgress;
 @property (nonatomic) BOOL isEpisode;
@@ -29,6 +33,14 @@
 // paging
 @property (nonatomic) NSUInteger currentPageIndex;
 @property (nonatomic) NSUInteger totalPageCount;
+@property (nonatomic, retain) UIView *headerView;
+@property (nonatomic, retain) UILabel *headerLabel;
+@property (nonatomic, retain) UIImageView *headerArrow;
+@property (nonatomic, retain) UIActivityIndicatorView *headerSpinner;
+
+@property (nonatomic, copy) NSString *textPull;
+@property (nonatomic, copy) NSString *textRelease;
+@property (nonatomic, copy) NSString *textLoading;
 
 
 - (void)tileVideos;
@@ -39,5 +51,8 @@
 
 - (void)startDownloading;
 - (void)cancelDownloading;
+
+- (void)startLoading;
+- (void)stopLoading;
 
 @end

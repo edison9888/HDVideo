@@ -119,7 +119,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     
     // create the queue to run our ParseOperation
-    self.queue = [[NSOperationQueue alloc] init];
+    self.queue = [[[NSOperationQueue alloc] init] autorelease];
     
     // create an ParseOperation (NSOperation subclass) to parse the RSS feed data so that the UI is not blocked
     // "ownership of appListData has been transferred to the parse operation and should no longer be

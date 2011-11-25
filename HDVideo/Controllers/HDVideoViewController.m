@@ -172,8 +172,10 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",
                      [[DataController sharedDataController] serverAddressBase],
                      [category objectForKey:@"feedUrl"]];
-    [[NetworkController sharedNetworkController] startLoadFeed:url
-                                                        forKey:[NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex]];
+    NSString *key = [NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex];
+    _videoBrowserController.feedUrl = url;
+    _videoBrowserController.feedKey = key;
+    [[NetworkController sharedNetworkController] startLoadFeed:url forKey:key];
 }
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
@@ -211,13 +213,15 @@
         [_videoBrowserController.scrollView setDelegate:nil];
         [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
         [controller startDownloading];
-        [controller release];
         
         NSString *url = [NSString stringWithFormat:@"%@parentId=%@",
                          [[DataController sharedDataController] serverAddressBase],
                          videoItem.vid];
+        controller.feedUrl = url;
         [[NetworkController sharedNetworkController] startLoadFeed:url
                                                             forKey:videoItem.vid];
+        
+        [controller release];
     }
     else
     {

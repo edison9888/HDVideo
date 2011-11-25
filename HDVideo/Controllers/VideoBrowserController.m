@@ -6,6 +6,7 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "VideoBrowserController.h"
 #import "ParseOperation.h"
 #import "NetworkController.h"
@@ -20,20 +21,29 @@
 #define ITEM_WIDTH 155
 #define ITEM_COUNT_PER_ROW 5
 
+#define REFRESH_HEADER_HEIGHT 52.0f
+
+
 
 @interface VideoBrowserController ()
 @property (nonatomic) NSUInteger itemHeight;
+@property (nonatomic, readonly) NSMutableArray *subContentViews;
+
+- (void)setupPullToRefresh;
 @end
 
 @implementation VideoBrowserController
 
 @synthesize feedKey = _feedKey;
+@synthesize feedUrl = _feedUrl;
 @synthesize videoItems = _videoItems;
 @synthesize posterDownloadsInProgress = _posterDownloadsInProgress;
 @synthesize isEpisode = _isEpisode;
 @synthesize itemHeight = _itemHeight;
 
 @synthesize currentPageIndex, totalPageCount;
+@synthesize headerView, headerLabel, headerArrow, headerSpinner;
+@synthesize textPull, textLoading, textRelease;
 
 
 - (id)init
@@ -43,13 +53,20 @@
         self.posterDownloadsInProgress = [NSMutableDictionary dictionary];
         _recycledVideos = [[NSMutableSet alloc] init];
         _visibleVideos = [[NSMutableSet alloc] init];
+        
+        self.textPull = @"下拉可以翻页";
+        self.textRelease = @"松开即可翻页";
+        self.textLoading = @"正在载入...";
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [self cancelDownloading];
+    
     [_feedKey release];
+    [_feedUrl release];
     [_scrollView release];
     [_recycledVideos release];
     [_visibleVideos release];
@@ -57,6 +74,15 @@
     [_videoItems release];
     [_posterDownloadsInProgress release];
     [_spinner release];
+    
+    [headerArrow release];
+    [headerLabel release];
+    [headerSpinner release];
+    [headerView release];
+    
+    [textPull release];
+    [textLoading release];
+    [textRelease release];
     
     [super dealloc];
 }
@@ -101,6 +127,8 @@
 {
     [super viewDidLoad];
     
+    [self setupPullToRefresh];
+    
     // start listening for download completion
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleted:)
@@ -120,12 +148,47 @@
 
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
-    [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-    
-    [self tileVideos];
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (_isLoading)
+        return;
+    _isDragging = YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_isLoading) {
+        // Update the content inset, good for section headers
+        if (scrollView.contentOffset.y > 0)
+            self.scrollView.contentInset = UIEdgeInsetsZero;
+        else if (scrollView.contentOffset.y >= -REFRESH_HEADER_HEIGHT)
+            self.scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (_isDragging && scrollView.contentOffset.y < 0) {
+        [UIView beginAnimations:nil context:NULL];
+        if (scrollView.contentOffset.y < -REFRESH_HEADER_HEIGHT) {
+            headerLabel.text = self.textRelease;
+            [headerArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+        }
+        else {
+            headerLabel.text = self.textPull;
+            [headerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+        }
+        [UIView commitAnimations];
+    }
+    else {
+        NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
+        [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+        
+        [self tileVideos];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (_isLoading)
+        return;
+    _isDragging = NO;
+    if (scrollView.contentOffset.y <= -REFRESH_HEADER_HEIGHT) {
+        [self startLoading];
+    }
 }
 
 #pragma mark - Deferred image loading (UIScrollViewDelegate)
@@ -152,7 +215,8 @@
         posterDownloader.delegate = self;
         [_posterDownloadsInProgress setObject:posterDownloader forKey:[NSNumber numberWithInt:index]];
         [posterDownloader startDownload];
-        [posterDownloader release];   
+        [posterDownloader release];
+        posterDownloader = nil;
     }
     else{
         [posterDownloader startDownload];
@@ -205,6 +269,13 @@
     }
 }
 
+- (NSMutableArray *)subContentViews
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:_scrollView.subviews];
+    [array removeObject:self.headerView];
+    return array;
+}
+
 - (void)startDownloading
 {
     self.videoItems = nil;
@@ -213,12 +284,12 @@
     // 
     [_recycledVideos removeAllObjects];
     [_visibleVideos removeAllObjects];
-    [_scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.subContentViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [_scrollView setContentOffset:CGPointMake(0, 0)];
     
     [self cancelDownloading];
-    [_posterDownloadsInProgress removeAllObjects];
+    self.posterDownloadsInProgress = [NSMutableDictionary dictionary];
     
     _scrollView.delegate = self;
 }
@@ -304,6 +375,71 @@
             [_visibleVideos addObject:video];
         }
     }
+}
+
+- (void)setupPullToRefresh
+{
+    // setup pull to refresh
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, 1024, REFRESH_HEADER_HEIGHT)];
+    headerView.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.5];
+    
+    headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, REFRESH_HEADER_HEIGHT)];
+    headerLabel.backgroundColor = [UIColor clearColor];
+    headerLabel.font = [UIFont boldSystemFontOfSize:15.0];
+    headerLabel.textColor = [UIColor darkGrayColor];
+    headerLabel.textAlignment = UITextAlignmentCenter;
+    
+    headerArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-up"]];
+    headerArrow.frame = CGRectMake(floorf((REFRESH_HEADER_HEIGHT - 27) / 2),
+                                   (floorf(REFRESH_HEADER_HEIGHT - 44) / 2),
+                                   27, 44);
+    
+    headerSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    headerSpinner.frame = CGRectMake(floorf(floorf(REFRESH_HEADER_HEIGHT - 20) / 2), floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);
+    headerSpinner.hidesWhenStopped = YES;
+    
+    [headerView addSubview:headerLabel];
+    [headerView addSubview:headerArrow];
+    [headerView addSubview:headerSpinner];
+    [self.scrollView addSubview:headerView];
+}
+
+- (void)startLoading
+{
+    _isLoading = YES;
+    
+    // Show the header
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3];
+    self.scrollView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
+    headerLabel.text = self.textLoading;
+    headerArrow.hidden = YES;
+    [headerSpinner startAnimating];
+    [UIView commitAnimations];
+    
+    // Refresh action!
+    [self performSelector:@selector(stopLoading) withObject:nil afterDelay:2.0];
+}
+
+- (void)stopLoading
+{
+    _isLoading = NO;
+    
+    // Hide the header
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationDidStopSelector:@selector(stopLoadingComplete:finished:context:)];
+    self.scrollView.contentInset = UIEdgeInsetsZero;
+    [headerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+    [UIView commitAnimations];
+}
+
+- (void)stopLoadingComplete:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
+    // Reset the header
+    headerLabel.text = self.textPull;
+    headerArrow.hidden = NO;
+    [headerSpinner stopAnimating];
 }
 
 @end
