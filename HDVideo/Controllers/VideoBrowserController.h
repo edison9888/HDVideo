@@ -17,7 +17,6 @@
     UIScrollView *_scrollView;
     NSMutableSet *_recycledVideos;
     NSMutableSet *_visibleVideos;
-    UIActivityIndicatorView *_spinner;
     
     BOOL _isDragging;
     BOOL _isLoading;
@@ -54,5 +53,7 @@
 
 - (void)startLoading;
 - (void)stopLoading;
+
+- (void)setupPageUrl:(NSUInteger)pageIndex;
 
 @end

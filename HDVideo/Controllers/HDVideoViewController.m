@@ -162,7 +162,6 @@
     // stop UIScrollView from scrolling immediately
     [_videoBrowserController.scrollView setDelegate:nil];
     [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
-    [_videoBrowserController startDownloading];
     
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];
@@ -175,7 +174,7 @@
     NSString *key = [NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex];
     _videoBrowserController.feedUrl = url;
     _videoBrowserController.feedKey = key;
-    [[NetworkController sharedNetworkController] startLoadFeed:url forKey:key];
+    [_videoBrowserController startLoading];
 }
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
@@ -189,7 +188,7 @@
 {
     NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
     NSRange range = [currentKey rangeOfString:@"Segment-"];
-    if (range.location == 0)
+    if (range.length > 0)
     {
         _videoBrowserController.videoItems = [[notification object] objectAtIndex:0];
         _videoBrowserController.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
@@ -218,9 +217,7 @@
                          [[DataController sharedDataController] serverAddressBase],
                          videoItem.vid];
         controller.feedUrl = url;
-        [[NetworkController sharedNetworkController] startLoadFeed:url
-                                                            forKey:videoItem.vid];
-        
+        [controller startLoading];
         [controller release];
     }
     else

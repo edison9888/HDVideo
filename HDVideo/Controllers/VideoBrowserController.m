@@ -73,7 +73,6 @@
     
     [_videoItems release];
     [_posterDownloadsInProgress release];
-    [_spinner release];
     
     [headerArrow release];
     [headerLabel release];
@@ -114,13 +113,6 @@
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _scrollView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_scrollView];
-    
-    
-    _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    _spinner.frame = CGRectMake(0, 0, 40, 40);
-    _spinner.center = CGPointMake(512, 330);
-    _spinner.hidesWhenStopped = YES;
-    [self.view addSubview:_spinner];
 }
 
 - (void)viewDidLoad
@@ -174,10 +166,9 @@
         }
         [UIView commitAnimations];
     }
-    else {
+    else if (scrollView.contentOffset.y > 0) {
         NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
         [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-        
         [self tileVideos];
     }
 }
@@ -187,6 +178,7 @@
         return;
     _isDragging = NO;
     if (scrollView.contentOffset.y <= -REFRESH_HEADER_HEIGHT) {
+        [self setupPageUrl:self.currentPageIndex + 1];
         [self startLoading];
     }
 }
@@ -202,6 +194,8 @@
         self.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
         self.totalPageCount = [[[notification object] objectAtIndex:2] intValue];
     }
+    
+    [self stopLoading];
 }
 
 - (void)startPosterDownload:(VideoItem *)videoItem forIndex:(NSUInteger)index
@@ -253,19 +247,20 @@
 
 - (void)setVideoItems:(NSArray *)videoItems
 {
-    [_spinner stopAnimating];
     if (_videoItems != videoItems)
     {
         [_videoItems release];
         _videoItems = [videoItems retain];
         
-        int rows = [_videoItems count] / ITEM_COUNT_PER_ROW;
-        if (([_videoItems count] % ITEM_COUNT_PER_ROW) > 0)
-            rows += 1;
-        _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width,
-                                             LOCATION_Y + (self.itemHeight + ITEM_SPACING_V)*rows);
-        
-        [self tileVideos];
+        if ([videoItems count] > 0) {
+            int rows = [_videoItems count] / ITEM_COUNT_PER_ROW;
+            if (([_videoItems count] % ITEM_COUNT_PER_ROW) > 0)
+                rows += 1;
+            _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width,
+                                                 LOCATION_Y + (self.itemHeight + ITEM_SPACING_V)*rows);
+            
+            [self tileVideos];
+        }
     }
 }
 
@@ -279,7 +274,6 @@
 - (void)startDownloading
 {
     self.videoItems = nil;
-    [_spinner startAnimating];
     
     // 
     [_recycledVideos removeAllObjects];
@@ -406,6 +400,7 @@
 
 - (void)startLoading
 {
+    [self startDownloading];
     _isLoading = YES;
     
     // Show the header
@@ -417,8 +412,7 @@
     [headerSpinner startAnimating];
     [UIView commitAnimations];
     
-    // Refresh action!
-    [self performSelector:@selector(stopLoading) withObject:nil afterDelay:2.0];
+    [[NetworkController sharedNetworkController] startLoadFeed:self.feedUrl forKey:self.feedKey];
 }
 
 - (void)stopLoading
@@ -440,6 +434,25 @@
     headerLabel.text = self.textPull;
     headerArrow.hidden = NO;
     [headerSpinner stopAnimating];
+}
+
+- (void)setupPageUrl:(NSUInteger)pageIndex;
+{
+    NSRange range = [self.feedUrl rangeOfString:@"page="];
+    if (range.length > 0) {
+        NSString *prefix = [self.feedUrl substringToIndex:range.location-1];
+        NSString *sufix = [self.feedUrl substringFromIndex:range.location+5];
+        range = [sufix rangeOfString:@"&"];
+        if (range.length > 0)
+            sufix = [sufix substringFromIndex:range.location];
+        else
+            sufix = @"";
+        
+        self.feedUrl = [NSString stringWithFormat:@"%@&page=%i%@", prefix, pageIndex, sufix];
+    }
+    else {
+        self.feedUrl = [NSString stringWithFormat:@"%@&page=%i", self.feedUrl, pageIndex];
+    }
 }
 
 @end
