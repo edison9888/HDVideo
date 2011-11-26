@@ -64,6 +64,8 @@
 - (void)startLoading:(BOOL)isHeader;
 - (void)stopLoading:(BOOL)isHeader withNotification:(NSNotification *)notification;
 
+- (void)initLoading;
+
 - (void)setupPageUrl:(NSUInteger)pageIndex;
 
 @end

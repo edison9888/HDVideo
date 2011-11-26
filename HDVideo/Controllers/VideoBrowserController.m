@@ -397,10 +397,10 @@
 {
     // header
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, -REFRESH_HEADER_HEIGHT, 1024, REFRESH_HEADER_HEIGHT)];
-    headerView.backgroundColor = [UIColor redColor];
+    headerView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.2];
     
     headerLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
-    headerLabel.backgroundColor = [UIColor blueColor];
+    headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.font = [UIFont boldSystemFontOfSize:15.0];
     headerLabel.textColor = [UIColor darkGrayColor];
     headerLabel.textAlignment = UITextAlignmentCenter;
@@ -421,7 +421,7 @@
     
     // footer
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame), 1024, REFRESH_HEADER_HEIGHT)];
-    footerView.backgroundColor = [UIColor yellowColor];
+    footerView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.2];
     
     footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, REFRESH_HEADER_HEIGHT)];
     footerLabel.backgroundColor = [UIColor clearColor];
@@ -454,7 +454,6 @@
     [self.subContentViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [_scrollView setContentOffset:CGPointMake(0, 0)];
-//    [_scrollView setContentSize:CGSizeMake(1024, self.view.frame.size.height)];
     
     [self cancelDownloading];
     self.posterDownloadsInProgress = [NSMutableDictionary dictionary];
@@ -499,6 +498,22 @@
         [footerSpinner startAnimating];
         [UIView commitAnimations];
     }
+    
+    [[NetworkController sharedNetworkController] startLoadFeed:self.feedUrl forKey:self.feedKey];
+}
+
+- (void)initLoading
+{
+    if (headerView == nil)
+        [self setupPullToRefresh];
+    
+    [self startDownloading];
+    _isLoadingNext = YES;
+    footerView.frame = CGRectMake(0, CGRectGetHeight(self.view.frame)-REFRESH_HEADER_HEIGHT, 1024, REFRESH_HEADER_HEIGHT);
+    footerLabel.text = self.textLoading;
+    footerArrow.hidden = YES;
+    [footerSpinner startAnimating];
+    [UIView commitAnimations];
     
     [[NetworkController sharedNetworkController] startLoadFeed:self.feedUrl forKey:self.feedKey];
 }

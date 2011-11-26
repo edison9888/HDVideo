@@ -152,7 +152,6 @@
 - (void)segmentAction:(id)sender
 {
     // stop UIScrollView from scrolling immediately
-    [_videoBrowserController.scrollView setDelegate:nil];
     [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
     
     UISegmentedControl *segment = (UISegmentedControl *)sender;
@@ -166,7 +165,7 @@
     NSString *key = [NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex];
     _videoBrowserController.feedUrl = url;
     _videoBrowserController.feedKey = key;
-    [_videoBrowserController startLoading:NO];
+    [_videoBrowserController initLoading];
 }
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
@@ -189,7 +188,6 @@
 
         
         // stop UIScrollView from scrolling immediately
-        [_videoBrowserController.scrollView setDelegate:nil];
         [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
         [controller startDownloading];
         
