@@ -43,7 +43,8 @@
 
 @synthesize currentPageIndex, totalPageCount;
 @synthesize headerView, headerLabel, headerArrow, headerSpinner;
-@synthesize textPull, textLoading, textRelease;
+@synthesize footerView, footerLabel, footerArrow, footerSpinner;
+@synthesize textPullHeader, textPullFooter, textLoading, textRelease, textReachFirstPage, textReachLastPage;
 
 
 - (id)init
@@ -54,9 +55,12 @@
         _recycledVideos = [[NSMutableSet alloc] init];
         _visibleVideos = [[NSMutableSet alloc] init];
         
-        self.textPull = @"下拉可以翻页";
+        self.textPullHeader = @"下拉可以翻页";
+        self.textPullFooter = @"上拉可以翻页";
         self.textRelease = @"松开即可翻页";
         self.textLoading = @"正在载入...";
+        self.textReachFirstPage = @"已到第一页";
+        self.textReachLastPage = @"已到最后一页";
     }
     return self;
 }
@@ -79,9 +83,17 @@
     [headerSpinner release];
     [headerView release];
     
-    [textPull release];
+    [footerArrow release];
+    [footerLabel release];
+    [footerSpinner release];
+    [footerView release];
+    
+    [textPullHeader release];
+    [textPullFooter release];
     [textLoading release];
     [textRelease release];
+    [textReachFirstPage release];
+    [textReachLastPage release];
     
     [super dealloc];
 }
@@ -110,16 +122,14 @@
     [background release];
     
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _scrollView.backgroundColor = [UIColor clearColor];
+    _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_scrollView];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self setupPullToRefresh];
     
     // start listening for download completion
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -138,48 +148,80 @@
                                                   object:nil];
 }
 
-
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (_isLoading)
+    if (_isLoadingNext || _isLoadingPrevious)
         return;
     _isDragging = YES;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (_isLoading) {
-        // Update the content inset, good for section headers
-        if (scrollView.contentOffset.y > 0)
-            self.scrollView.contentInset = UIEdgeInsetsZero;
-        else if (scrollView.contentOffset.y >= -REFRESH_HEADER_HEIGHT)
-            self.scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-    }
-    else if (_isDragging && scrollView.contentOffset.y < 0) {
-        [UIView beginAnimations:nil context:NULL];
-        if (scrollView.contentOffset.y < -REFRESH_HEADER_HEIGHT) {
-            headerLabel.text = self.textRelease;
-            [headerArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+    if (_isLoadingPrevious || _isLoadingNext) {
+        if (_isLoadingPrevious) {
+            if (scrollView.contentOffset.y > 0)
+                self.scrollView.contentInset = UIEdgeInsetsZero;
+            else if (scrollView.contentOffset.y >= -REFRESH_HEADER_HEIGHT)
+                self.scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
         }
         else {
-            headerLabel.text = self.textPull;
-            [headerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+            if (scrollView.contentSize.height - scrollView.contentOffset.y > self.view.frame.size.height)
+                self.scrollView.contentInset = UIEdgeInsetsZero;
+            else if (scrollView.contentSize.height + REFRESH_HEADER_HEIGHT - scrollView.contentOffset.y <= self.view.frame.size.height)
+                self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, REFRESH_HEADER_HEIGHT, 0);
         }
-        [UIView commitAnimations];
     }
-    else if (scrollView.contentOffset.y > 0) {
-        NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
-        [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
-        [self tileVideos];
+    else if (_isDragging) {
+        if (scrollView.contentOffset.y < 0) {
+            // Update the arrow direction and label
+            [UIView beginAnimations:nil context:NULL];
+            if (scrollView.contentOffset.y < -REFRESH_HEADER_HEIGHT) {
+                // User is scrolling above the header
+                headerLabel.text = (self.currentPageIndex==1 ? self.textReachFirstPage : self.textRelease);
+                [headerArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+            }
+            else { // User is scrolling somewhere within the header
+                headerLabel.text = (self.currentPageIndex==1 ? self.textReachFirstPage : self.textPullHeader);
+                [headerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+            }
+            [UIView commitAnimations];
+        }
+        else if (scrollView.contentSize.height - scrollView.contentOffset.y < self.view.frame.size.height) {
+            // Update the arrow direction and label
+            [UIView beginAnimations:nil context:NULL];
+            if (scrollView.contentSize.height + REFRESH_HEADER_HEIGHT - scrollView.contentOffset.y < self.view.frame.size.height) {
+                footerLabel.text = (self.currentPageIndex==self.totalPageCount ? self.textReachLastPage : self.textRelease);
+                [footerArrow layer].transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+            }
+            else {
+                footerLabel.text = (self.currentPageIndex==self.totalPageCount ? self.textReachLastPage : self.textPullFooter);
+                [footerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+            }
+            [UIView commitAnimations];
+        }
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (_isLoading)
+    if (_isLoadingNext || _isLoadingPrevious)
         return;
     _isDragging = NO;
     if (scrollView.contentOffset.y <= -REFRESH_HEADER_HEIGHT) {
-        [self setupPageUrl:self.currentPageIndex + 1];
-        [self startLoading];
+        if (self.currentPageIndex > 1) {
+            [self setupPageUrl:self.currentPageIndex - 1];
+            [self startLoading:YES];
+        }
+        else {
+            [self stopLoading:YES withNotification:nil];
+        }
+    }
+    else if (scrollView.contentOffset.y > scrollView.contentSize.height+REFRESH_HEADER_HEIGHT-self.view.frame.size.height) {
+        if (self.currentPageIndex < self.totalPageCount) {
+            [self setupPageUrl:self.currentPageIndex + 1];
+            [self startLoading:NO];
+        }
+        else {
+            [self stopLoading:NO withNotification:nil];
+        }
     }
 }
 
@@ -190,12 +232,11 @@
     NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
     if ([self.feedKey isEqualToString:currentKey])
     {
-        self.videoItems = [[notification object] objectAtIndex:0];
-        self.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
-        self.totalPageCount = [[[notification object] objectAtIndex:2] intValue];
+        if (_isLoadingPrevious)
+            [self stopLoading:YES withNotification:notification];
+        else
+            [self stopLoading:NO withNotification:notification];
     }
-    
-    [self stopLoading];
 }
 
 - (void)startPosterDownload:(VideoItem *)videoItem forIndex:(NSUInteger)index
@@ -256,8 +297,12 @@
             int rows = [_videoItems count] / ITEM_COUNT_PER_ROW;
             if (([_videoItems count] % ITEM_COUNT_PER_ROW) > 0)
                 rows += 1;
-            _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width,
-                                                 LOCATION_Y + (self.itemHeight + ITEM_SPACING_V)*rows);
+            
+            float height = LOCATION_Y + (self.itemHeight + ITEM_SPACING_V)*rows;
+            // frame height + 1 to enable scrolling
+            height = MAX(height, CGRectGetHeight(self.scrollView.frame)+1);
+            _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width, height);
+            footerView.frame = CGRectMake(0, _scrollView.contentSize.height, 1024, REFRESH_HEADER_HEIGHT);
             
             [self tileVideos];
         }
@@ -266,36 +311,12 @@
 
 - (NSMutableArray *)subContentViews
 {
-    NSMutableArray *array = [NSMutableArray arrayWithArray:_scrollView.subviews];
-    [array removeObject:self.headerView];
-    return array;
-}
-
-- (void)startDownloading
-{
-    self.videoItems = nil;
-    
-    // 
-    [_recycledVideos removeAllObjects];
-    [_visibleVideos removeAllObjects];
-    [self.subContentViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    [_scrollView setContentOffset:CGPointMake(0, 0)];
-    
-    [self cancelDownloading];
-    self.posterDownloadsInProgress = [NSMutableDictionary dictionary];
-    
-    _scrollView.delegate = self;
-}
-
-- (void)cancelDownloading
-{
-    // cancel all posters downloading
-    if (self.posterDownloadsInProgress && [self.posterDownloadsInProgress count] > 0){
-        // terminate all pending download connections
-        NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
-        [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+    NSMutableArray *array = [NSMutableArray array];
+    for (UIView *view in _scrollView.subviews) {
+        if ([view isKindOfClass:[VideoItemView class]])
+            [array addObject:view];
     }
+    return array;
 }
 
 - (void)configVideo:(VideoItemView *)video forIndex:(NSUInteger)index
@@ -345,7 +366,8 @@
     int firstRowIndex       = floorf((CGRectGetMinY(visibleBounds)-LOCATION_Y) / (self.itemHeight+ITEM_SPACING_V));
     int lastRowIndex        = floorf((CGRectGetMaxY(visibleBounds)-LOCATION_Y-1) / (self.itemHeight+ITEM_SPACING_V));
     int firstVideoIndex     = MAX(firstRowIndex, 0) * ITEM_COUNT_PER_ROW;
-    int lastVideoIndex      = MIN((lastRowIndex+1) * ITEM_COUNT_PER_ROW, [self.videoItems count]-1);
+//    int lastVideoIndex      = MIN((lastRowIndex+1) * ITEM_COUNT_PER_ROW, [self.videoItems count])-1;
+    int lastVideoIndex      = [self.videoItems count] - 1;
     
     // recycle no longer needed videos
     for (VideoItemView *video in _visibleVideos) {
@@ -373,17 +395,17 @@
 
 - (void)setupPullToRefresh
 {
-    // setup pull to refresh
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, 1024, REFRESH_HEADER_HEIGHT)];
-    headerView.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.5];
+    // header
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, -REFRESH_HEADER_HEIGHT, 1024, REFRESH_HEADER_HEIGHT)];
+    headerView.backgroundColor = [UIColor redColor];
     
-    headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, REFRESH_HEADER_HEIGHT)];
-    headerLabel.backgroundColor = [UIColor clearColor];
+    headerLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
+    headerLabel.backgroundColor = [UIColor blueColor];
     headerLabel.font = [UIFont boldSystemFontOfSize:15.0];
     headerLabel.textColor = [UIColor darkGrayColor];
     headerLabel.textAlignment = UITextAlignmentCenter;
     
-    headerArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-up"]];
+    headerArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-down"]];
     headerArrow.frame = CGRectMake(floorf((REFRESH_HEADER_HEIGHT - 27) / 2),
                                    (floorf(REFRESH_HEADER_HEIGHT - 44) / 2),
                                    27, 44);
@@ -396,44 +418,127 @@
     [headerView addSubview:headerArrow];
     [headerView addSubview:headerSpinner];
     [self.scrollView addSubview:headerView];
+    
+    // footer
+    footerView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame), 1024, REFRESH_HEADER_HEIGHT)];
+    footerView.backgroundColor = [UIColor yellowColor];
+    
+    footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, REFRESH_HEADER_HEIGHT)];
+    footerLabel.backgroundColor = [UIColor clearColor];
+    footerLabel.font = [UIFont boldSystemFontOfSize:15.0];
+    footerLabel.textColor = [UIColor darkGrayColor];
+    footerLabel.textAlignment = UITextAlignmentCenter;
+    
+    footerArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-up"]];
+    footerArrow.frame = CGRectMake(floorf((REFRESH_HEADER_HEIGHT - 27) / 2),
+                                   (floorf(REFRESH_HEADER_HEIGHT - 44) / 2),
+                                   27, 44);
+    
+    footerSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    footerSpinner.frame = CGRectMake(floorf(floorf(REFRESH_HEADER_HEIGHT - 20) / 2), floorf((REFRESH_HEADER_HEIGHT - 20) / 2), 20, 20);
+    footerSpinner.hidesWhenStopped = YES;
+    
+    [footerView addSubview:footerLabel];
+    [footerView addSubview:footerArrow];
+    [footerView addSubview:footerSpinner];
+    [self.scrollView addSubview:footerView];
 }
 
-- (void)startLoading
+- (void)startDownloading
 {
-    [self startDownloading];
-    _isLoading = YES;
+    self.videoItems = nil;
     
-    // Show the header
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3];
-    self.scrollView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
-    headerLabel.text = self.textLoading;
-    headerArrow.hidden = YES;
-    [headerSpinner startAnimating];
-    [UIView commitAnimations];
+    // 
+    [_recycledVideos removeAllObjects];
+    [_visibleVideos removeAllObjects];
+    [self.subContentViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    [_scrollView setContentOffset:CGPointMake(0, 0)];
+//    [_scrollView setContentSize:CGSizeMake(1024, self.view.frame.size.height)];
+    
+    [self cancelDownloading];
+    self.posterDownloadsInProgress = [NSMutableDictionary dictionary];
+    
+    _scrollView.delegate = self;
+}
+
+- (void)cancelDownloading
+{
+    // cancel all posters downloading
+    if (self.posterDownloadsInProgress && [self.posterDownloadsInProgress count] > 0){
+        // terminate all pending download connections
+        NSArray *allDownloads = [self.posterDownloadsInProgress allValues];
+        [allDownloads makeObjectsPerformSelector:@selector(cancelDownload)];
+    }
+}
+
+- (void)startLoading:(BOOL)isHeader
+{
+    if (headerView == nil)
+        [self setupPullToRefresh];
+
+    [self startDownloading];
+    if (isHeader) {
+        _isLoadingPrevious = YES;
+        
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.3];
+        self.scrollView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
+        headerLabel.text = self.textLoading;
+        headerArrow.hidden = YES;
+        [headerSpinner startAnimating];
+        [UIView commitAnimations];
+    }
+    else {
+        _isLoadingNext = YES;
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.3];
+        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, REFRESH_HEADER_HEIGHT, 0);
+        footerLabel.text = self.textLoading;
+        footerArrow.hidden = YES;
+        [footerSpinner startAnimating];
+        [UIView commitAnimations];
+    }
     
     [[NetworkController sharedNetworkController] startLoadFeed:self.feedUrl forKey:self.feedKey];
 }
 
-- (void)stopLoading
+- (void)stopLoading:(BOOL)isHeader withNotification:(NSNotification *)notification
 {
-    _isLoading = NO;
+    [_scrollView setContentOffset:CGPointMake(0, 0)];
     
-    // Hide the header
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.3];
-    [UIView setAnimationDidStopSelector:@selector(stopLoadingComplete:finished:context:)];
-    self.scrollView.contentInset = UIEdgeInsetsZero;
-    [headerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
-    [UIView commitAnimations];
-}
-
-- (void)stopLoadingComplete:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-    // Reset the header
-    headerLabel.text = self.textPull;
-    headerArrow.hidden = NO;
-    [headerSpinner stopAnimating];
+    [UIView animateWithDuration:.2
+                          delay:0
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         self.scrollView.contentInset = UIEdgeInsetsZero;
+                         if (_isLoadingPrevious)
+                             [headerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+                         else
+                             [footerArrow layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
+                     }
+                     completion:^(BOOL finished){
+                         if (_isLoadingPrevious) {
+                             _isLoadingPrevious = NO;
+                             
+                             headerLabel.text = self.textPullHeader;
+                             headerArrow.hidden = NO;
+                             [headerSpinner stopAnimating];
+                         }
+                         else {
+                             _isLoadingNext = NO;
+                             
+                             footerLabel.text = self.textPullFooter;
+                             footerArrow.hidden = NO;
+                             [footerSpinner stopAnimating];
+                         }
+                         
+                         if (notification != nil) {
+                             self.videoItems = [[notification object] objectAtIndex:0];
+                             self.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
+                             self.totalPageCount = [[[notification object] objectAtIndex:2] intValue];
+                         }
+                     }];
 }
 
 - (void)setupPageUrl:(NSUInteger)pageIndex;

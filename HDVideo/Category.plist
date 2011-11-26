@@ -26,6 +26,6 @@
 	<key>Histories</key>
 	<array/>
 	<key>ServerAddressBase</key>
-	<string>http://192.168.1.144/hdv/getfeed.php?</string>
+	<string>http://192.168.0.126/hdv/getfeed.php?</string>
 </dict>
 </plist>

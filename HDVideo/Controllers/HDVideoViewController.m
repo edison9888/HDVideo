@@ -110,10 +110,6 @@
     [super viewDidLoad];
     
     [self setupNavigationBar];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(downloadCompleted:)
-                                                 name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
-                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(videoPosterTapped:)
@@ -127,10 +123,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
-                                                  object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:VIDEO_POSTER_TAPPED_NOTIFICATION
@@ -174,7 +166,7 @@
     NSString *key = [NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex];
     _videoBrowserController.feedUrl = url;
     _videoBrowserController.feedKey = key;
-    [_videoBrowserController startLoading];
+    [_videoBrowserController startLoading:NO];
 }
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
@@ -182,18 +174,6 @@
     [_popoverHistoryController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
                                       permittedArrowDirections:UIPopoverArrowDirectionUp
                                                       animated:YES];
-}
-
-- (void)downloadCompleted:(NSNotification *)notification
-{
-    NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
-    NSRange range = [currentKey rangeOfString:@"Segment-"];
-    if (range.length > 0)
-    {
-        _videoBrowserController.videoItems = [[notification object] objectAtIndex:0];
-        _videoBrowserController.currentPageIndex = [[[notification object] objectAtIndex:1] intValue];
-        _videoBrowserController.totalPageCount = [[[notification object] objectAtIndex:2] intValue];
-    }
 }
 
 - (void)videoPosterTapped:(NSNotification *)notification
@@ -217,7 +197,7 @@
                          [[DataController sharedDataController] serverAddressBase],
                          videoItem.vid];
         controller.feedUrl = url;
-        [controller startLoading];
+        [controller startLoading:NO];
         [controller release];
     }
     else

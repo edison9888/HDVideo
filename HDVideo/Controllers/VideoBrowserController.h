@@ -19,7 +19,8 @@
     NSMutableSet *_visibleVideos;
     
     BOOL _isDragging;
-    BOOL _isLoading;
+    BOOL _isLoadingNext;
+    BOOL _isLoadingPrevious;
 }
 
 @property (nonatomic, readonly) UIScrollView *scrollView;
@@ -32,14 +33,23 @@
 // paging
 @property (nonatomic) NSUInteger currentPageIndex;
 @property (nonatomic) NSUInteger totalPageCount;
+
 @property (nonatomic, retain) UIView *headerView;
 @property (nonatomic, retain) UILabel *headerLabel;
 @property (nonatomic, retain) UIImageView *headerArrow;
 @property (nonatomic, retain) UIActivityIndicatorView *headerSpinner;
 
-@property (nonatomic, copy) NSString *textPull;
+@property (nonatomic, retain) UIView *footerView;
+@property (nonatomic, retain) UILabel *footerLabel;
+@property (nonatomic, retain) UIImageView *footerArrow;
+@property (nonatomic, retain) UIActivityIndicatorView *footerSpinner;
+
+@property (nonatomic, copy) NSString *textPullHeader;
+@property (nonatomic, copy) NSString *textPullFooter;
 @property (nonatomic, copy) NSString *textRelease;
 @property (nonatomic, copy) NSString *textLoading;
+@property (nonatomic, copy) NSString *textReachFirstPage;
+@property (nonatomic, copy) NSString *textReachLastPage;
 
 
 - (void)tileVideos;
@@ -51,8 +61,8 @@
 - (void)startDownloading;
 - (void)cancelDownloading;
 
-- (void)startLoading;
-- (void)stopLoading;
+- (void)startLoading:(BOOL)isHeader;
+- (void)stopLoading:(BOOL)isHeader withNotification:(NSNotification *)notification;
 
 - (void)setupPageUrl:(NSUInteger)pageIndex;
 
