@@ -133,6 +133,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIViewController *topController = [self.navigationController.viewControllers objectAtIndex:0];
+    self.navigationItem.rightBarButtonItem = topController.navigationItem.rightBarButtonItem;
     
     // start listening for download completion
     [[NSNotificationCenter defaultCenter] addObserver:self

@@ -41,7 +41,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    UIViewController *topController = [self.navigationController.viewControllers objectAtIndex:0];
+    self.navigationItem.rightBarButtonItem = topController.navigationItem.rightBarButtonItem;
     
     if (_videoItem)
     {
@@ -67,6 +68,12 @@
     [_webView stopLoading];
     _webView.delegate = nil;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft
+            || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 #pragma mark - UIWebViewDelegate
