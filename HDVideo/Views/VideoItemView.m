@@ -17,7 +17,7 @@
 @implementation VideoItemView
 
 @synthesize source = _source;
-@synthesize index, isEpisode;
+@synthesize index, isEpisode, delegate;
 
 - (CGPathRef)renderRect:(UIView*)imgView {
 	UIBezierPath *path = [UIBezierPath bezierPathWithRect:imgView.bounds];
@@ -44,7 +44,7 @@
 
 - (void)posterTapped:(UIGestureRecognizer *)gestureRecognizer
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_POSTER_TAPPED_NOTIFICATION object:self.source];
+    [self.delegate videoBrowserDidTapwithSource:self.source];
 }
 
 - (id)initWithFrame:(CGRect)frame

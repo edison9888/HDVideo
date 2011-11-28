@@ -43,6 +43,7 @@
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:view];
     [view release];
+    
     self.navigationItem.rightBarButtonItem = item;
     [item release];
 }
@@ -111,22 +112,8 @@
     
     [self setupNavigationBar];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(videoPosterTapped:)
-                                                 name:VIDEO_POSTER_TAPPED_NOTIFICATION
-                                               object:nil];
-    
     UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
     [segment setSelectedSegmentIndex:0];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:VIDEO_POSTER_TAPPED_NOTIFICATION
-                                                  object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -138,7 +125,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.title = @"首页";
+    UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
+    self.title = [segment titleForSegmentAtIndex:segment.selectedSegmentIndex];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -173,38 +161,6 @@
     [_popoverHistoryController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
                                       permittedArrowDirections:UIPopoverArrowDirectionUp
                                                       animated:YES];
-}
-
-- (void)videoPosterTapped:(NSNotification *)notification
-{
-    VideoItem *videoItem = [notification object];
-    if (videoItem.isCategory)
-    {
-        VideoBrowserController *controller = [[VideoBrowserController alloc] init];
-        controller.isEpisode = YES;
-        controller.feedKey = videoItem.vid;
-        controller.navigationItem.title = videoItem.name;
-        [self.navigationController pushViewController:controller animated:YES];
-
-        
-        // stop UIScrollView from scrolling immediately
-        [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
-        [controller startDownloading];
-        
-        NSString *url = [NSString stringWithFormat:@"%@parentId=%@",
-                         [[DataController sharedDataController] serverAddressBase],
-                         videoItem.vid];
-        controller.feedUrl = url;
-        [controller startLoading:NO];
-        [controller release];
-    }
-    else
-    {
-        VideoPlayerController *player = [[VideoPlayerController alloc] init];
-        player.videoItem = [notification object];
-        [self.navigationController pushViewController:player animated:YES];
-        [player release];
-    }
 }
 
 @end

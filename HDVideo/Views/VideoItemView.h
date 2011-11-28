@@ -10,7 +10,11 @@
 #import "VideoItem.h"
 #import "VideoBrowserController.h"
 
+@protocol VideoBrowserDelegate;
+
 @interface VideoItemView : UIView {
+    id <VideoBrowserDelegate> delegate;
+    
     UIImageView *_poster;
     UIImageView *_newRibbon;
     UIImageView *_countRibbon;
@@ -20,6 +24,8 @@
     UILabel *_count;
     UIActivityIndicatorView *_spinner;
 }
+
+@property (assign) id delegate;
 
 @property (nonatomic, retain) VideoItem *source;
 @property (nonatomic) NSUInteger index;

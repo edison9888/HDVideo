@@ -11,6 +11,9 @@
 #import "ParseOperation.h"
 #import "NetworkController.h"
 #import "Constants.h"
+#import "DataController.h"
+#import "VideoPlayerController.h"
+#import "HDVideoAppDelegate.h"
 
 
 #define LOCATION_X 50
@@ -321,6 +324,7 @@
 
 - (void)configVideo:(VideoItemView *)video forIndex:(NSUInteger)index
 {
+    video.delegate = self;
     video.index = index;
     video.isEpisode = self.isEpisode;
     video.source = [_videoItems objectAtIndex:index];
@@ -572,6 +576,45 @@
     }
     else {
         self.feedUrl = [NSString stringWithFormat:@"%@&page=%i", self.feedUrl, pageIndex];
+    }
+}
+
+
+#pragma mark - VideoBrowserDelegate
+- (void)videoBrowserDidTapwithSource:(VideoItem *)videoItem
+{
+    HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if (videoItem.isCategory)
+    {
+        VideoBrowserController *controller = [[VideoBrowserController alloc] init];
+        controller.isEpisode = YES;
+        controller.feedKey = videoItem.vid;
+        controller.navigationItem.title = videoItem.name;
+        [del.navigationController pushViewController:controller animated:YES];
+        
+        
+        // stop UIScrollView from scrolling immediately
+        [self.scrollView setContentOffset:self.scrollView.contentOffset animated:NO];
+        [controller startDownloading];
+        
+        NSString *url = [NSString stringWithFormat:@"%@parentId=%@",
+                         [[DataController sharedDataController] serverAddressBase],
+                         videoItem.vid];
+        controller.feedUrl = url;
+        [controller startLoading:NO];
+        [controller release];
+    }
+    else
+    {
+        VideoPlayerController *player = [[VideoPlayerController alloc] init];
+        player.videoItem = videoItem;
+        if (self.isEpisode)
+            player.navigationItem.title = [NSString stringWithFormat:@"%@ (%@)", self.navigationItem.title, videoItem.name];
+        else
+            player.navigationItem.title = videoItem.name;
+        [del.navigationController pushViewController:player animated:YES];
+        [player release];
     }
 }
 

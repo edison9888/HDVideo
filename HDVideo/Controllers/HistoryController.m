@@ -78,6 +78,7 @@
     
     VideoPlayerController *player = [[VideoPlayerController alloc] init];
     player.videoItem = videoItem;
+    player.navigationItem.title = videoItem.name;
     [videoItem release];
     
     [_parentNavigationController pushViewController:player animated:YES];

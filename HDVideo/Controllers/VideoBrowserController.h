@@ -12,8 +12,15 @@
 #import "PosterDownloader.h"
 
 @class VideoItemView;
+@class VideoBrowserController;
 
-@interface VideoBrowserController : UIViewController<UIScrollViewDelegate, PosterDownloaderDelegate> {
+
+@protocol VideoBrowserDelegate
+- (void)videoBrowserDidTapwithSource:(VideoItem *)videoItem;
+@end
+
+
+@interface VideoBrowserController : UIViewController<UIScrollViewDelegate, VideoBrowserDelegate, PosterDownloaderDelegate> {
     UIScrollView *_scrollView;
     NSMutableSet *_recycledVideos;
     NSMutableSet *_visibleVideos;

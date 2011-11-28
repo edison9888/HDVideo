@@ -15,26 +15,26 @@
 
 
 @synthesize window=_window;
-
 @synthesize viewController=_viewController;
+@synthesize navigationController=_navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController: self.viewController];
+    _navigationController = [[UINavigationController alloc] initWithRootViewController: self.viewController];
     
     // customize navigation controller bar
-    CGRect tr = navigationController.navigationBar.frame;
+    CGRect tr = _navigationController.navigationBar.frame;
     tr = CGRectMake(0, 0, CGRectGetWidth(tr), CGRectGetHeight(tr));
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:tr];
     imageView.contentMode = UIViewContentModeTopLeft;
     imageView.tag = kNavigationBarBackgroundImageTag;
     imageView.image = [UIImage imageNamed:@"top-bar"];
-    [navigationController.navigationBar insertSubview:imageView atIndex:0];
-    [navigationController.navigationBar setTintColor:[UIColor colorForWoodTint]];
+    [_navigationController.navigationBar insertSubview:imageView atIndex:0];
+    [_navigationController.navigationBar setTintColor:[UIColor colorForWoodTint]];
     [imageView release];
     
-    self.window.rootViewController = navigationController;
-    [navigationController release];
+    self.window.rootViewController = _navigationController;
+    [_navigationController release];
     
     
     [self.window makeKeyAndVisible];
@@ -44,6 +44,7 @@
 - (void)dealloc
 {
     [_window release];
+    [_navigationController release];
     [_viewController release];
     [super dealloc];
 }

@@ -17,4 +17,6 @@
 
 @property (nonatomic, retain) IBOutlet HDVideoViewController *viewController;
 
+@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+
 @end

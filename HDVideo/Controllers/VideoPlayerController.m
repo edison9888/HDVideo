@@ -45,13 +45,11 @@
     
     if (_videoItem)
     {
-        self.navigationItem.title = _videoItem.name;
-        
         [_webView stopLoading];
         [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_videoItem.videoUrl]]];
         
         // set history
-        [[DataController sharedDataController] addHistory:_videoItem.name videoUrl:_videoItem.videoUrl];
+        [[DataController sharedDataController] addHistory:self.navigationItem.title videoUrl:_videoItem.videoUrl];
     }
 }
 

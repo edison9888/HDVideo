@@ -47,6 +47,9 @@ static NSDictionary *alldict = nil;
 
 - (void)addHistory:(NSString *)name videoUrl:(NSString *)url
 {
+    if ([name isEqualToString:@""] || [url isEqualToString:@""])
+        return;
+    
     NSMutableArray *array = [NSMutableArray arrayWithArray:self.histories];
     for (NSDictionary *dict in array) {
         if ([[dict objectForKey:@"name"] isEqualToString:name])
