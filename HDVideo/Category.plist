@@ -6,19 +6,19 @@
 	<array>
 		<dict>
 			<key>feedUrl</key>
-			<string>category=movie</string>
+			<string>cate=movie</string>
 			<key>name</key>
 			<string>电影</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>category=tv</string>
+			<string>cate=serial</string>
 			<key>name</key>
 			<string>电视</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>category=movie&amp;area=cn</string>
+			<string>cate=movie&amp;area=华语</string>
 			<key>name</key>
 			<string>华语大片</string>
 		</dict>
@@ -26,6 +26,6 @@
 	<key>Histories</key>
 	<array/>
 	<key>ServerAddressBase</key>
-	<string>http://192.168.1.139/hdv/getfeed.php?</string>
+	<string>http://hmw041130.chinaw3.com/feed.ashx?pagesize=20&amp;</string>
 </dict>
 </plist>

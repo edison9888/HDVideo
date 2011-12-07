@@ -10,7 +10,7 @@
 
 
 // string contants found in the RSS feed
-static NSString *kEntryStr  = @"Item"; // marker for each app entry
+static NSString *kEntryStr  = @"Data"; // marker for each app entry
 
 @interface ParseOperation ()
 @property (nonatomic, assign) id <ParseOperationDelegate> delegate;
@@ -100,22 +100,23 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary *)attributeDict
 {
-    if ([elementName isEqualToString:@"Items"])
+    if ([elementName isEqualToString:@"Result"])
     {
-        _currentPageIndex               = [[attributeDict objectForKey:@"index"] intValue];
-        _totalPageCount                 = [[attributeDict objectForKey:@"total"] intValue];
+        _currentPageIndex               = [[attributeDict objectForKey:@"Page"] intValue];
+        _totalPageCount                 = [[attributeDict objectForKey:@"Total"] intValue];
+        _category                       = [attributeDict objectForKey:@"Cate"];
     }
     else if ([elementName isEqualToString:kEntryStr])
 	{
         self.workingEntry               = [[[VideoItem alloc] init] autorelease];
-        self.workingEntry.vid           = [attributeDict objectForKey:@"id"];
+        self.workingEntry.vid           = [attributeDict objectForKey:@"serialId"];
         self.workingEntry.isNewItem     = [[attributeDict objectForKey:@"isNew"] boolValue];
         self.workingEntry.newItemCount  = [[attributeDict objectForKey:@"newItemCount"] intValue];
-        self.workingEntry.rate          = [[attributeDict objectForKey:@"rate"] floatValue];
-        self.workingEntry.name          = [attributeDict objectForKey:@"name"];
-        self.workingEntry.posterUrl     = [attributeDict objectForKey:@"posterUrl"];
-        self.workingEntry.videoUrl      = [attributeDict objectForKey:@"videoUrl"];
-        self.workingEntry.isCategory    = [[attributeDict objectForKey:@"isSerial"] boolValue];
+        self.workingEntry.rate          = [[attributeDict objectForKey:@"Rank"] floatValue] / 2.0f;
+        self.workingEntry.name          = [attributeDict objectForKey:@"Title"];
+        self.workingEntry.posterUrl     = [attributeDict objectForKey:@"PosterUrl"];
+        self.workingEntry.videoUrl      = [attributeDict objectForKey:@"PlayUrl"];
+        self.workingEntry.isCategory    = ([_category isEqualToString:@"Serial"] && self.workingEntry.vid);
     }
 }
 

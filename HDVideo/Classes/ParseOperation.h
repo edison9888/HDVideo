@@ -28,6 +28,7 @@
     
     NSUInteger      _currentPageIndex;
     NSUInteger      _totalPageCount;
+    NSString        *_category;
 }
 
 - (id)initWithData:(NSData *)data delegate:(id <ParseOperationDelegate>)theDelegate;

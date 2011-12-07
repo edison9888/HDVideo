@@ -147,9 +147,14 @@
     
     NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",
+    NSString *url = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                        (CFStringRef)[category objectForKey:@"feedUrl"],
+                                                                        NULL,
+                                                                        NULL,
+                                                                        kCFStringEncodingUTF8);
+    url = [NSString stringWithFormat:@"%@%@",
                      [[DataController sharedDataController] serverAddressBase],
-                     [category objectForKey:@"feedUrl"]];
+                     url];
     NSString *key = [NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex];
     _videoBrowserController.feedUrl = url;
     _videoBrowserController.feedKey = key;
