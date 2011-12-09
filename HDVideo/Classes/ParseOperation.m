@@ -17,6 +17,7 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 @property (nonatomic, retain) NSData *dataToParse;
 @property (nonatomic, retain) NSMutableArray *workingArray;
 @property (nonatomic, retain) VideoItem *workingEntry;
+@property (nonatomic, retain) VideoItem *workingSerialEntry;
 @property (nonatomic, retain) NSMutableString *workingPropertyString;
 @property (nonatomic, retain) NSArray *elementsToParse;
 @property (nonatomic, assign) BOOL storingCharacterData;
@@ -26,7 +27,7 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 
 @implementation ParseOperation
 
-@synthesize delegate, dataToParse, workingArray, workingEntry, workingPropertyString, elementsToParse,
+@synthesize delegate, dataToParse, workingArray, workingEntry, workingSerialEntry, workingPropertyString, elementsToParse,
 storingCharacterData, trackingCategoryName, trackingReleaseDate;
 
 - (id)initWithData:(NSData *)data delegate:(id <ParseOperationDelegate>)theDelegate
@@ -47,6 +48,7 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
 {
     [dataToParse release];
     [workingEntry release];
+    [workingSerialEntry release];
     [workingPropertyString release];
     [workingArray release];
     [trackingCategoryName release];
@@ -106,17 +108,40 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
         _totalPageCount                 = [[attributeDict objectForKey:@"Total"] intValue];
         _category                       = [attributeDict objectForKey:@"Cate"];
     }
-    else if ([elementName isEqualToString:kEntryStr])
+    else if ([elementName isEqualToString:kEntryStr] || [elementName isEqualToString:@"FeedSerialItem"])
 	{
-        self.workingEntry               = [[[VideoItem alloc] init] autorelease];
-        self.workingEntry.vid           = [attributeDict objectForKey:@"serialId"];
-        self.workingEntry.isNewItem     = [[attributeDict objectForKey:@"isNew"] boolValue];
-        self.workingEntry.newItemCount  = [[attributeDict objectForKey:@"newItemCount"] intValue];
-        self.workingEntry.rate          = [[attributeDict objectForKey:@"Rank"] floatValue] / 2.0f;
-        self.workingEntry.name          = [attributeDict objectForKey:@"Title"];
-        self.workingEntry.posterUrl     = [attributeDict objectForKey:@"PosterUrl"];
-        self.workingEntry.videoUrl      = [attributeDict objectForKey:@"PlayUrl"];
-        self.workingEntry.isCategory    = ([_category isEqualToString:@"Serial"] && self.workingEntry.vid);
+        if ([_category isEqualToString:@"SerialItem"] && [elementName isEqualToString:kEntryStr]) {
+            self.workingSerialEntry             = [[[VideoItem alloc] init] autorelease];
+            self.workingSerialEntry.vid         = [attributeDict objectForKey:@"Id"];
+            self.workingSerialEntry.isNewItem   = [[attributeDict objectForKey:@"isNew"] boolValue];
+            self.workingSerialEntry.newItemCount= [[attributeDict objectForKey:@"newItemCount"] intValue];
+            self.workingSerialEntry.rate        = [[attributeDict objectForKey:@"Rank"] floatValue] / 2.0f;
+            self.workingSerialEntry.name        = [attributeDict objectForKey:@"Title"];
+            self.workingSerialEntry.posterUrl   = [attributeDict objectForKey:@"PosterUrl"];
+            self.workingSerialEntry.videoUrl    = [attributeDict objectForKey:@"PlayUrl"];
+            self.workingSerialEntry.isCategory  = [_category isEqualToString:@"Serial"];
+            
+            if ([_category isEqualToString:@"SerialItem"]) {
+                _totalPageCount                 = ceil([[attributeDict objectForKey:@"ItemAmt"] intValue]*1.0f / 20);
+            }
+        }
+        else {
+            self.workingEntry               = [[[VideoItem alloc] init] autorelease];
+            self.workingEntry.vid           = [attributeDict objectForKey:@"Id"];
+            self.workingEntry.isNewItem     = [[attributeDict objectForKey:@"isNew"] boolValue];
+            self.workingEntry.newItemCount  = [[attributeDict objectForKey:@"newItemCount"] intValue];
+            self.workingEntry.name          = [attributeDict objectForKey:@"Title"];
+            self.workingEntry.posterUrl     = [attributeDict objectForKey:@"PosterUrl"];
+            self.workingEntry.videoUrl      = [attributeDict objectForKey:@"PlayUrl"];
+            self.workingEntry.isCategory    = [_category isEqualToString:@"Serial"];
+            
+            if ([_category isEqualToString:@"SerialItem"]) {
+                self.workingEntry.rate      = self.workingSerialEntry.rate;
+            }
+            else {
+                self.workingEntry.rate      = [[attributeDict objectForKey:@"Rank"] floatValue] / 2.0f;
+            }
+        }
     }
 }
 
@@ -126,7 +151,7 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
 {
     if (self.workingEntry)
 	{
-        if ([elementName isEqualToString:kEntryStr])
+        if ([elementName isEqualToString:kEntryStr] || [elementName isEqualToString:@"FeedSerialItem"])
         {
             // we are at the end of an entry
             [self.workingArray addObject:self.workingEntry];

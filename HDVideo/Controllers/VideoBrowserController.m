@@ -600,7 +600,7 @@
         [self.scrollView setContentOffset:self.scrollView.contentOffset animated:NO];
         [controller startDownloading];
         
-        NSString *url = [NSString stringWithFormat:@"%@parentId=%@",
+        NSString *url = [NSString stringWithFormat:@"%@cate=serialitem&serialid=%@",
                          [[DataController sharedDataController] serverAddressBase],
                          videoItem.vid];
         controller.feedUrl = url;

@@ -6,6 +6,12 @@
 	<array>
 		<dict>
 			<key>feedUrl</key>
+			<string>cate=serial&amp;area=美剧</string>
+			<key>name</key>
+			<string>美剧</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
 			<string>cate=movie</string>
 			<key>name</key>
 			<string>电影</string>

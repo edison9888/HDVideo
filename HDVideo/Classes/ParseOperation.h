@@ -20,6 +20,7 @@
     
     NSMutableArray  *workingArray;
     VideoItem       *workingEntry;
+    VideoItem       *workingSerialEntry;
     NSMutableString *workingPropertyString;
     
     BOOL            storingCharacterData;
