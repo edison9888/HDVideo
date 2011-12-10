@@ -105,7 +105,7 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
     if ([elementName isEqualToString:@"Result"])
     {
         _currentPageIndex               = [[attributeDict objectForKey:@"Page"] intValue];
-        _totalPageCount                 = [[attributeDict objectForKey:@"Total"] intValue];
+        _totalPageCount                 = ceil([[attributeDict objectForKey:@"Total"] intValue]*1.0f / 20);
         _category                       = [attributeDict objectForKey:@"Cate"];
     }
     else if ([elementName isEqualToString:kEntryStr] || [elementName isEqualToString:@"FeedSerialItem"])

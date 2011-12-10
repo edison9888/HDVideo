@@ -216,6 +216,11 @@
             [self startLoading:YES];
         }
         else {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.3];
+            self.scrollView.contentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
+            [UIView commitAnimations];
+                        
             [self stopLoading:YES withNotification:nil];
         }
     }
@@ -225,6 +230,11 @@
             [self startLoading:NO];
         }
         else {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.3];
+            self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, REFRESH_HEADER_HEIGHT, 0);
+            [UIView commitAnimations];
+            
             [self stopLoading:NO withNotification:nil];
         }
     }
