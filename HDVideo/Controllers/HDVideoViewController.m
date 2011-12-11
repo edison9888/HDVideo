@@ -82,7 +82,7 @@
     }
     UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithArray:channels]];
     segment.tag = SEGMENT_CONTROL_TAG;
-    segment.frame = CGRectMake(290, 666, 1024-580, 34);
+    segment.frame = CGRectMake(180, 666, 1024-360, 34);
     segment.segmentedControlStyle = UISegmentedControlStyleBar;
     segment.tintColor = [UIColor colorForWoodTint];
     [segment changeUISegmentFont:16];
@@ -163,9 +163,14 @@
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
 {
-    [_popoverHistoryController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
-                                      permittedArrowDirections:UIPopoverArrowDirectionUp
-                                                      animated:YES];
+    if ([_popoverHistoryController isPopoverVisible]) {
+        [_popoverHistoryController dismissPopoverAnimated:YES];
+    }
+    else {
+        [_popoverHistoryController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
+                                          permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                          animated:YES];
+    }
 }
 
 @end

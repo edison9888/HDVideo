@@ -89,6 +89,7 @@
         _name.backgroundColor = [UIColor clearColor];
         _name.font = [UIFont boldSystemFontOfSize:15];
         _name.textAlignment = UITextAlignmentCenter;
+        _name.adjustsFontSizeToFitWidth = YES;
         _name.shadowColor = [UIColor whiteColor];
         _name.shadowOffset = CGSizeMake(0, 0.4);
         [self addSubview:_name];

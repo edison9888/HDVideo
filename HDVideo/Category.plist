@@ -6,27 +6,45 @@
 	<array>
 		<dict>
 			<key>feedUrl</key>
-			<string>cate=serial&amp;area=美剧</string>
+			<string>cate=serial&amp;area=美国</string>
 			<key>name</key>
 			<string>美剧</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>cate=movie</string>
+			<string>cate=serial&amp;area=香港,台湾</string>
 			<key>name</key>
-			<string>电影</string>
+			<string>港台剧</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>cate=serial</string>
+			<string>cate=serial&amp;area=大陆</string>
 			<key>name</key>
-			<string>电视</string>
+			<string>大陆剧</string>
 		</dict>
 		<dict>
 			<key>feedUrl</key>
-			<string>cate=movie&amp;area=华语</string>
+			<string>cate=serial&amp;area=韩国,泰国,其他</string>
 			<key>name</key>
-			<string>华语大片</string>
+			<string>其他电视剧</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
+			<string>cate=movie&amp;area=美国,欧洲,法国,意大利,德国</string>
+			<key>name</key>
+			<string>欧美大片</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
+			<string>cate=movie&amp;area=大陆,台湾,香港</string>
+			<key>name</key>
+			<string>华语电影</string>
+		</dict>
+		<dict>
+			<key>feedUrl</key>
+			<string>cate=movie&amp;area=韩国,日本,印度,泰国,其他</string>
+			<key>name</key>
+			<string>其他电影</string>
 		</dict>
 	</array>
 	<key>Histories</key>
