@@ -87,7 +87,6 @@
     segment.segmentedControlStyle = UISegmentedControlStyleBar;
     segment.tintColor = [UIColor colorForWoodTint];
     [segment changeUISegmentFont:16];
-    [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:segment];
     [segment release];
     
@@ -115,7 +114,9 @@
     
     UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
     [segment setSelectedSegmentIndex:0];
+    // invoke handler explicitly for iOS 5
     [self segmentAction:segment];
+    [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated
