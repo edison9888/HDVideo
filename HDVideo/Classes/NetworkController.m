@@ -58,7 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 - (void)handleError:(NSError *)error
 {
     NSString *errorMessage = [error localizedDescription];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Cannot Show Videos"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法获取视频信息"
 														message:errorMessage
 													   delegate:nil
 											  cancelButtonTitle:@"OK"

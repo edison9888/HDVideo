@@ -15,6 +15,13 @@
 		C220BB0D1478F81A00695232 /* UIColor+HDV.m in Sources */ = {isa = PBXBuildFile; fileRef = C220BB0C1478F81A00695232 /* UIColor+HDV.m */; };
 		C220BB4814790E0500695232 /* HistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220BB4714790E0400695232 /* HistoryController.m */; };
 		C2408CC61478895C0072F456 /* VideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2408CC51478895C0072F456 /* VideoPlayerController.m */; };
+		C24605741497A49E00EB45A0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C246056D1497A49E00EB45A0 /* Icon-72.png */; };
+		C24605751497A49E00EB45A0 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = C246056E1497A49E00EB45A0 /* Icon-Small-50.png */; };
+		C24605761497A49E00EB45A0 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = C246056F1497A49E00EB45A0 /* Icon-Small.png */; };
+		C24605771497A49E00EB45A0 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C24605701497A49E00EB45A0 /* Icon-Small@2x.png */; };
+		C24605781497A49E00EB45A0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C24605711497A49E00EB45A0 /* Icon.png */; };
+		C24605791497A49E00EB45A0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C24605721497A49E00EB45A0 /* Icon@2x.png */; };
+		C246057A1497A49E00EB45A0 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = C24605731497A49E00EB45A0 /* iTunesArtwork.png */; };
 		C24A365414779AA100662C26 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C24A365314779AA100662C26 /* placeholder.png */; };
 		C24A365814779C6400662C26 /* PosterDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = C24A365714779C6400662C26 /* PosterDownloader.m */; };
 		C24A36621477D65C00662C26 /* star-back.png in Resources */ = {isa = PBXBuildFile; fileRef = C24A36611477D65C00662C26 /* star-back.png */; };
@@ -65,6 +72,13 @@
 		C220BB4714790E0400695232 /* HistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryController.m; sourceTree = "<group>"; };
 		C2408CC41478895C0072F456 /* VideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerController.h; sourceTree = "<group>"; };
 		C2408CC51478895C0072F456 /* VideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerController.m; sourceTree = "<group>"; };
+		C246056D1497A49E00EB45A0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		C246056E1497A49E00EB45A0 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		C246056F1497A49E00EB45A0 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		C24605701497A49E00EB45A0 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		C24605711497A49E00EB45A0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		C24605721497A49E00EB45A0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		C24605731497A49E00EB45A0 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		C24A365314779AA100662C26 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		C24A365614779C6400662C26 /* PosterDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosterDownloader.h; sourceTree = "<group>"; };
 		C24A365714779C6400662C26 /* PosterDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PosterDownloader.m; sourceTree = "<group>"; };
@@ -128,6 +142,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C246056C1497A49E00EB45A0 /* logos */ = {
+			isa = PBXGroup;
+			children = (
+				C246056D1497A49E00EB45A0 /* Icon-72.png */,
+				C246056E1497A49E00EB45A0 /* Icon-Small-50.png */,
+				C246056F1497A49E00EB45A0 /* Icon-Small.png */,
+				C24605701497A49E00EB45A0 /* Icon-Small@2x.png */,
+				C24605711497A49E00EB45A0 /* Icon.png */,
+				C24605721497A49E00EB45A0 /* Icon@2x.png */,
+				C24605731497A49E00EB45A0 /* iTunesArtwork.png */,
+			);
+			path = logos;
+			sourceTree = "<group>";
+		};
 		C27B018914755E35009B8093 /* Extentions */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +219,7 @@
 		C293BDD41474B08C00079D1A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C246056C1497A49E00EB45A0 /* logos */,
 				C293BDDF1474B08C00079D1A /* MainWindow.xib */,
 				C293BDD51474B08C00079D1A /* HDVideo-Info.plist */,
 				C293BDD61474B08C00079D1A /* InfoPlist.strings */,
@@ -339,6 +368,13 @@
 				C25794AC147E852E00912AE8 /* placeholder2.png in Resources */,
 				C25794B7147E88AD00912AE8 /* arrow-down.png in Resources */,
 				C25794B9147E89F200912AE8 /* arrow-up.png in Resources */,
+				C24605741497A49E00EB45A0 /* Icon-72.png in Resources */,
+				C24605751497A49E00EB45A0 /* Icon-Small-50.png in Resources */,
+				C24605761497A49E00EB45A0 /* Icon-Small.png in Resources */,
+				C24605771497A49E00EB45A0 /* Icon-Small@2x.png in Resources */,
+				C24605781497A49E00EB45A0 /* Icon.png in Resources */,
+				C24605791497A49E00EB45A0 /* Icon@2x.png in Resources */,
+				C246057A1497A49E00EB45A0 /* iTunesArtwork.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +465,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: huang xiang (2Z938N5Q79)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: huang xiang (2Z938N5Q79)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -436,6 +474,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
 				PRODUCT_NAME = "海量高清";
+				PROVISIONING_PROFILE = "EEA905CE-8D70-419F-9F0D-02906FEEC5EA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EEA905CE-8D70-419F-9F0D-02906FEEC5EA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -444,12 +484,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HDVideo/HDVideo-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
 				PRODUCT_NAME = "海量高清";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

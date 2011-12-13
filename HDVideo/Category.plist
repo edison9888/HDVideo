@@ -51,5 +51,7 @@
 	<array/>
 	<key>ServerAddressBase</key>
 	<string>http://hmw041130.chinaw3.com/feed.ashx?pagesize=20&amp;</string>
+	<key>AppLoadedTimes</key>
+	<integer>0</integer>
 </dict>
 </plist>

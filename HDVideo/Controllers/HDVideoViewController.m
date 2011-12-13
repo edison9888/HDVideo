@@ -19,6 +19,7 @@
 
 @interface HDVideoViewController ()
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem;
+- (void)segmentAction:(id)sender;
 @end
 
 @implementation HDVideoViewController
@@ -114,6 +115,7 @@
     
     UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
     [segment setSelectedSegmentIndex:0];
+    [self segmentAction:segment];
 }
 
 - (void)viewWillAppear:(BOOL)animated

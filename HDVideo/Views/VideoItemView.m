@@ -34,10 +34,10 @@
     float origin_y = imgView.bounds.origin.y;
 	[path moveToPoint:CGPointMake(origin_x, origin_y)];
 	[path addLineToPoint:CGPointMake(origin_x + size.width, origin_y)];
-	[path addLineToPoint:CGPointMake(origin_x + size.width, origin_y + size.height + shadowDepth)];
-	[path addCurveToPoint:CGPointMake(origin_x, origin_y + size.height + shadowDepth)
-			controlPoint1:CGPointMake(origin_x + size.width - curlFactor, origin_y + size.height + shadowDepth - curlFactor)
-			controlPoint2:CGPointMake(origin_x + curlFactor, origin_y + size.height + shadowDepth - curlFactor)];
+	[path addLineToPoint:CGPointMake(origin_x + size.width, origin_y + size.height + shadowDepth + 3)];
+	[path addCurveToPoint:CGPointMake(origin_x, origin_y + size.height + shadowDepth + 3)
+			controlPoint1:CGPointMake(origin_x + size.width - curlFactor, origin_y + size.height + shadowDepth - curlFactor + 3)
+			controlPoint2:CGPointMake(origin_x + curlFactor, origin_y + size.height + shadowDepth - curlFactor + 3)];
     
 	return path.CGPath;
 }
@@ -55,7 +55,7 @@
         _poster = [[UIImageView alloc] initWithFrame:rect];
         _poster.layer.shadowColor = [UIColor blackColor].CGColor;
         _poster.layer.shadowOpacity = 0.7f;
-        _poster.layer.shadowOffset = CGSizeMake(5.0f, 5.0f);
+        _poster.layer.shadowOffset = CGSizeMake(0.0f, 4.0f);
         _poster.layer.shadowRadius = 2.0f;
         _poster.layer.masksToBounds = NO;
         [self addSubview:_poster];

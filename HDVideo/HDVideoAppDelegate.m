@@ -23,15 +23,24 @@
     _navigationController = [[UINavigationController alloc] initWithRootViewController: self.viewController];
     
     // customize navigation controller bar
-    CGRect tr = _navigationController.navigationBar.frame;
-    tr = CGRectMake(0, 0, CGRectGetWidth(tr), CGRectGetHeight(tr));
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:tr];
-    imageView.contentMode = UIViewContentModeTopLeft;
-    imageView.tag = kNavigationBarBackgroundImageTag;
-    imageView.image = [UIImage imageNamed:@"top-bar"];
-    [_navigationController.navigationBar insertSubview:imageView atIndex:0];
-    [_navigationController.navigationBar setTintColor:[UIColor colorForWoodTint]];
-    [imageView release];
+    UINavigationBar *navBar = [_navigationController navigationBar];
+    [navBar setTintColor:[UIColor colorForWoodTint]];
+    
+    if ([navBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
+    {
+        [navBar setBackgroundImage:[UIImage imageNamed:@"top-bar"] forBarMetrics:UIBarMetricsDefault];
+    }
+    else
+    {
+        CGRect tr = _navigationController.navigationBar.frame;
+        tr = CGRectMake(0, 0, CGRectGetWidth(tr), CGRectGetHeight(tr));
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:tr];
+        imageView.contentMode = UIViewContentModeTopLeft;
+        imageView.tag = kNavigationBarBackgroundImageTag;
+        imageView.image = [UIImage imageNamed:@"top-bar"];
+        [navBar insertSubview:imageView atIndex:0];
+        [imageView release];
+    }
     
     self.window.rootViewController = _navigationController;
     [_navigationController release];

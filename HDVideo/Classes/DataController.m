@@ -83,4 +83,28 @@ static NSDictionary *alldict = nil;
     [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
 }
 
+- (void)incrementAppLoadedTimes
+{
+    int times = [[self.categories objectForKey:@"AppLoadedTimes"] intValue];
+    times += 1;
+    if (times % 5 == 0) {
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"喜欢我们的应用吗？"
+                                                         message:@"请为海量高清评分，您的褒奖和批评是我们持续改进的动力，谢谢！"
+                                                        delegate:self
+                                               cancelButtonTitle:@"不予置评"
+                                               otherButtonTitles:@"我要评分！", nil] autorelease];
+        [alert show];
+    }
+    [self.categories setValue:[NSNumber numberWithInt:times] forKey:@"AppLoadedTimes"];
+    [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *reviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=488730212";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
+    }
+}
+
 @end
