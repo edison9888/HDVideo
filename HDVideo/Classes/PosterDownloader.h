@@ -16,7 +16,7 @@
 @end
 
 @interface PosterDownloader : NSObject {
-    
+    BOOL _isPortrait;
 }
 
 @property (nonatomic, retain) VideoItem *videoItem;
@@ -26,7 +26,7 @@
 @property (nonatomic, retain) NSMutableData *activeDownload;
 @property (nonatomic, retain) NSURLConnection *imageConnection;
 
-- (void)startDownload;
+- (void)startDownload:(BOOL)isPosterPortrait;
 - (void)cancelDownload;
 
 @end

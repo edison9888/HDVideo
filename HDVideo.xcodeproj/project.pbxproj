@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C21AA8151499CB6D00C8095E /* UIImage+BitRice.m in Sources */ = {isa = PBXBuildFile; fileRef = C21AA8141499CB6D00C8095E /* UIImage+BitRice.m */; };
 		C21B0D4F1476BBBC0094662B /* VideoItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = C21B0D4E1476BBBC0094662B /* VideoItemView.m */; };
 		C21C553414762DCF002DAF01 /* VideoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C553314762DCF002DAF01 /* VideoBrowserController.m */; };
 		C21C5549147638FC002DAF01 /* ParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C21C5548147638FC002DAF01 /* ParseOperation.m */; };
@@ -56,6 +57,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C21AA8131499CB6D00C8095E /* UIImage+BitRice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BitRice.h"; sourceTree = "<group>"; };
+		C21AA8141499CB6D00C8095E /* UIImage+BitRice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BitRice.m"; sourceTree = "<group>"; };
 		C21B0D4D1476BBBC0094662B /* VideoItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoItemView.h; sourceTree = "<group>"; };
 		C21B0D4E1476BBBC0094662B /* VideoItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoItemView.m; sourceTree = "<group>"; };
 		C21C553214762DCF002DAF01 /* VideoBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoBrowserController.h; sourceTree = "<group>"; };
@@ -165,6 +168,8 @@
 				C260258B1478B5A8008EECDA /* UINavigationBar+HDV.m */,
 				C220BB0B1478F81A00695232 /* UIColor+HDV.h */,
 				C220BB0C1478F81A00695232 /* UIColor+HDV.m */,
+				C21AA8131499CB6D00C8095E /* UIImage+BitRice.h */,
+				C21AA8141499CB6D00C8095E /* UIImage+BitRice.m */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -329,6 +334,9 @@
 /* Begin PBXProject section */
 		C293BDC01474B08C00079D1A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = C293BDC31474B08C00079D1A /* Build configuration list for PBXProject "HDVideo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -402,6 +410,7 @@
 				C260258C1478B5A8008EECDA /* UINavigationBar+HDV.m in Sources */,
 				C220BB0D1478F81A00695232 /* UIColor+HDV.m in Sources */,
 				C220BB4814790E0500695232 /* HistoryController.m in Sources */,
+				C21AA8151499CB6D00C8095E /* UIImage+BitRice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,14 +493,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: huang xiang (2Z938N5Q79)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HDVideo/HDVideo-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
 				PRODUCT_NAME = "海量高清";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "EEA905CE-8D70-419F-9F0D-02906FEEC5EA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EEA905CE-8D70-419F-9F0D-02906FEEC5EA";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

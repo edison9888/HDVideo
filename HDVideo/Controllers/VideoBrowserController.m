@@ -264,12 +264,12 @@
         posterDownloader.indexInVideoBrowserView = index;
         posterDownloader.delegate = self;
         [_posterDownloadsInProgress setObject:posterDownloader forKey:[NSNumber numberWithInt:index]];
-        [posterDownloader startDownload];
+        [posterDownloader startDownload:!_isEpisode];
         [posterDownloader release];
         posterDownloader = nil;
     }
     else{
-        [posterDownloader startDownload];
+        [posterDownloader startDownload:!_isEpisode];
     }
 }
 

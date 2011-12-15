@@ -7,7 +7,7 @@
 //
 
 #import "PosterDownloader.h"
-
+#import "UIImage+BitRice.h"
 
 @implementation PosterDownloader
 
@@ -30,8 +30,10 @@
     [super dealloc];
 }
 
-- (void)startDownload
+- (void)startDownload:(BOOL)isPosterPortrait
 {
+    _isPortrait = isPosterPortrait;
+    
     self.activeDownload = [NSMutableData data];
     // alloc+init and start an NSURLConnection; release on completion/failure
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:
@@ -69,10 +71,17 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // Set appIcon and clear temporary data/image
-    UIImage *image = [[UIImage alloc] initWithData:self.activeDownload];
+    UIImage *image = [[[UIImage alloc] initWithData:self.activeDownload] autorelease];
+    float w = image.size.width;
+    float h = image.size.height;
+    if (_isPortrait && w > h) {
+        float delta = w - h*0.75f;
+        CGRect rect = CGRectMake(delta/2.0, 0, w-delta, h);
+        image = [UIImage imageByCropping:image toRect:rect];
+    }
+    
     self.videoItem.posterImage = image;
     self.activeDownload = nil;
-    [image release];
     
     // Release the connection now that it's finished
     self.imageConnection = nil;
