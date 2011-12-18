@@ -34,7 +34,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 {
     [self.videoFeedConnection cancel];
 
-    _currentKey = [key copy];
+    if (_currentKey != key) {
+        [_currentKey release];
+        _currentKey = [key copy];
+    }
     
     // Initialize the array of app records and pass a reference to that list to our root view controller
     self.videoItems = [NSMutableArray array];
