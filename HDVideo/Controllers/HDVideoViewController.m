@@ -99,8 +99,8 @@
     historyController.contentSizeForViewInPopover = CGSizeMake(300, 560);
     historyController.parentNavigationController = self.navigationController;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:historyController];
-    
     _popoverHistoryController = [[UIPopoverController alloc] initWithContentViewController:navController];
+    [navController release];
     _popoverHistoryController.delegate = self;
     historyController.popController = _popoverHistoryController;
     [historyController release];
