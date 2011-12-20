@@ -15,6 +15,7 @@
 
 @property (nonatomic, readonly) NSDictionary *categories;
 @property (nonatomic, readonly) NSArray *histories;
+@property (nonatomic, readonly) NSArray *favorites;
 
 + (DataController *)sharedDataController;
 

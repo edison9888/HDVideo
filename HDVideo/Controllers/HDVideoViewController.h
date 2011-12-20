@@ -12,6 +12,7 @@
 
 @interface HDVideoViewController : UIViewController<UIPopoverControllerDelegate> {
     UIPopoverController *_popoverHistoryController;
+    UIPopoverController *_popoverFavoriteController;
 }
 
 @property (nonatomic, retain) VideoBrowserController *videoBrowserController;

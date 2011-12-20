@@ -47,6 +47,11 @@
     [self.delegate videoBrowserDidTapwithSource:self.source];
 }
 
+- (void)posterDoubleTapped:(UIGestureRecognizer *)gestureRecognizer
+{
+    [self.delegate videoBrowserAddToFavorite:self.source];
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -128,6 +133,11 @@
         // tap gesture
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                   action:@selector(posterTapped:)];
+        [self addGestureRecognizer:gesture];
+        [gesture release];
+        
+        gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(posterDoubleTapped:)];
+        gesture.numberOfTapsRequired = 2;
         [self addGestureRecognizer:gesture];
         [gesture release];
     }

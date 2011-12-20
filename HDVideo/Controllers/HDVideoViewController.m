@@ -11,6 +11,7 @@
 #import "DataController.h"
 #import "NetworkController.h"
 #import "HistoryController.h"
+#import "FavoriteController.h"
 #import "UIView+HDV.h"
 #import "UIColor+HDV.h"
 #import "Constants.h"
@@ -19,6 +20,7 @@
 
 @interface HDVideoViewController ()
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem;
+- (IBAction)popupFavorite:(UIBarButtonItem *)barButtonItem;
 - (void)segmentAction:(id)sender;
 @end
 
@@ -29,16 +31,19 @@
 - (void)setupNavigationBar
 {
     // custom right bar buttons
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-	[button setTitle:@"播放记录" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 5, 90, 20)];
+    [button setImage:[UIImage imageNamed:@"my-favorite"] forState:UIControlStateNormal];
+    button.showsTouchWhenHighlighted = YES;
+    [button addTarget:self action:@selector(popupFavorite:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    [button release];
+    
+    button = [[UIButton alloc] initWithFrame:CGRectMake(105, 5, 90, 20)];
+    [button setImage:[UIImage imageNamed:@"play-history"] forState:UIControlStateNormal];
     button.showsTouchWhenHighlighted = YES;
     [button addTarget:self action:@selector(popupHistory:) forControlEvents:UIControlEventTouchUpInside];
-    
     [view addSubview:button];
     [button release];
     
@@ -104,6 +109,16 @@
     _popoverHistoryController.delegate = self;
     historyController.popController = _popoverHistoryController;
     [historyController release];
+    
+    FavoriteController *favoriteController = [[FavoriteController alloc] init];
+    favoriteController.contentSizeForViewInPopover = CGSizeMake(300, 560);
+    favoriteController.parentNavigationController = self.navigationController;
+    navController = [[UINavigationController alloc] initWithRootViewController:favoriteController];
+    _popoverFavoriteController = [[UIPopoverController alloc] initWithContentViewController:navController];
+    [navController release];
+    _popoverFavoriteController.delegate = self;
+    favoriteController.popController = _popoverFavoriteController;
+    [favoriteController release];
 }
 
 - (void)viewDidLoad
@@ -168,13 +183,35 @@
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
 {
+    if ([_popoverFavoriteController isPopoverVisible]) {
+        [_popoverFavoriteController dismissPopoverAnimated:YES];
+    }
+    
     if ([_popoverHistoryController isPopoverVisible]) {
         [_popoverHistoryController dismissPopoverAnimated:YES];
     }
     else {
-        [_popoverHistoryController presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem
-                                          permittedArrowDirections:UIPopoverArrowDirectionUp
-                                                          animated:YES];
+        [_popoverHistoryController presentPopoverFromRect:CGRectMake(100, 0, 100, 30) 
+                                                   inView:self.navigationItem.rightBarButtonItem.customView 
+                                 permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                 animated:YES];
+    }
+}
+
+- (IBAction)popupFavorite:(UIBarButtonItem *)barButtonItem
+{
+    if ([_popoverHistoryController isPopoverVisible]) {
+        [_popoverHistoryController dismissPopoverAnimated:YES];
+    }
+    
+    if ([_popoverFavoriteController isPopoverVisible]) {
+        [_popoverFavoriteController dismissPopoverAnimated:YES];
+    }
+    else {
+        [_popoverFavoriteController presentPopoverFromRect:CGRectMake(0, 0, 100, 30) 
+                                                   inView:self.navigationItem.rightBarButtonItem.customView 
+                                 permittedArrowDirections:UIPopoverArrowDirectionUp
+                                                 animated:YES];
     }
 }
 

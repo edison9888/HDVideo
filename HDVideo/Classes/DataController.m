@@ -32,6 +32,12 @@ static NSDictionary *alldict = nil;
     return array;
 }
 
+- (NSArray *)favorites
+{
+    NSArray *array = [self.categories objectForKey:@"Favorites"];
+    return array;
+}
+
 - (NSString *)serverAddressBase
 {
     NSString *url = [self.categories objectForKey:@"ServerAddressBase"];

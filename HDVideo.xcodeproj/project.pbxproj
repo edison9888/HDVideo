@@ -53,6 +53,9 @@
 		C293BDDE1474B08C00079D1A /* HDVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */; };
 		C293BDE11474B08C00079D1A /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C293BDDF1474B08C00079D1A /* MainWindow.xib */; };
 		C293BDF61474B24800079D1A /* README in Resources */ = {isa = PBXBuildFile; fileRef = C293BDF51474B24800079D1A /* README */; };
+		C2D2CA8A149E3D790060AF7D /* my-favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = C2D2CA89149E3D790060AF7D /* my-favorite.png */; };
+		C2D2CA8D149E3DB80060AF7D /* play-history.png in Resources */ = {isa = PBXBuildFile; fileRef = C2D2CA8C149E3DB80060AF7D /* play-history.png */; };
+		C2D2CA90149E403E0060AF7D /* FavoriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D2CA8F149E403E0060AF7D /* FavoriteController.m */; };
 		C2ECEB8114780F110063BD8A /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C2ECEB8014780F110063BD8A /* Icon-72.png */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +129,10 @@
 		C293BDDD1474B08C00079D1A /* HDVideoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDVideoAppDelegate.m; sourceTree = "<group>"; };
 		C293BDE01474B08C00079D1A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		C293BDF51474B24800079D1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		C2D2CA89149E3D790060AF7D /* my-favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my-favorite.png"; sourceTree = "<group>"; };
+		C2D2CA8C149E3DB80060AF7D /* play-history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-history.png"; sourceTree = "<group>"; };
+		C2D2CA8E149E403E0060AF7D /* FavoriteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteController.h; sourceTree = "<group>"; };
+		C2D2CA8F149E403E0060AF7D /* FavoriteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteController.m; sourceTree = "<group>"; };
 		C2ECEB8014780F110063BD8A /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,6 +274,8 @@
 				C2408CC51478895C0072F456 /* VideoPlayerController.m */,
 				C220BB4614790E0400695232 /* HistoryController.h */,
 				C220BB4714790E0400695232 /* HistoryController.m */,
+				C2D2CA8E149E403E0060AF7D /* FavoriteController.h */,
+				C2D2CA8F149E403E0060AF7D /* FavoriteController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -281,9 +290,11 @@
 				C26197F41474C6FB00551170 /* bottom-bar.png */,
 				C26025A01478E757008EECDA /* count-ribbon.png */,
 				C2ECEB8014780F110063BD8A /* Icon-72.png */,
+				C2D2CA89149E3D790060AF7D /* my-favorite.png */,
 				C260259D1478E51F008EECDA /* new-ribbon.png */,
 				C24A365314779AA100662C26 /* placeholder.png */,
 				C25794AB147E852E00912AE8 /* placeholder2.png */,
+				C2D2CA8C149E3DB80060AF7D /* play-history.png */,
 				C24A36611477D65C00662C26 /* star-back.png */,
 				C220BB001478EDCE00695232 /* star-fore.png */,
 				C26197F11474C30700551170 /* top-bar.png */,
@@ -383,6 +394,8 @@
 				C24605781497A49E00EB45A0 /* Icon.png in Resources */,
 				C24605791497A49E00EB45A0 /* Icon@2x.png in Resources */,
 				C246057A1497A49E00EB45A0 /* iTunesArtwork.png in Resources */,
+				C2D2CA8A149E3D790060AF7D /* my-favorite.png in Resources */,
+				C2D2CA8D149E3DB80060AF7D /* play-history.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +424,7 @@
 				C220BB0D1478F81A00695232 /* UIColor+HDV.m in Sources */,
 				C220BB4814790E0500695232 /* HistoryController.m in Sources */,
 				C21AA8151499CB6D00C8095E /* UIImage+BitRice.m in Sources */,
+				C2D2CA90149E403E0060AF7D /* FavoriteController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

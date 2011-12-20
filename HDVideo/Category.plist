@@ -49,6 +49,8 @@
 	</array>
 	<key>Histories</key>
 	<array/>
+	<key>Favorites</key>
+	<array/>
 	<key>ServerAddressBase</key>
 	<string>http://hmw041130.chinaw3.com/feed.ashx?pagesize=20&amp;</string>
 	<key>AppLoadedTimes</key>

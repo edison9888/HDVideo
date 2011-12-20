@@ -630,4 +630,9 @@
     }
 }
 
+- (void)videoBrowserAddToFavorite:(VideoItem *)videoItem
+{
+    NSLog(@"add to favorite: %@", videoItem.name);
+}
+
 @end
