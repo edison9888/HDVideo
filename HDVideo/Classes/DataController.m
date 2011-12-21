@@ -51,6 +51,54 @@ static NSDictionary *alldict = nil;
     return dict;
 }
 
+- (void)addFavorite:(NSString *)name videoUrl:(NSString *)url videoId:(NSString *)vid
+{
+    if ([name isEqualToString:@""] || ([url isEqualToString:@""] && [vid isEqualToString:@""]))
+        return;
+    
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.favorites];
+    for (NSDictionary *dict in array) {
+        if ([[dict objectForKey:@"name"] isEqualToString:name])
+        {
+            [array removeObject:dict];
+            break;
+        }
+    }
+    
+    NSDictionary *dict;
+    if (url) {
+        dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                name, @"name",
+                url, @"videoUrl",
+                nil];
+    }
+    else {
+        dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                name, @"name",
+                vid, @"videoId",
+                nil];
+    }
+    [array insertObject:dict atIndex:0];
+    
+    // most count is 50
+    if ([array count] > 50)
+    {
+        [array removeObjectAtIndex:50];
+    }
+    
+    [self.categories setValue:array forKey:@"Favorites"];
+    [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
+}
+
+- (void)deleteFavoriteAtIndex:(NSUInteger)index
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.favorites];
+    [array removeObjectAtIndex:index];
+    
+    [self.categories setValue:array forKey:@"Favorites"];
+    [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
+}
+
 - (void)addHistory:(NSString *)name videoUrl:(NSString *)url
 {
     if ([name isEqualToString:@""] || [url isEqualToString:@""])

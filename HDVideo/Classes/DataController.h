@@ -22,6 +22,9 @@
 - (NSString *)serverAddressBase;
 - (NSDictionary *)getCategoryAtIndex:(NSUInteger)index;
 
+- (void)addFavorite:(NSString *)name videoUrl:(NSString *)url videoId:(NSString *)vid;
+- (void)deleteFavoriteAtIndex:(NSUInteger)index;
+
 - (void)addHistory:(NSString *)name videoUrl:(NSString *)url;
 - (void)cleanHistory;
 

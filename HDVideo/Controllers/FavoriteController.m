@@ -8,6 +8,10 @@
 
 #import "FavoriteController.h"
 #import "DataController.h"
+#import "VideoItem.h"
+#import "VideoPlayerController.h"
+#import "VideoBrowserController.h"
+#import "HDVideoAppDelegate.h"
 
 
 @implementation FavoriteController
@@ -16,6 +20,33 @@
 @synthesize popController = _popController;
 
 #pragma mark - View lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
+	[button setTitle:@"双击图片加入收藏" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor lightTextColor] forState:UIControlStateNormal];
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    
+    [view addSubview:button];
+    [button release];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:view];
+    [view release];
+    
+    self.navigationItem.leftBarButtonItem = item;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -41,6 +72,8 @@
     }
     
     // Configure the cell...
+    NSDictionary *dict = [[[DataController sharedDataController] favorites] objectAtIndex:indexPath.row];
+    cell.textLabel.text = [dict objectForKey:@"name"];
     
     return cell;
 }
@@ -49,7 +82,62 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDictionary *dict = [[[DataController sharedDataController] favorites] objectAtIndex:indexPath.row];
+    VideoItem *videoItem = [[VideoItem alloc] init];
+    videoItem.name = [dict objectForKey:@"name"];
+    videoItem.videoUrl = [dict objectForKey:@"videoUrl"];
+    videoItem.vid = [dict objectForKey:@"videoId"];
+    NSLog(@"name:%@, url:%@, vid:%@", videoItem.name, [dict objectForKey:@"videoUrl"], [dict objectForKey:@"videoId"]);
     
+    if (videoItem.videoUrl) {
+        VideoPlayerController *player = [[VideoPlayerController alloc] init];
+        player.videoItem = videoItem;
+        player.navigationItem.title = videoItem.name;
+        [videoItem release];
+        
+        [_parentNavigationController pushViewController:player animated:YES];
+        [player release];
+    }
+    else if (videoItem.vid) {
+        HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        VideoBrowserController *controller = [[VideoBrowserController alloc] init];
+        controller.isEpisode = YES;
+        controller.feedKey = videoItem.vid;
+        controller.navigationItem.title = videoItem.name;
+        [del.navigationController pushViewController:controller animated:YES];
+        
+        
+        // stop UIScrollView from scrolling immediately
+        [controller startDownloading];
+        
+        NSString *url = [NSString stringWithFormat:@"%@cate=serialitem&serialid=%@",
+                         [[DataController sharedDataController] serverAddressBase],
+                         videoItem.vid];
+        controller.feedUrl = url;
+        [controller startLoading:NO];
+        [controller release];
+    }
+    
+    [_popController dismissPopoverAnimated:NO];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.tableView beginUpdates];
+        [[DataController sharedDataController] deleteFavoriteAtIndex:indexPath.row];
+        NSArray *deleteIndexPaths = [NSArray arrayWithObjects:
+                                     [NSIndexPath indexPathForRow:indexPath.row inSection:0],
+                                     nil];
+        [self.tableView deleteRowsAtIndexPaths:deleteIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    }
 }
 
 @end

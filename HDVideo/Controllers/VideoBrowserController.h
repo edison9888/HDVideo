@@ -17,7 +17,7 @@
 
 @protocol VideoBrowserDelegate
 - (void)videoBrowserDidTapwithSource:(VideoItem *)videoItem;
-- (void)videoBrowserAddToFavorite:(VideoItem *)videoItem;
+- (void)videoBrowserAddToFavorite:(VideoItem *)videoItem withPoster:(UIImageView *)poster;
 @end
 
 

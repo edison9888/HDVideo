@@ -630,9 +630,56 @@
     }
 }
 
-- (void)videoBrowserAddToFavorite:(VideoItem *)videoItem
+- (void)videoBrowserAddToFavorite:(VideoItem *)videoItem withPoster:(UIImageView *)poster
 {
-    NSLog(@"add to favorite: %@", videoItem.name);
+    if (_isEpisode)
+        return;
+    
+    // add to favorites
+    NSLog(@"vid=%@", videoItem.vid);
+    [[DataController sharedDataController] addFavorite:videoItem.name videoUrl:videoItem.videoUrl videoId:videoItem.vid];
+    
+    // animation
+    HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
+    UIImageView *posterCopy = [[UIImageView alloc] initWithImage:videoItem.posterImage];
+    posterCopy.tag = 1099;
+    posterCopy.frame = [del.navigationController.view convertRect:poster.frame fromView:poster.superview];
+    [del.navigationController.view addSubview:posterCopy];
+    [posterCopy release];
+    
+    
+    CGPoint point = CGPointMake(880, 35);
+    UIBezierPath *movePath = [UIBezierPath bezierPath];
+    [movePath moveToPoint:posterCopy.center];
+    [movePath addQuadCurveToPoint:point
+                     controlPoint:CGPointMake(point.x, posterCopy.center.y)];
+    
+    CAKeyframeAnimation *moveAnim = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    moveAnim.path = movePath.CGPath;
+    moveAnim.removedOnCompletion = YES;
+    
+    CABasicAnimation *scaleAnim = [CABasicAnimation animationWithKeyPath:@"transform"];
+    scaleAnim.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    scaleAnim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.1, 0.1, 1.0)];
+    scaleAnim.removedOnCompletion = YES;
+    
+    CABasicAnimation *opacityAnim = [CABasicAnimation animationWithKeyPath:@"alpha"];
+    opacityAnim.fromValue = [NSNumber numberWithFloat:1.0];
+    opacityAnim.toValue = [NSNumber numberWithFloat:0.1];
+    opacityAnim.removedOnCompletion = YES;
+    
+    CAAnimationGroup *animGroup = [CAAnimationGroup animation];
+    animGroup.animations = [NSArray arrayWithObjects:moveAnim, scaleAnim, opacityAnim, nil];
+    animGroup.duration = 0.5;
+    animGroup.delegate = self;
+    [posterCopy.layer addAnimation:animGroup forKey:nil];
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
+    UIView *view = [del.navigationController.view viewWithTag:1099];
+    [view removeFromSuperview];
 }
 
 @end

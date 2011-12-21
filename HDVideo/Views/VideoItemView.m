@@ -47,11 +47,6 @@
     [self.delegate videoBrowserDidTapwithSource:self.source];
 }
 
-- (void)posterDoubleTapped:(UIGestureRecognizer *)gestureRecognizer
-{
-    [self.delegate videoBrowserAddToFavorite:self.source];
-}
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -129,17 +124,6 @@
         _spinner.hidesWhenStopped = YES;
         [self addSubview:_spinner];
         [_spinner startAnimating];
-
-        // tap gesture
-        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                  action:@selector(posterTapped:)];
-        [self addGestureRecognizer:gesture];
-        [gesture release];
-        
-        gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(posterDoubleTapped:)];
-        gesture.numberOfTapsRequired = 2;
-        [self addGestureRecognizer:gesture];
-        [gesture release];
     }
     return self;
 }
@@ -225,6 +209,23 @@
     [_spinner release];
     
     [super dealloc];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:_poster];
+    if (CGRectContainsPoint(_poster.bounds, point)) {
+        if (touch.tapCount == 2) {
+            if (self.source.posterImage) {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(posterTapped:) object:nil];
+                [self.delegate videoBrowserAddToFavorite:self.source withPoster:_poster];
+            }
+        }
+        else if (touch.tapCount == 1) {
+            [self performSelector:@selector(posterTapped:) withObject:nil afterDelay:0.5];
+        }
+    }
 }
 
 @end
