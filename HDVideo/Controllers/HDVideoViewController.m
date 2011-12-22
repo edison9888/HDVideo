@@ -6,6 +6,7 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "HDVideoViewController.h"
 #import "VideoPlayerController.h"
 #import "DataController.h"
@@ -15,8 +16,11 @@
 #import "UIView+HDV.h"
 #import "UIColor+HDV.h"
 #import "Constants.h"
+#import "HDVideoAppDelegate.h"
+#import "NetworkController.h"
 
 #define SEGMENT_CONTROL_TAG 1
+#define SEARCH_RESULT_PANEL_HEIGHT 260
 
 @interface HDVideoViewController ()
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem;
@@ -27,12 +31,38 @@
 @implementation HDVideoViewController
 
 @synthesize videoBrowserController = _videoBrowserController;
+@synthesize searchBar = _searchBar;
+@synthesize searchResultController = _searchResultController;
+
+- (void)getSuggestionCompleted:(NSNotification *)notification
+{
+    if ([[notification object] count] > 0)
+        _searchResultController.searchResults = [notification object];
+    else
+        _searchResultController.searchResults = [NSArray arrayWithObjects:@"对不起，没有搜索到符合条件的节目:(", nil];
+}
 
 - (void)setupNavigationBar
 {
+    // search box
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+    _searchBar.autoresizingMask         = UIViewAutoresizingFlexibleWidth;
+    _searchBar.keyboardType             = UIKeyboardTypeASCIICapable;
+    _searchBar.autocapitalizationType   = UITextAutocapitalizationTypeNone;
+    _searchBar.delegate                 = self;
+    _searchBar.placeholder              = @"搜索海量影视资源";
+    for (UIView *subview in _searchBar.subviews) {
+        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
+            [subview removeFromSuperview];
+            break;
+        }
+    }
+    UIView *searchBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+    [searchBarView addSubview:_searchBar];
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:searchBarView] autorelease];
+    
     // custom right bar buttons
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
-    
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 5, 90, 20)];
     [button setImage:[UIImage imageNamed:@"my-favorite"] forState:UIControlStateNormal];
     button.showsTouchWhenHighlighted = YES;
@@ -56,8 +86,11 @@
 
 - (void)dealloc
 {
+    [_popoverFavoriteController release];
     [_popoverHistoryController release];
     [_videoBrowserController release];
+    [_searchBar release];
+    [_searchResultController release];
     [super dealloc];
 }
 
@@ -119,6 +152,17 @@
     _popoverFavoriteController.delegate = self;
     favoriteController.popController = _popoverFavoriteController;
     [favoriteController release];
+    
+    // search result panel
+    HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
+    _searchResultController = [[SearchResultController alloc] init];
+    _searchResultController.view.frame = CGRectMake(15, 58, 285, 0);
+    _searchResultController.view.layer.masksToBounds = YES;
+    _searchResultController.view.layer.cornerRadius = 12;
+    _searchResultController.view.layer.shadowOffset = CGSizeMake(0, 2);
+    _searchResultController.view.layer.shadowOpacity = 0.5;
+    _searchResultController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    [del.navigationController.view addSubview:_searchResultController.view];
 }
 
 - (void)viewDidLoad
@@ -132,6 +176,20 @@
     // invoke handler explicitly for iOS 5
     [self segmentAction:segment];
     [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getSuggestionCompleted:)
+                                                 name:SUGGESTION_COMPLETED_NOTIFICATION
+                                               object:nil];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SUGGESTION_COMPLETED_NOTIFICATION
+                                                  object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -212,6 +270,60 @@
                                                    inView:self.navigationItem.rightBarButtonItem.customView 
                                  permittedArrowDirections:UIPopoverArrowDirectionUp
                                                  animated:YES];
+    }
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [UIView animateWithDuration:.4
+                          delay:0
+                        options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         CGRect rect = _searchResultController.view.frame;
+                         rect.size.height = 0;
+                         _searchResultController.view.frame = rect;
+                     }
+                     completion:^(BOOL finished){}];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if (searchBar.text.length > 0) {
+        _searchResultController.searchResults = [NSArray arrayWithObjects:@"正在载入搜索结果...", nil];
+        NSString *url = [[[DataController sharedDataController] 
+                          serverAddressBase] stringByAppendingFormat:@"cate=suggestion&q=%@", searchBar.text];
+        url = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                  (CFStringRef)url,
+                                                                  NULL,
+                                                                  NULL,
+                                                                  kCFStringEncodingUTF8);
+        [[NetworkController sharedNetworkController] startLoadSuggestion:url];
+        [UIView animateWithDuration:.4
+                              delay:0
+                            options:UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             CGRect rect = _searchResultController.view.frame;
+                             rect.size.height = SEARCH_RESULT_PANEL_HEIGHT;
+                             _searchResultController.view.frame = rect;
+                         }
+                         completion:^(BOOL finished){}];
+    }
+    else {
+        [UIView animateWithDuration:.4
+                              delay:0
+                            options:UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             CGRect rect = _searchResultController.view.frame;
+                             rect.size.height = 0;
+                             _searchResultController.view.frame = rect;
+                         }
+                         completion:^(BOOL finished){}];
     }
 }
 

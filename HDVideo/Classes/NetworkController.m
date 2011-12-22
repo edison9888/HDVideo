@@ -15,24 +15,30 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 
-@synthesize videoItems, queue, videoFeedData, videoFeedConnection;
+@synthesize feedItems, feedQueue, feedData, feedConnection;
 @synthesize currentKey = _currentKey;
+
+@synthesize suggestionItems, suggestionQueue, suggestionData, suggestionConnection;
 
 - (void)dealloc
 {
-    [videoItems release];
-    [queue release];
-    [videoFeedConnection release];
-    [videoFeedData release];
-
-    [_currentKey release];    
+    [feedItems release];
+    [feedQueue release];
+    [feedConnection release];
+    [feedData release];
+    [_currentKey release];
+    
+    [suggestionItems release];
+    [suggestionQueue release];
+    [suggestionConnection release];
+    [suggestionData release];
 
     [super dealloc];
 }
 
-- (void)startLoadFeed:(NSString *)feedUrl forKey:(NSString *)key
+- (void)startLoadFeed:(NSString *)url forKey:(NSString *)key
 {
-    [self.videoFeedConnection cancel];
+    [self.feedConnection cancel];
 
     if (_currentKey != key) {
         [_currentKey release];
@@ -40,28 +46,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     }
     
     // Initialize the array of app records and pass a reference to that list to our root view controller
-    self.videoItems = [NSMutableArray array];
+    self.feedItems = [NSMutableArray array];
     
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:feedUrl]];
-    self.videoFeedConnection = [[[NSURLConnection alloc] initWithRequest:urlRequest delegate:self] autorelease];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    self.feedConnection = [[[NSURLConnection alloc] initWithRequest:urlRequest delegate:self] autorelease];
     
     // Test the validity of the connection object. The most likely reason for the connection object
     // to be nil is a malformed URL, which is a programmatic error easily detected during development
     // If the URL is more dynamic, then you should implement a more flexible validation technique, and
     // be able to both recover from errors and communicate problems to the user in an unobtrusive manner.
     //
-    NSAssert(self.videoFeedConnection != nil, @"Failure to create URL connection.");
+    NSAssert(self.feedConnection != nil, @"Failure to create URL connection.");
     
     // show in the status bar that network activity is starting
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
+- (void)startLoadSuggestion:(NSString *)url
+{
+    [self.suggestionConnection cancel];
+    
+    // Initialize the array of app records and pass a reference to that list to our root view controller
+    self.suggestionItems = [NSMutableArray array];
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    self.suggestionConnection = [[[NSURLConnection alloc] initWithRequest:urlRequest delegate:self] autorelease];
+    
+    // show in the status bar that network activity is starting
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
 
 #pragma mark - NSURLConnection
 - (void)handleError:(NSError *)error
 {
     NSString *errorMessage = [error localizedDescription];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法获取视频信息"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法从服务器获取数据"
 														message:errorMessage
 													   delegate:nil
 											  cancelButtonTitle:@"OK"
@@ -75,7 +94,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 // -------------------------------------------------------------------------------
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    self.videoFeedData = [NSMutableData data];    // start off with new data
+    if (connection == feedConnection) {
+        self.feedData = [NSMutableData data];
+    }
+    else if (connection == suggestionConnection) {
+        self.suggestionData = [NSMutableData data];
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -83,7 +107,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 // -------------------------------------------------------------------------------
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [videoFeedData appendData:data];  // append incoming data
+    if (connection == feedConnection) {
+        [feedData appendData:data];
+    }
+    else if (connection == suggestionConnection) {
+        [suggestionData appendData:data];
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -109,7 +138,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
         [self handleError:error];
     }
     
-    self.videoFeedConnection = nil;   // release our connection
+    if (connection == feedConnection) {
+        self.feedConnection = nil;
+    }
+    else if (connection == suggestionConnection) {
+        self.suggestionConnection = nil;
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -117,49 +151,57 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 // -------------------------------------------------------------------------------
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    self.videoFeedConnection = nil;   // release our connection
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
-    
-    // create the queue to run our ParseOperation
-    self.queue = [[[NSOperationQueue alloc] init] autorelease];
-    
-    // create an ParseOperation (NSOperation subclass) to parse the RSS feed data so that the UI is not blocked
-    // "ownership of appListData has been transferred to the parse operation and should no longer be
-    // referenced in this thread.
-    //
-    ParseOperation *parser = [[ParseOperation alloc] initWithData:videoFeedData delegate:self];
-    
-    [queue addOperation:parser]; // this will start the "ParseOperation"
-    
-    [parser release];
-    
-    // ownership of appListData has been transferred to the parse operation
-    // and should no longer be referenced in this thread
-    self.videoFeedData = nil;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    if (connection == feedConnection) {
+        self.feedConnection = nil;
+        self.feedQueue = [[[NSOperationQueue alloc] init] autorelease];
+
+        ParseFeedOperation *parser = [[ParseFeedOperation alloc] initWithData:feedData delegate:self];
+        [feedQueue addOperation:parser]; // this will start the "ParseOperation"
+        [parser release];
+
+        self.feedData = nil;
+    }
+    else if (connection == suggestionConnection) {
+        self.suggestionConnection = nil;
+        self.suggestionQueue = [[[NSOperationQueue alloc] init] autorelease];
+        
+        ParseSuggestionOperation *parser = [[ParseSuggestionOperation alloc] initWithData:suggestionData delegate:self];
+        [suggestionQueue addOperation:parser]; // this will start the "ParseOperation"
+        [parser release];
+        
+        self.suggestionData = nil;
+    }
 }
 
-#pragma mark - ParseOperationDelegate
+#pragma mark - ParseFeedDelegate, ParseSuggestionDelegate
 - (void)handleLoadedVideos:(NSArray *)loadedVideos
 {
-    [self.videoItems addObjectsFromArray:loadedVideos];
-    
-    // tell our interested view controller reload its data, now that parsing has completed
+    [self.feedItems addObjectsFromArray:loadedVideos];
     [[NSNotificationCenter defaultCenter] postNotificationName:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION object:loadedVideos];
 }
 
-// -------------------------------------------------------------------------------
-//	didFinishParsing:appList
-// -------------------------------------------------------------------------------
-- (void)didFinishParsing:(NSArray *)videoList forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount;
+- (void)handleLoadedSuggestions:(NSArray *)loadedSuggestions
+{
+    [self.suggestionItems addObjectsFromArray:loadedSuggestions];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SUGGESTION_COMPLETED_NOTIFICATION object:loadedSuggestions];
+}
+
+- (void)didFinishParsing:(NSArray *)videoList forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount
 {
     NSArray *array = [NSArray arrayWithObjects:videoList,
                       [NSNumber numberWithInt:pageIndex],
                       [NSNumber numberWithInt:totalPageCount],
                       nil];
     [self performSelectorOnMainThread:@selector(handleLoadedVideos:) withObject:array waitUntilDone:NO];
-    
-    self.queue = nil;   // we are finished with the queue and our ParseOperation
+    self.feedQueue = nil;   // we are finished with the queue and our ParseOperation
+}
+
+- (void)didFinishParsingSuggestion:(NSArray *)suggestions
+{
+    [self performSelectorOnMainThread:@selector(handleLoadedSuggestions:) withObject:suggestions waitUntilDone:NO];
+    self.suggestionQueue = nil;
 }
 
 - (void)parseErrorOccurred:(NSError *)error

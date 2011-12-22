@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoBrowserController.h"
+#import "SearchResultController.h"
 
 
-@interface HDVideoViewController : UIViewController<UIPopoverControllerDelegate> {
+@interface HDVideoViewController : UIViewController<UISearchBarDelegate, UIPopoverControllerDelegate> {
     UIPopoverController *_popoverHistoryController;
     UIPopoverController *_popoverFavoriteController;
 }
 
+@property (nonatomic, retain) UISearchBar *searchBar;
+@property (nonatomic, retain) SearchResultController *searchResultController;
 @property (nonatomic, retain) VideoBrowserController *videoBrowserController;
 
 @end

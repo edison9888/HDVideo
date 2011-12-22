@@ -31,7 +31,7 @@
 	[button setTitle:@"双击图片加入收藏" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor lightTextColor] forState:UIControlStateNormal];
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     
     [view addSubview:button];
     [button release];
@@ -73,6 +73,7 @@
     
     // Configure the cell...
     NSDictionary *dict = [[[DataController sharedDataController] favorites] objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.textLabel.text = [dict objectForKey:@"name"];
     
     return cell;
@@ -87,7 +88,6 @@
     videoItem.name = [dict objectForKey:@"name"];
     videoItem.videoUrl = [dict objectForKey:@"videoUrl"];
     videoItem.vid = [dict objectForKey:@"videoId"];
-    NSLog(@"name:%@, url:%@, vid:%@", videoItem.name, [dict objectForKey:@"videoUrl"], [dict objectForKey:@"videoId"]);
     
     if (videoItem.videoUrl) {
         VideoPlayerController *player = [[VideoPlayerController alloc] init];

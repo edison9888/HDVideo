@@ -6,31 +6,29 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "ParseOperation.h"
+#import "ParseFeedOperation.h"
 
 
 // string contants found in the RSS feed
 static NSString *kEntryStr  = @"Data"; // marker for each app entry
 
-@interface ParseOperation ()
-@property (nonatomic, assign) id <ParseOperationDelegate> delegate;
+@interface ParseFeedOperation ()
+
+@property (nonatomic, assign) id <ParseFeedDelegate> delegate;
 @property (nonatomic, retain) NSData *dataToParse;
 @property (nonatomic, retain) NSMutableArray *workingArray;
 @property (nonatomic, retain) VideoItem *workingEntry;
 @property (nonatomic, retain) VideoItem *workingSerialEntry;
 @property (nonatomic, retain) NSMutableString *workingPropertyString;
 @property (nonatomic, retain) NSArray *elementsToParse;
-@property (nonatomic, assign) BOOL storingCharacterData;
-@property (nonatomic, assign) NSString *trackingCategoryName;
-@property (nonatomic, assign) NSString *trackingReleaseDate;
+
 @end
 
-@implementation ParseOperation
+@implementation ParseFeedOperation
 
-@synthesize delegate, dataToParse, workingArray, workingEntry, workingSerialEntry, workingPropertyString, elementsToParse,
-storingCharacterData, trackingCategoryName, trackingReleaseDate;
+@synthesize delegate, dataToParse, workingArray, workingEntry, workingSerialEntry, workingPropertyString, elementsToParse;
 
-- (id)initWithData:(NSData *)data delegate:(id <ParseOperationDelegate>)theDelegate
+- (id)initWithData:(NSData *)data delegate:(id <ParseFeedDelegate>)theDelegate
 {
     self = [super init];
     if (self != nil)
@@ -51,8 +49,6 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
     [workingSerialEntry release];
     [workingPropertyString release];
     [workingArray release];
-    [trackingCategoryName release];
-    [trackingReleaseDate release];
     
     [super dealloc];
 }
@@ -85,8 +81,6 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
     self.workingArray = nil;
     self.workingPropertyString = nil;
     self.dataToParse = nil;
-    self.trackingCategoryName = nil;
-    self.trackingReleaseDate = nil;
     
     [parser release];
     
@@ -94,8 +88,7 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
 }
 
 
-#pragma mark -
-#pragma mark RSS processing
+#pragma mark - xml parsing
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
@@ -157,14 +150,6 @@ storingCharacterData, trackingCategoryName, trackingReleaseDate;
             [self.workingArray addObject:self.workingEntry];
             self.workingEntry = nil;
         }
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
-{
-    if (storingCharacterData)
-    {
-        [workingPropertyString appendString:string];
     }
 }
 

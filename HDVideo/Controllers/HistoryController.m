@@ -98,6 +98,7 @@
     
     // Configure the cell...
     NSDictionary *dict = [[[DataController sharedDataController] histories] objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.textLabel.text = [dict objectForKey:@"name"];
 
     return cell;

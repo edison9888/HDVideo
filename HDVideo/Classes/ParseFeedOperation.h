@@ -9,12 +9,12 @@
 #import "VideoItem.h"
 
 
-@protocol ParseOperationDelegate;
+@protocol ParseFeedDelegate;
 
-@interface ParseOperation : NSOperation<NSXMLParserDelegate>
+@interface ParseFeedOperation : NSOperation<NSXMLParserDelegate>
 {
 @private
-    id <ParseOperationDelegate> delegate;
+    id <ParseFeedDelegate> delegate;
     
     NSData          *dataToParse;
     
@@ -23,20 +23,16 @@
     VideoItem       *workingSerialEntry;
     NSMutableString *workingPropertyString;
     
-    BOOL            storingCharacterData;
-    NSString        *trackingCategoryName;
-    NSString        *trackingReleaseDate;
-    
     NSUInteger      _currentPageIndex;
     NSUInteger      _totalPageCount;
     NSString        *_category;
 }
 
-- (id)initWithData:(NSData *)data delegate:(id <ParseOperationDelegate>)theDelegate;
+- (id)initWithData:(NSData *)data delegate:(id <ParseFeedDelegate>)theDelegate;
 
 @end
 
-@protocol ParseOperationDelegate
+@protocol ParseFeedDelegate
 
 - (void)didFinishParsing:(NSArray *)videoList forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount;
 - (void)parseErrorOccurred:(NSError *)error;

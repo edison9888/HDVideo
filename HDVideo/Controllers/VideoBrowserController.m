@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "VideoBrowserController.h"
-#import "ParseOperation.h"
+#import "ParseFeedOperation.h"
 #import "NetworkController.h"
 #import "Constants.h"
 #import "DataController.h"
@@ -636,7 +636,6 @@
         return;
     
     // add to favorites
-    NSLog(@"vid=%@", videoItem.vid);
     [[DataController sharedDataController] addFavorite:videoItem.name videoUrl:videoItem.videoUrl videoId:videoItem.vid];
     
     // animation

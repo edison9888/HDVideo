@@ -6,20 +6,32 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import "ParseOperation.h"
+#import "ParseFeedOperation.h"
+#import "ParseSuggestionOperation.h"
 
 
-@interface NetworkController : NSObject<ParseOperationDelegate> {
+@interface NetworkController : NSObject<ParseFeedDelegate, ParseSuggestionDelegate> {
 }
 
-@property (nonatomic, readonly) NSString *currentKey;
-
-@property (nonatomic, retain) NSMutableArray *videoItems;
-@property (nonatomic, retain) NSOperationQueue *queue;
-@property (nonatomic, retain) NSURLConnection *videoFeedConnection;
-@property (nonatomic, retain) NSMutableData *videoFeedData;
-
 + (NetworkController *)sharedNetworkController;
-- (void)startLoadFeed:(NSString *)feedUrl forKey:(NSString *)key;
+
+
+// feed
+@property (nonatomic, readonly) NSString        *currentKey;
+@property (nonatomic, retain) NSMutableArray    *feedItems;
+@property (nonatomic, retain) NSOperationQueue  *feedQueue;
+@property (nonatomic, retain) NSURLConnection   *feedConnection;
+@property (nonatomic, retain) NSMutableData     *feedData;
+
+- (void)startLoadFeed:(NSString *)url forKey:(NSString *)key;
+
+
+// suggestion
+@property (nonatomic, retain) NSMutableArray    *suggestionItems;
+@property (nonatomic, retain) NSOperationQueue  *suggestionQueue;
+@property (nonatomic, retain) NSURLConnection   *suggestionConnection;
+@property (nonatomic, retain) NSMutableData     *suggestionData;
+
+- (void)startLoadSuggestion:(NSString *)url;
 
 @end
