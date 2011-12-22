@@ -32,14 +32,20 @@
 
 @synthesize videoBrowserController = _videoBrowserController;
 @synthesize searchBar = _searchBar;
-@synthesize searchResultController = _searchResultController;
+@synthesize suggestionDisplayController = _suggestionDisplayController;
 
 - (void)getSuggestionCompleted:(NSNotification *)notification
 {
     if ([[notification object] count] > 0)
-        _searchResultController.searchResults = [notification object];
+        _suggestionDisplayController.suggestions = [notification object];
     else
-        _searchResultController.searchResults = [NSArray arrayWithObjects:@"对不起，没有搜索到符合条件的节目:(", nil];
+        _suggestionDisplayController.suggestions = [NSArray arrayWithObjects:kFoundNoMatchingText, nil];
+}
+
+- (void)startSearching:(NSNotification *)notification
+{
+    _searchBar.text = [notification object];
+    [_searchBar resignFirstResponder];
 }
 
 - (void)setupNavigationBar
@@ -90,7 +96,7 @@
     [_popoverHistoryController release];
     [_videoBrowserController release];
     [_searchBar release];
-    [_searchResultController release];
+    [_suggestionDisplayController release];
     [super dealloc];
 }
 
@@ -155,14 +161,14 @@
     
     // search result panel
     HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
-    _searchResultController = [[SearchResultController alloc] init];
-    _searchResultController.view.frame = CGRectMake(15, 58, 285, 0);
-    _searchResultController.view.layer.masksToBounds = YES;
-    _searchResultController.view.layer.cornerRadius = 12;
-    _searchResultController.view.layer.shadowOffset = CGSizeMake(0, 2);
-    _searchResultController.view.layer.shadowOpacity = 0.5;
-    _searchResultController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    [del.navigationController.view addSubview:_searchResultController.view];
+    _suggestionDisplayController = [[SuggestionDisplayController alloc] init];
+    _suggestionDisplayController.view.frame = CGRectMake(15, 58, 285, 0);
+    _suggestionDisplayController.view.layer.masksToBounds = YES;
+    _suggestionDisplayController.view.layer.cornerRadius = 12;
+    _suggestionDisplayController.view.layer.shadowOffset = CGSizeMake(0, 2);
+    _suggestionDisplayController.view.layer.shadowOpacity = 0.5;
+    _suggestionDisplayController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    [del.navigationController.view addSubview:_suggestionDisplayController.view];
 }
 
 - (void)viewDidLoad
@@ -177,9 +183,14 @@
     [self segmentAction:segment];
     [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     
+    // add notification listener
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(getSuggestionCompleted:)
                                                  name:SUGGESTION_COMPLETED_NOTIFICATION
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(startSearching:)
+                                                 name:START_SEARCHING_NOTIFICATION
                                                object:nil];
 }
 
@@ -187,8 +198,12 @@
 {
     [super viewDidUnload];
     
+    // remove notification listener
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:SUGGESTION_COMPLETED_NOTIFICATION
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:START_SEARCHING_NOTIFICATION
                                                   object:nil];
 }
 
@@ -275,8 +290,26 @@
 
 #pragma mark - UISearchBarDelegate
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    if (searchBar.text.length > 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:START_SEARCHING_NOTIFICATION object:searchBar.text];
+    }
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+    if (searchBar.text.length > 0) {
+        [UIView animateWithDuration:.4
+                              delay:0
+                            options:UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             CGRect rect = _suggestionDisplayController.view.frame;
+                             rect.size.height = SEARCH_RESULT_PANEL_HEIGHT;
+                             _suggestionDisplayController.view.frame = rect;
+                         }
+                         completion:^(BOOL finished){}];
+    }
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
@@ -285,9 +318,9 @@
                           delay:0
                         options:UIViewAnimationCurveEaseInOut
                      animations:^{
-                         CGRect rect = _searchResultController.view.frame;
+                         CGRect rect = _suggestionDisplayController.view.frame;
                          rect.size.height = 0;
-                         _searchResultController.view.frame = rect;
+                         _suggestionDisplayController.view.frame = rect;
                      }
                      completion:^(BOOL finished){}];
 }
@@ -295,7 +328,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if (searchBar.text.length > 0) {
-        _searchResultController.searchResults = [NSArray arrayWithObjects:@"正在载入搜索结果...", nil];
+        _suggestionDisplayController.suggestions = [NSArray arrayWithObjects:kSearchingText, nil];
         NSString *url = [[[DataController sharedDataController] 
                           serverAddressBase] stringByAppendingFormat:@"cate=suggestion&q=%@", searchBar.text];
         url = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -308,9 +341,9 @@
                               delay:0
                             options:UIViewAnimationCurveEaseInOut
                          animations:^{
-                             CGRect rect = _searchResultController.view.frame;
+                             CGRect rect = _suggestionDisplayController.view.frame;
                              rect.size.height = SEARCH_RESULT_PANEL_HEIGHT;
-                             _searchResultController.view.frame = rect;
+                             _suggestionDisplayController.view.frame = rect;
                          }
                          completion:^(BOOL finished){}];
     }
@@ -319,9 +352,9 @@
                               delay:0
                             options:UIViewAnimationCurveEaseInOut
                          animations:^{
-                             CGRect rect = _searchResultController.view.frame;
+                             CGRect rect = _suggestionDisplayController.view.frame;
                              rect.size.height = 0;
-                             _searchResultController.view.frame = rect;
+                             _suggestionDisplayController.view.frame = rect;
                          }
                          completion:^(BOOL finished){}];
     }

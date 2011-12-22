@@ -45,7 +45,7 @@
 		C27B018814755E29009B8093 /* HDVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C27B018714755E29009B8093 /* HDVideoViewController.m */; };
 		C27B019714756787009B8093 /* UIView+HDV.m in Sources */ = {isa = PBXBuildFile; fileRef = C27B019614756787009B8093 /* UIView+HDV.m */; };
 		C27B01B21475E63B009B8093 /* VideoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C27B01B11475E63B009B8093 /* VideoItem.m */; };
-		C292570E14A1CF250034C05A /* SearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = C292570D14A1CF250034C05A /* SearchResultController.m */; };
+		C292570E14A1CF250034C05A /* SuggestionDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C292570D14A1CF250034C05A /* SuggestionDisplayController.m */; };
 		C292571814A1F8470034C05A /* ParseSearchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C292571714A1F8460034C05A /* ParseSearchOperation.m */; };
 		C293BDCE1474B08C00079D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C293BDCD1474B08C00079D1A /* UIKit.framework */; };
 		C293BDD01474B08C00079D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C293BDCF1474B08C00079D1A /* Foundation.framework */; };
@@ -120,8 +120,8 @@
 		C27B019614756787009B8093 /* UIView+HDV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HDV.m"; sourceTree = "<group>"; };
 		C27B01B01475E63B009B8093 /* VideoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoItem.h; sourceTree = "<group>"; };
 		C27B01B11475E63B009B8093 /* VideoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoItem.m; sourceTree = "<group>"; };
-		C292570C14A1CF250034C05A /* SearchResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultController.h; sourceTree = "<group>"; };
-		C292570D14A1CF250034C05A /* SearchResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultController.m; sourceTree = "<group>"; };
+		C292570C14A1CF250034C05A /* SuggestionDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SuggestionDisplayController.h; sourceTree = "<group>"; };
+		C292570D14A1CF250034C05A /* SuggestionDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionDisplayController.m; sourceTree = "<group>"; };
 		C292571614A1F8460034C05A /* ParseSearchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseSearchOperation.h; sourceTree = "<group>"; };
 		C292571714A1F8460034C05A /* ParseSearchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseSearchOperation.m; sourceTree = "<group>"; };
 		C293BDC91474B08C00079D1A /* 海量高清.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "海量高清.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,8 +289,8 @@
 				C220BB4714790E0400695232 /* HistoryController.m */,
 				C2D2CA8E149E403E0060AF7D /* FavoriteController.h */,
 				C2D2CA8F149E403E0060AF7D /* FavoriteController.m */,
-				C292570C14A1CF250034C05A /* SearchResultController.h */,
-				C292570D14A1CF250034C05A /* SearchResultController.m */,
+				C292570C14A1CF250034C05A /* SuggestionDisplayController.h */,
+				C292570D14A1CF250034C05A /* SuggestionDisplayController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -440,7 +440,7 @@
 				C220BB4814790E0500695232 /* HistoryController.m in Sources */,
 				C21AA8151499CB6D00C8095E /* UIImage+BitRice.m in Sources */,
 				C2D2CA90149E403E0060AF7D /* FavoriteController.m in Sources */,
-				C292570E14A1CF250034C05A /* SearchResultController.m in Sources */,
+				C292570E14A1CF250034C05A /* SuggestionDisplayController.m in Sources */,
 				C292571814A1F8470034C05A /* ParseSearchOperation.m in Sources */,
 				C2BF21DF14A227BC00DB00EA /* ParseSuggestionOperation.m in Sources */,
 			);
