@@ -30,3 +30,4 @@
 "FIRST_PAGE_PAGING"     = "已到第一页";
 "LAST_PAGE_PAGING"      = "已到最后一页";
 "TOTAL_RECORD"          = "共%d条";
+"SEARCH_RESULT_TITLE"   = "\"%@\"的搜索结果";

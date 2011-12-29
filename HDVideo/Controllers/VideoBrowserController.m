@@ -14,6 +14,7 @@
 #import "DataController.h"
 #import "VideoPlayerController.h"
 #import "HDVideoAppDelegate.h"
+#import "FeedBrowserController.h"
 
 
 #define LOCATION_X 50
@@ -135,22 +136,6 @@
     [super viewDidLoad];
     UIViewController *topController = [self.navigationController.viewControllers objectAtIndex:0];
     self.navigationItem.rightBarButtonItem = topController.navigationItem.rightBarButtonItem;
-    
-    // start listening for download completion
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(downloadCompleted:)
-                                                 name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
-                                               object:nil];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    
-    // no longer wanting to listen for download completion
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:VIDEO_FEED_DOWNLOAD_COMPLETED_NOTIFICATION
-                                                  object:nil];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -241,18 +226,6 @@
 }
 
 #pragma mark - Deferred image loading (UIScrollViewDelegate)
-
-- (void)downloadCompleted:(NSNotification *)notification
-{
-    NSString *currentKey = [[NetworkController sharedNetworkController] currentKey];
-    if ([self.feedKey isEqualToString:currentKey])
-    {
-        if (_isLoadingPrevious)
-            [self stopLoading:YES withNotification:notification];
-        else
-            [self stopLoading:NO withNotification:notification];
-    }
-}
 
 - (void)startPosterDownload:(VideoItem *)videoItem forIndex:(NSUInteger)index
 {
@@ -530,8 +503,6 @@
     footerArrow.hidden = YES;
     [footerSpinner startAnimating];
     [UIView commitAnimations];
-    
-    [[NetworkController sharedNetworkController] startLoadFeed:self.feedUrl forKey:self.feedKey];
 }
 
 - (void)stopLoading:(BOOL)isHeader withNotification:(NSNotification *)notification
@@ -599,7 +570,7 @@
     
     if (videoItem.isCategory)
     {
-        VideoBrowserController *controller = [[VideoBrowserController alloc] init];
+        FeedBrowserController *controller = [[FeedBrowserController alloc] init];
         controller.isEpisode = YES;
         controller.feedKey = videoItem.vid;
         controller.navigationItem.title = videoItem.name;

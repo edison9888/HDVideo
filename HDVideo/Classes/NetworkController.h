@@ -8,9 +8,10 @@
 
 #import "ParseFeedOperation.h"
 #import "ParseSuggestionOperation.h"
+#import "ParseSearchOperation.h"
 
 
-@interface NetworkController : NSObject<ParseFeedDelegate, ParseSuggestionDelegate> {
+@interface NetworkController : NSObject<ParseFeedDelegate, ParseSuggestionDelegate, ParseSearchDelegate> {
 }
 
 + (NetworkController *)sharedNetworkController;
@@ -33,5 +34,13 @@
 @property (nonatomic, retain) NSMutableData     *suggestionData;
 
 - (void)startLoadSuggestion:(NSString *)url;
+
+// search result
+@property (nonatomic, retain) NSMutableArray    *searchItems;
+@property (nonatomic, retain) NSOperationQueue  *searchQueue;
+@property (nonatomic, retain) NSURLConnection   *searchConnection;
+@property (nonatomic, retain) NSMutableData     *searchData;
+
+- (void)startLoadSearchResult:(NSString *)url;
 
 @end

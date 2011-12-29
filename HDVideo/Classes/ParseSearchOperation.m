@@ -18,7 +18,6 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 @property (nonatomic, retain) NSData *dataToParse;
 @property (nonatomic, retain) NSMutableArray *workingArray;
 @property (nonatomic, retain) VideoItem *workingEntry;
-@property (nonatomic, retain) VideoItem *workingSerialEntry;
 @property (nonatomic, retain) NSMutableString *workingPropertyString;
 @property (nonatomic, retain) NSArray *elementsToParse;
 
@@ -26,7 +25,7 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 
 @implementation ParseSearchOperation
 
-@synthesize delegate, dataToParse, workingArray, workingEntry, workingSerialEntry, workingPropertyString, elementsToParse;
+@synthesize delegate, dataToParse, workingArray, workingEntry, workingPropertyString, elementsToParse;
 
 - (id)initWithData:(NSData *)data delegate:(id <ParseSearchDelegate>)theDelegate
 {
@@ -46,7 +45,6 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 {
     [dataToParse release];
     [workingEntry release];
-    [workingSerialEntry release];
     [workingPropertyString release];
     [workingArray release];
     
@@ -75,7 +73,7 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 	if (![self isCancelled])
     {
         // notify our AppDelegate that the parsing is complete
-        [self.delegate didFinishParsing:self.workingArray];
+        [self.delegate didFinishParsingSearchResults:self.workingArray forPageIndex:_currentPageIndex fromAll:_totalPageCount];
     }
     
     self.workingArray = nil;
@@ -96,9 +94,23 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 {
     if ([elementName isEqualToString:@"Result"])
     {
+        _currentPageIndex               = [[attributeDict objectForKey:@"Page"] intValue];
+        _totalPageCount                 = ceil([[attributeDict objectForKey:@"Total"] intValue]*1.0f / 20);
+        _category                       = [attributeDict objectForKey:@"Cate"];
     }
     else if ([elementName isEqualToString:kEntryStr])
 	{
+        if ([elementName isEqualToString:kEntryStr]) {
+            self.workingEntry               = [[[VideoItem alloc] init] autorelease];
+            self.workingEntry.vid           = [attributeDict objectForKey:@"Id"];
+            self.workingEntry.isNewItem     = [[attributeDict objectForKey:@"isNew"] boolValue];
+            self.workingEntry.newItemCount  = [[attributeDict objectForKey:@"newItemCount"] intValue];
+            self.workingEntry.name          = [attributeDict objectForKey:@"Title"];
+            self.workingEntry.posterUrl     = [attributeDict objectForKey:@"PosterUrl"];
+            self.workingEntry.videoUrl      = [attributeDict objectForKey:@"PlayUrl"];
+            self.workingEntry.isCategory    = ([attributeDict objectForKey:@"SerialUrl"] != NULL);
+            self.workingEntry.rate          = [[attributeDict objectForKey:@"Rank"] floatValue] / 2.0f;
+        }
     }
 }
 
@@ -108,7 +120,7 @@ static NSString *kEntryStr  = @"Data"; // marker for each app entry
 {
     if (self.workingEntry)
 	{
-        if ([elementName isEqualToString:kEntryStr] || [elementName isEqualToString:@"FeedSerialItem"])
+        if ([elementName isEqualToString:kEntryStr])
         {
             // we are at the end of an entry
             [self.workingArray addObject:self.workingEntry];

@@ -20,12 +20,11 @@
     
     NSMutableArray  *workingArray;
     VideoItem       *workingEntry;
-    VideoItem       *workingSerialEntry;
     NSMutableString *workingPropertyString;
     
-    BOOL            storingCharacterData;
-    NSString        *trackingCategoryName;
-    NSString        *trackingReleaseDate;
+    NSUInteger      _currentPageIndex;
+    NSUInteger      _totalPageCount;
+    NSString        *_category;
 }
 
 - (id)initWithData:(NSData *)data delegate:(id <ParseSearchDelegate>)theDelegate;
@@ -35,7 +34,7 @@
 
 @protocol ParseSearchDelegate
 
-- (void)didFinishParsing:(NSArray *)resultList;
+- (void)didFinishParsingSearchResults:(NSArray *)searchResults forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount;
 - (void)parseErrorOccurred:(NSError *)error;
 
 @end

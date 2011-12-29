@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "VideoBrowserController.h"
+#import "FeedBrowserController.h"
 #import "SuggestionDisplayController.h"
 
 
@@ -18,6 +18,6 @@
 
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) SuggestionDisplayController *suggestionDisplayController;
-@property (nonatomic, retain) VideoBrowserController *videoBrowserController;
+@property (nonatomic, retain) FeedBrowserController *feedBrowserController;
 
 @end

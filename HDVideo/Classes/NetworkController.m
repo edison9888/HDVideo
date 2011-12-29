@@ -19,6 +19,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 @synthesize currentKey = _currentKey;
 
 @synthesize suggestionItems, suggestionQueue, suggestionData, suggestionConnection;
+@synthesize searchItems, searchQueue, searchData, searchConnection;
 
 - (void)dealloc
 {
@@ -76,6 +77,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
+- (void)startLoadSearchResult:(NSString *)url
+{
+    [self.searchConnection cancel];
+    
+    // Initialize the array of app records and pass a reference to that list to our root view controller
+    self.searchItems = [NSMutableArray array];
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    self.searchConnection = [[[NSURLConnection alloc] initWithRequest:urlRequest delegate:self] autorelease];
+    
+    // show in the status bar that network activity is starting
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
 #pragma mark - NSURLConnection
 - (void)handleError:(NSError *)error
 {
@@ -100,6 +115,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     else if (connection == suggestionConnection) {
         self.suggestionData = [NSMutableData data];
     }
+    else if (connection == searchConnection) {
+        self.searchData = [NSMutableData data];
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -112,6 +130,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     }
     else if (connection == suggestionConnection) {
         [suggestionData appendData:data];
+    }
+    else if (connection == searchConnection) {
+        [searchData appendData:data];
     }
 }
 
@@ -144,6 +165,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
     else if (connection == suggestionConnection) {
         self.suggestionConnection = nil;
     }
+    else if (connection == searchConnection) {
+        self.searchConnection = nil;
+    }
 }
 
 // -------------------------------------------------------------------------------
@@ -173,6 +197,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
         
         self.suggestionData = nil;
     }
+    else if (connection == searchConnection) {
+        self.searchConnection = nil;
+        self.searchQueue = [[[NSOperationQueue alloc] init] autorelease];
+        
+        ParseSearchOperation *parser = [[ParseSearchOperation alloc] initWithData:searchData delegate:self];
+        [searchQueue addOperation:parser]; // this will start the "ParseOperation"
+        [parser release];
+        
+        self.searchData = nil;
+    }
 }
 
 #pragma mark - ParseFeedDelegate, ParseSuggestionDelegate
@@ -186,6 +220,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 {
     [self.suggestionItems addObjectsFromArray:loadedSuggestions];
     [[NSNotificationCenter defaultCenter] postNotificationName:SUGGESTION_COMPLETED_NOTIFICATION object:loadedSuggestions];
+}
+
+- (void)handleLoadedSearchResults:(NSArray *)loadedSearchResults
+{
+    [self.searchItems addObjectsFromArray:loadedSearchResults];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_RESULT_DOWNLOAD_COMPLETED_NOTIFICATION object:loadedSearchResults];
 }
 
 - (void)didFinishParsing:(NSArray *)videoList forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount
@@ -202,6 +242,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 {
     [self performSelectorOnMainThread:@selector(handleLoadedSuggestions:) withObject:suggestions waitUntilDone:NO];
     self.suggestionQueue = nil;
+}
+
+- (void)didFinishParsingSearchResults:(NSArray *)searchResults forPageIndex:(NSUInteger)pageIndex fromAll:(NSUInteger)totalPageCount
+{
+    NSArray *array = [NSArray arrayWithObjects:searchResults,
+                      [NSNumber numberWithInt:pageIndex],
+                      [NSNumber numberWithInt:totalPageCount],
+                      nil];
+    [self performSelectorOnMainThread:@selector(handleLoadedSearchResults:) withObject:array waitUntilDone:NO];
+    self.searchQueue = nil;
 }
 
 - (void)parseErrorOccurred:(NSError *)error

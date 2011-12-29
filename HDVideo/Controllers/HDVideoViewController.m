@@ -19,6 +19,7 @@
 #import "HDVideoAppDelegate.h"
 #import "NetworkController.h"
 #import "Reachability.h"
+#import "SearchBrowserController.h"
 
 #define SEGMENT_CONTROL_TAG 1
 #define SEARCH_RESULT_PANEL_HEIGHT 260
@@ -31,7 +32,7 @@
 
 @implementation HDVideoViewController
 
-@synthesize videoBrowserController = _videoBrowserController;
+@synthesize feedBrowserController = _feedBrowserController;
 @synthesize searchBar = _searchBar;
 @synthesize suggestionDisplayController = _suggestionDisplayController;
 
@@ -47,6 +48,22 @@
 {
     _searchBar.text = [notification object];
     [_searchBar resignFirstResponder];
+    
+    HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
+    SearchBrowserController *controller = [[SearchBrowserController alloc] init];
+    controller.navigationItem.title = [NSString stringWithFormat:NSLocalizedString(@"SEARCH_RESULT_TITLE", nil), _searchBar.text];
+    [del.navigationController pushViewController:controller animated:YES];
+    
+    NSString *param = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)[NSString stringWithFormat:@"cate=search&q=%@&orderby=updatedtime", _searchBar.text],
+                                                              NULL,
+                                                              NULL,
+                                                              kCFStringEncodingUTF8);
+    NSString *url = [[[DataController sharedDataController] serverAddressBase] stringByAppendingString:param];
+    CFRelease(param);
+    controller.feedUrl = url;
+    [controller initLoading];
+    [controller release];
 }
 
 - (void)setupNavigationBar
@@ -104,7 +121,7 @@
 {
     [_popoverFavoriteController release];
     [_popoverHistoryController release];
-    [_videoBrowserController release];
+    [_feedBrowserController release];
     [_searchBar release];
     [_suggestionDisplayController release];
     [super dealloc];
@@ -145,9 +162,9 @@
     [segment release];
     
     // video controller
-    _videoBrowserController = [[VideoBrowserController alloc] init];
-    _videoBrowserController.view.frame = CGRectMake(0, 0, 1024, 660);
-    [self.view addSubview:_videoBrowserController.view];
+    _feedBrowserController = [[FeedBrowserController alloc] init];
+    _feedBrowserController.view.frame = CGRectMake(0, 0, 1024, 660);
+    [self.view addSubview:_feedBrowserController.view];
     
     HistoryController *historyController = [[HistoryController alloc] init];
     historyController.contentSizeForViewInPopover = CGSizeMake(300, 560);
@@ -264,7 +281,7 @@
 - (void)segmentAction:(id)sender
 {
     // stop UIScrollView from scrolling immediately
-    [_videoBrowserController.scrollView setContentOffset:_videoBrowserController.scrollView.contentOffset animated:NO];
+    [_feedBrowserController.scrollView setContentOffset:_feedBrowserController.scrollView.contentOffset animated:NO];
     
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];
@@ -276,15 +293,12 @@
                                                                         NULL,
                                                                         NULL,
                                                                         kCFStringEncodingUTF8);
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",
-                     [[DataController sharedDataController] serverAddressBase],
-                     feedUrl];
+    NSString *url = [[[DataController sharedDataController] serverAddressBase] stringByAppendingString:feedUrl];
     CFRelease(feedUrl);
     NSString *key = [NSString stringWithFormat:@"Segment-%d", segment.selectedSegmentIndex];
-    _videoBrowserController.feedUrl = url;
-    _videoBrowserController.feedKey = key;
-    [_videoBrowserController initLoading];
+    _feedBrowserController.feedUrl = url;
+    _feedBrowserController.feedKey = key;
+    [_feedBrowserController initLoading];
 }
 
 - (IBAction)popupHistory:(UIBarButtonItem *)barButtonItem
@@ -390,14 +404,6 @@
                              _suggestionDisplayController.view.frame = rect;
                          }
                          completion:^(BOOL finished){}];
-    }
-}
-
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        [self setupSegmentedControl];
     }
 }
 
