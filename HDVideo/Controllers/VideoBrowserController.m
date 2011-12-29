@@ -58,12 +58,12 @@
         _recycledVideos = [[NSMutableSet alloc] init];
         _visibleVideos = [[NSMutableSet alloc] init];
         
-        self.textPullHeader = @"下拉可以翻页";
-        self.textPullFooter = @"上拉可以翻页";
-        self.textRelease = @"松开即可翻页";
-        self.textLoading = @"正在载入...";
-        self.textReachFirstPage = @"已到第一页";
-        self.textReachLastPage = @"已到最后一页";
+        self.textPullHeader = NSLocalizedString(@"PULL_DOWN_PAGING", nil);
+        self.textPullFooter = NSLocalizedString(@"PULL_UP_PAGING", nil);
+        self.textRelease = NSLocalizedString(@"RELEASE_PAGING", nil);
+        self.textLoading = NSLocalizedString(@"LOADING_PAGING", nil);
+        self.textReachFirstPage = NSLocalizedString(@"FIRST_PAGE_PAGING", nil);
+        self.textReachLastPage = NSLocalizedString(@"LAST_PAGE_PAGING", nil);
     }
     return self;
 }

@@ -28,7 +28,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
-	[button setTitle:@"双击图片加入收藏" forState:UIControlStateNormal];
+	[button setTitle:NSLocalizedString(@"ADD_FAVORITE_HINT", nil) forState:UIControlStateNormal];
     [button setTitleColor:[UIColor lightTextColor] forState:UIControlStateNormal];
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     button.titleLabel.font = [UIFont boldSystemFontOfSize:15];

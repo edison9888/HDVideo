@@ -80,7 +80,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(NetworkController);
 - (void)handleError:(NSError *)error
 {
     NSString *errorMessage = [error localizedDescription];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法从服务器获取数据"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CONNECTION_ERROR", nil)
 														message:errorMessage
 													   delegate:nil
 											  cancelButtonTitle:@"OK"

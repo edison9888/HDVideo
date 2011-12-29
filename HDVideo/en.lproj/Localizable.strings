@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  HDVideo
+
+  Created by  on 11-12-29.
+  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
+*/
+"LOADING_RESULT"        = "loading searching result...";
+"NO_RESULT_FOUND"       = "Sorry, no matching items found:(";
+"RATE_TITLE"            = "Like our app?";
+"RATE_BODY"             = "Please rate Immense HD, thank you!";
+"RATE_CANCEL"           = "Don't wanna rate";
+"RATE_OK"               = "Rate!";
+"SEARCH_BOX_HOLDER"     = "Search immense hi-quality video resources";
+"WWAN_TITLE"            = "Please use this app with WiFi netword";
+"WWAN_BODY"             = "This app may bring huge amount of network data traffic, to boost the app performance and save your data plan, we strongly recommend you switch to WiFi network to have more fun.";
+"WWAN_CANCEL"           = "I know it";
+"NO_REACH_TITLE"        = "Network is unavailable";
+"NO_REACH_BODY"         = "Please check your network connectivity";
+"ADD_FAVORITE_HINT"     = "Double click the poster(s) to add it to your favorite";
+"CLEAN_TITLE"           = "clean";
+"CLEAN_BODY"            = "Are you sure you want to clean all your play history?";
+"CLEAN_OK"              = "Yes, I'm sure!";
+"CLEAN_CANCEL"          = "No, I don't want to";
+"CONNECTION_ERROR"      = "Cannot retrieve data from the server";
+"PULL_DOWN_PAGING"      = "Pull down to next page";
+"PULL_UP_PAGING"        = "Pull up to previous page";
+"RELEASE_PAGING"        = "Release to load new page content";
+"LOADING_PAGING"        = "loading...";
+"FIRST_PAGE_PAGING"     = "You've reached the first page";
+"LAST_PAGE_PAGING"      = "You've reached the last page";
+"TOTAL_RECORD"          = "Total %d";

@@ -20,10 +20,10 @@
 - (void)cleanHistory
 {
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@""
-                                                     message:@"您确定要清除所有播放记录吗？"
+                                                     message:NSLocalizedString(@"CLEAN_BODY", nil)
                                                     delegate:self
-                                           cancelButtonTitle:@"是的，我确定"
-                                           otherButtonTitles:@"不，点错了^_^", nil] autorelease];
+                                           cancelButtonTitle:NSLocalizedString(@"CLEAN_OK", nil)
+                                           otherButtonTitles:NSLocalizedString(@"CLEAN_CANCEL", nil), nil] autorelease];
     [alert show];
 }
 
@@ -39,7 +39,7 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"清空"
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CLEAN_TITLE", nil)
                                                              style:UIBarButtonItemStylePlain
                                                             target:self
                                                             action:@selector(cleanHistory)];
@@ -52,7 +52,7 @@
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
-    self.title = [NSString stringWithFormat:@"共%d条", [[[DataController sharedDataController] histories] count]];
+    self.title = [NSString stringWithFormat:NSLocalizedString(@"TOTAL_RECORD", nil), [[[DataController sharedDataController] histories] count]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -109,7 +109,7 @@
 	if (buttonIndex == 0) {
         [[DataController sharedDataController] cleanHistory];
         [self.tableView reloadData];
-        self.title = [NSString stringWithFormat:@"共%d条", [[[DataController sharedDataController] histories] count]];
+        self.title = [NSString stringWithFormat:NSLocalizedString(@"TOTAL_RECORD", nil), [[[DataController sharedDataController] histories] count]];
 	}
 }
 

@@ -18,6 +18,7 @@
 #import "Constants.h"
 #import "HDVideoAppDelegate.h"
 #import "NetworkController.h"
+#import "Reachability.h"
 
 #define SEGMENT_CONTROL_TAG 1
 #define SEARCH_RESULT_PANEL_HEIGHT 260
@@ -39,7 +40,7 @@
     if ([[notification object] count] > 0)
         _suggestionDisplayController.suggestions = [notification object];
     else
-        _suggestionDisplayController.suggestions = [NSArray arrayWithObjects:kFoundNoMatchingText, nil];
+        _suggestionDisplayController.suggestions = [NSArray arrayWithObjects:NSLocalizedString(@"NO_RESULT_FOUND", nil), nil];
 }
 
 - (void)startSearching:(NSNotification *)notification
@@ -56,7 +57,7 @@
     _searchBar.keyboardType             = UIKeyboardTypeASCIICapable;
     _searchBar.autocapitalizationType   = UITextAutocapitalizationTypeNone;
     _searchBar.delegate                 = self;
-    _searchBar.placeholder              = @"搜索海量影视资源";
+    _searchBar.placeholder              = NSLocalizedString(@"SEARCH_BOX_HOLDER", nil);
     for (UIView *subview in _searchBar.subviews) {
         if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
             [subview removeFromSuperview];
@@ -88,6 +89,15 @@
     
     self.navigationItem.rightBarButtonItem = item;
     [item release];
+}
+
+- (void)setupSegmentedControl
+{
+    UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
+    [segment setSelectedSegmentIndex:0];
+    // invoke handler explicitly for iOS 5
+    [self segmentAction:segment];
+    [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)dealloc
@@ -177,11 +187,34 @@
     
     [self setupNavigationBar];
     
-    UISegmentedControl *segment = (UISegmentedControl *)[self.view viewWithTag:SEGMENT_CONTROL_TAG];
-    [segment setSelectedSegmentIndex:0];
-    // invoke handler explicitly for iOS 5
-    [self segmentAction:segment];
-    [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    
+    // check network
+    Reachability* wifiReach = [Reachability reachabilityForLocalWiFi];
+    NetworkStatus netStatus = [wifiReach currentReachabilityStatus];
+    if (netStatus == ReachableViaWiFi) {
+        
+    }
+    else if (netStatus == ReachableViaWWAN) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WWAN_TITLE", nil)
+                                                         message:NSLocalizedString(@"WWAN_BODY", nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"WWAN_CANCEL", nil)
+                                               otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    else {      // NotReachable
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NO_REACH_TITLE", nil)
+                                                            message:NSLocalizedString(@"NO_REACH_BODY", nil)
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+    [self setupSegmentedControl];
+    
+    
     
     // add notification listener
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -236,8 +269,8 @@
     UISegmentedControl *segment = (UISegmentedControl *)sender;
     [segment changeUISegmentFont:16];
     
-    NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];
     
+    NSDictionary *category = [[DataController sharedDataController] getCategoryAtIndex:segment.selectedSegmentIndex];    
     NSString *feedUrl = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                                         (CFStringRef)[category objectForKey:@"feedUrl"],
                                                                         NULL,
@@ -328,7 +361,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if (searchBar.text.length > 0) {
-        _suggestionDisplayController.suggestions = [NSArray arrayWithObjects:kSearchingText, nil];
+        _suggestionDisplayController.suggestions = [NSArray arrayWithObjects:NSLocalizedString(@"LOADING_RESULT", nil), nil];
         NSString *url = [[[DataController sharedDataController] 
                           serverAddressBase] stringByAppendingFormat:@"cate=suggestion&q=%@", searchBar.text];
         url = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -357,6 +390,14 @@
                              _suggestionDisplayController.view.frame = rect;
                          }
                          completion:^(BOOL finished){}];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self setupSegmentedControl];
     }
 }
 

@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  HDVideo
+
+  Created by  on 11-12-29.
+  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
+*/
+"LOADING_RESULT"        = "正在载入搜索结果...";
+"NO_RESULT_FOUND"       = "对不起，没有搜索到符合条件的节目:(";
+"RATE_TITLE"            = "喜欢我们的应用吗？";
+"RATE_BODY"             = "请为海量高清评分，您的褒奖和批评是我们持续改进的动力，谢谢！";
+"RATE_CANCEL"           = "不予置评";
+"RATE_OK"               = "我要评分！";
+"SEARCH_BOX_HOLDER"     = "搜索海量影视资源";
+"WWAN_TITLE"            = "建议使用WiFi网络";
+"WWAN_BODY"             = "因为本程序可能带来比较大的网络流量，我们强烈建议您切换至WiFi网络使用本程序！";
+"WWAN_CANCEL"           = "我知道了";
+"NO_REACH_TITLE"        = "网络无法使用";
+"NO_REACH_BODY"         = "请检查您的网络";
+"ADD_FAVORITE_HINT"     = "双击图片加入收藏";
+"CLEAN_TITLE"           = "清空";
+"CLEAN_BODY"            = "您确定要清除所有播放记录吗？";
+"CLEAN_OK"              = "是的，我确定";
+"CLEAN_CANCEL"          = "不，点错了^_^";
+"CONNECTION_ERROR"      = "无法从服务器获取数据";
+"PULL_DOWN_PAGING"      = "下拉可以翻页";
+"PULL_UP_PAGING"        = "上拉可以翻页";
+"RELEASE_PAGING"        = "松开即可翻页";
+"LOADING_PAGING"        = "正在载入...";
+"FIRST_PAGE_PAGING"     = "已到第一页";
+"LAST_PAGE_PAGING"      = "已到最后一页";
+"TOTAL_RECORD"          = "共%d条";

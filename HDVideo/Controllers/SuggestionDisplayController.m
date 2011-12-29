@@ -66,7 +66,7 @@
             cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-		cell.detailTextLabel.text = kSearchingText;
+		cell.detailTextLabel.text = NSLocalizedString(@"LOADING_RESULT", nil);
         cell.textLabel.font = [UIFont systemFontOfSize:15];
 		return cell;
     }
