@@ -509,7 +509,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: huang xiang";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: huang xiang";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -518,6 +519,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PROVISIONING_PROFILE = "290586B1-7010-4540-8E67-1F31FA836C39";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "290586B1-7010-4540-8E67-1F31FA836C39";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -527,13 +530,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: huang xiang";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: huang xiang";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "290586B1-7010-4540-8E67-1F31FA836C39";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "290586B1-7010-4540-8E67-1F31FA836C39";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -562,16 +568,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: huang xiang (2Z938N5Q79)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: huang xiang";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: huang xiang";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HDVideo/HDVideo-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
 				PRODUCT_NAME = "海量高清";
-				PROVISIONING_PROFILE = "EEA905CE-8D70-419F-9F0D-02906FEEC5EA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EEA905CE-8D70-419F-9F0D-02906FEEC5EA";
+				PROVISIONING_PROFILE = "290586B1-7010-4540-8E67-1F31FA836C39";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "290586B1-7010-4540-8E67-1F31FA836C39";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

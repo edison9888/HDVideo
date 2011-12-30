@@ -12,6 +12,7 @@
 #import "VideoPlayerController.h"
 #import "VideoBrowserController.h"
 #import "HDVideoAppDelegate.h"
+#import "FeedBrowserController.h"
 
 
 @implementation FavoriteController
@@ -101,7 +102,7 @@
     else if (videoItem.vid) {
         HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;
         
-        VideoBrowserController *controller = [[VideoBrowserController alloc] init];
+        FeedBrowserController *controller = [[FeedBrowserController alloc] init];
         controller.isEpisode = YES;
         controller.feedKey = videoItem.vid;
         controller.navigationItem.title = videoItem.name;
