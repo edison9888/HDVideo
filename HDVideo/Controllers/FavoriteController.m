@@ -91,13 +91,15 @@
     videoItem.vid = [dict objectForKey:@"videoId"];
     
     if (videoItem.videoUrl) {
-        VideoPlayerController *player = [[VideoPlayerController alloc] init];
-        player.videoItem = videoItem;
-        player.navigationItem.title = videoItem.name;
-        [videoItem release];
-        
-        [_parentNavigationController pushViewController:player animated:YES];
-        [player release];
+        if ([[DataController sharedDataController] checkNetwork]) {
+            VideoPlayerController *player = [[VideoPlayerController alloc] init];
+            player.videoItem = videoItem;
+            player.navigationItem.title = videoItem.name;
+            [videoItem release];
+            
+            [_parentNavigationController pushViewController:player animated:YES];
+            [player release];
+        }
     }
     else if (videoItem.vid) {
         HDVideoAppDelegate *del = (HDVideoAppDelegate *)[UIApplication sharedApplication].delegate;

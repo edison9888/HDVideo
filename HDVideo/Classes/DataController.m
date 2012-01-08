@@ -9,6 +9,7 @@
 #import "DataController.h"
 #import "DataUtil.h"
 #import "SynthesizeSingleton.h"
+#import "Reachability.h"
 
 
 @implementation DataController
@@ -159,6 +160,35 @@ static NSDictionary *alldict = nil;
         NSString *reviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=488730212";
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
     }
+}
+
+- (BOOL)checkNetwork
+{
+    // check network
+    Reachability* wifiReach = [Reachability reachabilityForLocalWiFi];
+    NetworkStatus netStatus = [wifiReach currentReachabilityStatus];
+    if (netStatus == ReachableViaWiFi) {
+        return YES;
+    }
+    else if (netStatus == ReachableViaWWAN) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WWAN_TITLE", nil)
+                                                        message:NSLocalizedString(@"WWAN_BODY", nil)
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"WWAN_CANCEL", nil)
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    else {      // NotReachable
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NO_REACH_TITLE", nil)
+                                                            message:NSLocalizedString(@"NO_REACH_BODY", nil)
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+    return NO;
 }
 
 @end

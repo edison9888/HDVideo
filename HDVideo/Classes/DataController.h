@@ -30,4 +30,6 @@
 
 - (void)incrementAppLoadedTimes;
 
+- (BOOL)checkNetwork;
+
 @end

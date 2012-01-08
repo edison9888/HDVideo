@@ -18,7 +18,6 @@
 #import "Constants.h"
 #import "HDVideoAppDelegate.h"
 #import "NetworkController.h"
-#import "Reachability.h"
 #import "SearchBrowserController.h"
 
 #define SEGMENT_CONTROL_TAG 1
@@ -205,30 +204,7 @@
     [self setupNavigationBar];
     
     
-    // check network
-    Reachability* wifiReach = [Reachability reachabilityForLocalWiFi];
-    NetworkStatus netStatus = [wifiReach currentReachabilityStatus];
-    if (netStatus == ReachableViaWiFi) {
-        
-    }
-    else if (netStatus == ReachableViaWWAN) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WWAN_TITLE", nil)
-                                                         message:NSLocalizedString(@"WWAN_BODY", nil)
-                                                        delegate:nil
-                                               cancelButtonTitle:NSLocalizedString(@"WWAN_CANCEL", nil)
-                                               otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-    }
-    else {      // NotReachable
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NO_REACH_TITLE", nil)
-                                                            message:NSLocalizedString(@"NO_REACH_BODY", nil)
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-    }
+    [[DataController sharedDataController] checkNetwork];
     [self setupSegmentedControl];
     
     

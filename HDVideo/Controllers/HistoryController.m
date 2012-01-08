@@ -64,20 +64,22 @@
 #pragma mark - table view
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dict = [[[DataController sharedDataController] histories] objectAtIndex:indexPath.row];
-    VideoItem *videoItem = [[VideoItem alloc] init];
-    videoItem.name = [dict objectForKey:@"name"];
-    videoItem.videoUrl = [dict objectForKey:@"videoUrl"];
-    
-    VideoPlayerController *player = [[VideoPlayerController alloc] init];
-    player.videoItem = videoItem;
-    player.navigationItem.title = videoItem.name;
-    [videoItem release];
-    
-    [_parentNavigationController pushViewController:player animated:YES];
-    [player release];
-    
-    [_popController dismissPopoverAnimated:NO];
+    if ([[DataController sharedDataController] checkNetwork]) {
+        NSDictionary *dict = [[[DataController sharedDataController] histories] objectAtIndex:indexPath.row];
+        VideoItem *videoItem = [[VideoItem alloc] init];
+        videoItem.name = [dict objectForKey:@"name"];
+        videoItem.videoUrl = [dict objectForKey:@"videoUrl"];
+        
+        VideoPlayerController *player = [[VideoPlayerController alloc] init];
+        player.videoItem = videoItem;
+        player.navigationItem.title = videoItem.name;
+        [videoItem release];
+        
+        [_parentNavigationController pushViewController:player animated:YES];
+        [player release];
+        
+        [_popController dismissPopoverAnimated:NO];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

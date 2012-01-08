@@ -590,14 +590,16 @@
     }
     else
     {
-        VideoPlayerController *player = [[VideoPlayerController alloc] init];
-        player.videoItem = videoItem;
-        if (self.isEpisode)
-            player.navigationItem.title = [NSString stringWithFormat:@"%@ (%@)", self.navigationItem.title, videoItem.name];
-        else
-            player.navigationItem.title = videoItem.name;
-        [del.navigationController pushViewController:player animated:YES];
-        [player release];
+        if ([[DataController sharedDataController] checkNetwork]) {
+            VideoPlayerController *player = [[VideoPlayerController alloc] init];
+            player.videoItem = videoItem;
+            if (self.isEpisode)
+                player.navigationItem.title = [NSString stringWithFormat:@"%@ (%@)", self.navigationItem.title, videoItem.name];
+            else
+                player.navigationItem.title = videoItem.name;
+            [del.navigationController pushViewController:player animated:YES];
+            [player release];
+        }
     }
 }
 

@@ -12,8 +12,8 @@
 "RATE_CANCEL"           = "不予置评";
 "RATE_OK"               = "我要评分！";
 "SEARCH_BOX_HOLDER"     = "搜索海量影视资源";
-"WWAN_TITLE"            = "建议使用WiFi网络";
-"WWAN_BODY"             = "因为本程序可能带来比较大的网络流量，我们强烈建议您切换至WiFi网络使用本程序！";
+"WWAN_TITLE"            = "请使用WiFi网络";
+"WWAN_BODY"             = "因为本程序可能带来比较大的网络流量，视频播放被限制在WiFi网络环境下才可以使用！";
 "WWAN_CANCEL"           = "我知道了";
 "NO_REACH_TITLE"        = "网络无法使用";
 "NO_REACH_BODY"         = "请检查您的网络";

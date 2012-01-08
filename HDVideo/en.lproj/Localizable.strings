@@ -12,8 +12,8 @@
 "RATE_CANCEL"           = "Don't wanna rate";
 "RATE_OK"               = "Rate!";
 "SEARCH_BOX_HOLDER"     = "Search videos";
-"WWAN_TITLE"            = "Please use this app with WiFi netword";
-"WWAN_BODY"             = "This app may bring huge amount of network data traffic, to boost the app performance and save your data plan, we strongly recommend you switch to WiFi network to have more fun.";
+"WWAN_TITLE"            = "Please switch to WiFi network";
+"WWAN_BODY"             = "This app may bring huge amount of network data traffic, video playing is restricted to WiFi network only.";
 "WWAN_CANCEL"           = "I'm aware of it";
 "NO_REACH_TITLE"        = "Network is unavailable";
 "NO_REACH_BODY"         = "Please check your network connectivity";
