@@ -44,6 +44,8 @@
 		C26197C71474B83200551170 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = C26197C61474B83200551170 /* Default-Landscape.png */; };
 		C26197F31474C30700551170 /* top-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C26197F11474C30700551170 /* top-bar.png */; };
 		C26197F51474C6FB00551170 /* bottom-bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C26197F41474C6FB00551170 /* bottom-bar.png */; };
+		C2713BEC14EC091200A8383F /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = C2713BEB14EC091200A8383F /* Appirater.m */; };
+		C2713BEF14EC0A1400A8383F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2713BEE14EC0A1400A8383F /* CFNetwork.framework */; };
 		C27B018814755E29009B8093 /* HDVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C27B018714755E29009B8093 /* HDVideoViewController.m */; };
 		C27B019714756787009B8093 /* UIView+HDV.m in Sources */ = {isa = PBXBuildFile; fileRef = C27B019614756787009B8093 /* UIView+HDV.m */; };
 		C27B01B21475E63B009B8093 /* VideoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C27B01B11475E63B009B8093 /* VideoItem.m */; };
@@ -122,6 +124,9 @@
 		C26197C61474B83200551170 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		C26197F11474C30700551170 /* top-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top-bar.png"; sourceTree = "<group>"; };
 		C26197F41474C6FB00551170 /* bottom-bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-bar.png"; sourceTree = "<group>"; };
+		C2713BEA14EC091200A8383F /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
+		C2713BEB14EC091200A8383F /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
+		C2713BEE14EC0A1400A8383F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C27B018614755E29009B8093 /* HDVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVideoViewController.h; sourceTree = "<group>"; };
 		C27B018714755E29009B8093 /* HDVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVideoViewController.m; sourceTree = "<group>"; };
 		C27B019514756787009B8093 /* UIView+HDV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HDV.h"; sourceTree = "<group>"; };
@@ -165,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C21FE44414AC4BC800B8973C /* SystemConfiguration.framework in Frameworks */,
+				C2713BEF14EC0A1400A8383F /* CFNetwork.framework in Frameworks */,
 				C26197C11474B76000551170 /* CoreData.framework in Frameworks */,
 				C293BDD21474B08C00079D1A /* CoreGraphics.framework in Frameworks */,
 				C26197C21474B76000551170 /* QuartzCore.framework in Frameworks */,
@@ -188,6 +194,15 @@
 				C24605731497A49E00EB45A0 /* iTunesArtwork.png */,
 			);
 			path = logos;
+			sourceTree = "<group>";
+		};
+		C2713BE914EC091200A8383F /* appirater */ = {
+			isa = PBXGroup;
+			children = (
+				C2713BEA14EC091200A8383F /* Appirater.h */,
+				C2713BEB14EC091200A8383F /* Appirater.m */,
+			);
+			path = appirater;
 			sourceTree = "<group>";
 		};
 		C27B018914755E35009B8093 /* Extentions */ = {
@@ -226,6 +241,7 @@
 		C293BDCC1474B08C00079D1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2713BEE14EC0A1400A8383F /* CFNetwork.framework */,
 				C26197BE1474B76000551170 /* CoreData.framework */,
 				C26197BF1474B76000551170 /* CoreGraphics.framework */,
 				C26197C01474B76000551170 /* QuartzCore.framework */,
@@ -271,6 +287,7 @@
 		C293BDFF1474B3AF00079D1A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C2713BE914EC091200A8383F /* appirater */,
 				C26025861478B503008EECDA /* ClassUtil.h */,
 				C26025871478B503008EECDA /* ClassUtil.m */,
 				C21C554A14764EAF002DAF01 /* Constants.h */,
@@ -471,6 +488,7 @@
 				C28F95F214AC435A0066147E /* Reachability.m in Sources */,
 				C2B110EB14ACAB5800868138 /* FeedBrowserController.m in Sources */,
 				C2B110F314ACACEE00868138 /* SearchBrowserController.m in Sources */,
+				C2713BEC14EC091200A8383F /* Appirater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,8 +576,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "HDVideo/HDVideo-Info.plist";
 				PRODUCT_NAME = "海量高清";
-				PROVISIONING_PROFILE = "E31C055B-5795-472E-A12B-6533E0423948";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E31C055B-5795-472E-A12B-6533E0423948";
+				PROVISIONING_PROFILE = "5A89690D-5DD6-4F88-B6DE-B252535344D0";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5A89690D-5DD6-4F88-B6DE-B252535344D0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

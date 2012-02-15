@@ -138,30 +138,6 @@ static NSDictionary *alldict = nil;
     [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
 }
 
-- (void)incrementAppLoadedTimes
-{
-    int times = [[self.categories objectForKey:@"AppLoadedTimes"] intValue];
-    times += 1;
-    if (times % 5 == 0) {
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"RATE_TITLE", nil)
-                                                         message:NSLocalizedString(@"RATE_BODY", nil)
-                                                        delegate:self
-                                               cancelButtonTitle:NSLocalizedString(@"RATE_CANCEL", nil)
-                                               otherButtonTitles:NSLocalizedString(@"RATE_OK", nil), nil] autorelease];
-        [alert show];
-    }
-    [self.categories setValue:[NSNumber numberWithInt:times] forKey:@"AppLoadedTimes"];
-    [DataUtil writeDictionary:self.categories toDataFile:@"Category"];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        NSString *reviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=488730212";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
-    }
-}
-
 - (BOOL)checkNetwork
 {
     // check network

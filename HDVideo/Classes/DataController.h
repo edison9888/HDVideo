@@ -9,7 +9,7 @@
 
 
 
-@interface DataController : NSObject<UIAlertViewDelegate> {
+@interface DataController : NSObject {
     
 }
 
@@ -27,8 +27,6 @@
 
 - (void)addHistory:(NSString *)name videoUrl:(NSString *)url;
 - (void)cleanHistory;
-
-- (void)incrementAppLoadedTimes;
 
 - (BOOL)checkNetwork;
 

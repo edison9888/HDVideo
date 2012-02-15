@@ -10,6 +10,7 @@
 #import "HDVideoViewController.h"
 #import "Constants.h"
 #import "UIColor+HDV.h"
+#import "Appirater.h"
 
 @implementation HDVideoAppDelegate
 
@@ -47,7 +48,13 @@
     
     
     [self.window makeKeyAndVisible];
+    [Appirater appLaunched:YES];
     return YES;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [Appirater appEnteredForeground:YES];
 }
 
 - (void)dealloc
